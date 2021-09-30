@@ -108,7 +108,7 @@ participants.should.contain('Andrew').and.not.contain('Bobby');
 extension CustomNumberExtensions on Cap<num> {
   Cap<num> get beNegative {
     if (value >= 0) {
-      throw Exception('Value\n  should be negative\n  but was\n$value');
+      throw ShouldlyTestFailure('Value\n  should be negative\n  but was\n$value');
     }
     return Cap(value);
   }
@@ -259,7 +259,7 @@ extension CustomerExtension on Customer {
 extension CustomerMatcherExtension on Cap<Customer> {
   Cap<Customer> get beMarried {
     if (!target.isMarried) {
-      throw Exception('target should be married');
+      throw ShouldlyTestFailure('target should be married');
     }
     return Cap(target);
   }
@@ -267,11 +267,11 @@ extension CustomerMatcherExtension on Cap<Customer> {
   Cap<Customer> get beMale {
     if (isReversed) {
       if (target.gender == Gender.male) {
-        throw Exception('target should be female');
+        throw ShouldlyTestFailure('target should be female');
       }
     } else {
       if (target.gender != Gender.male) {
-        throw Exception('target should be male');
+        throw ShouldlyTestFailure('target should be male');
       }
     }
 

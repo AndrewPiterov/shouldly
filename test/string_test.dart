@@ -1,5 +1,4 @@
 import 'package:shouldly/src/strings.dart';
-import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -61,7 +60,12 @@ void main() {
 
     test('nullable string should not be null', () {
       String? nullableString = 'Some string';
-      nullableString.should.not.beNull;
+      nullableString.should.not.beNull.and.not.beBlank;
+    });
+
+    test('xxx', () {
+      'x'.should.beEqual('x').and.not.beBlank;
+      'x'.should.not.beNull.and.not.beBlank;
     });
   });
 }

@@ -1,104 +1,122 @@
 import 'package:shouldly/src/cap.dart';
+import 'package:shouldly/src/exception.dart';
 
-extension StringExtensions on String {
-  Cap<String> get should => Cap<String>(this);
+extension StringExtensions on String? {
+  StringCap get should => StringCap(this);
 }
 
-extension StringCapExtensions on Cap<String> {
-  Cap<String> startWith(String str) {
+class StringCap extends Cap<String, StringCap> {
+  StringCap(String? target, {bool isReversed = false, String? targetLabel})
+      : super(target, isReversed: isReversed, targetLabel: targetLabel);
+
+  StringCap startWith(String str) {
     if (isReversed) {
-      if (target.startsWith(str)) {
-        throw Exception(
-            '\ntarget string\n    `$target`\nshould not start with\n    `$str`\nbut it does');
+      if (target!.startsWith(str)) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel string\n    `$target`\nshould not start with\n    `$str`\nbut it does');
       }
     } else {
-      if (!target.startsWith(str)) {
-        throw Exception(
-            '\ntarget string\n    `$target`\nshould end start\n    `$str`\nbut it does not');
+      if (!target!.startsWith(str)) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel string\n    `$target`\nshould end start\n    `$str`\nbut it does not');
       }
     }
 
-    return Cap(target);
+    return StringCap(target);
   }
 
-  Cap<String> endWith(String str) {
+  StringCap endWith(String str) {
     if (isReversed) {
-      if (target.endsWith(str)) {
-        throw Exception(
-            '\ntarget string\n    `$target`\nshould not end with\n    `$str`\nbut it does');
+      if (target!.endsWith(str)) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel string\n    `$target`\nshould not end with\n    `$str`\nbut it does');
       }
     } else {
-      if (!target.endsWith(str)) {
-        throw Exception(
-            '\ntarget string\n    `$target`\nshould end with\n    `$str`\nbut it does not');
+      if (!target!.endsWith(str)) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel string\n    `$target`\nshould end with\n    `$str`\nbut it does not');
       }
     }
 
-    return Cap(target);
+    return StringCap(target);
   }
 
-  Cap<String> hasLength(int length) {
+  StringCap hasLength(int length) {
     if (isReversed) {
-      if (target.length == length) {
-        throw Exception('String length of \'$target\' is $length chars');
+      if (target!.length == length) {
+        throw ShouldlyTestFailure(
+            'String length of \'$target\' is $length chars');
       }
-      return Cap(target, isReversed: isReversed);
+      return StringCap(target, isReversed: isReversed);
     }
 
-    if (target.length != length) {
-      throw Exception('String length of \'$target\' is not $length chars');
+    if (target!.length != length) {
+      throw ShouldlyTestFailure(
+          'String length of \'$target\' is not $length chars');
     }
 
-    return Cap(target, isReversed: isReversed);
+    return StringCap(target, isReversed: isReversed);
   }
 
-  Cap<String> get beNullOrEmpty {
+  StringCap get beNullOrEmpty {
     if (isReversed) {
       if (target == null || target == '') {
-        throw Exception(
-            'target string\n    `$target`\nshould not be null or empty');
+        throw ShouldlyTestFailure(
+            '\n$targetLabel string\n    `$target`\nshould not be null or empty');
       }
-      return Cap(target);
+      return StringCap(target);
     } else {
       if (target != null && target != '') {
-        throw Exception(
-            'target string\n    `$target`\nshould be null or empty');
+        throw ShouldlyTestFailure(
+            '\n$targetLabel string\n    `$target`\nshould be null or empty');
       }
     }
 
-    return Cap(target, isReversed: isReversed);
+    return StringCap(target, isReversed: isReversed);
   }
 
-  Cap<String> get beBlank {
-    final trimmed = target.trim();
+  StringCap get beBlank {
+    final trimmed = target!.trim();
     if (isReversed) {
       if (trimmed.isEmpty) {
-        throw Exception('\ntarget string\n    `$target`\nshould not be blank');
+        throw ShouldlyTestFailure(
+            '\n$targetLabel string\n    `$target`\nshould not be blank');
       }
-      return Cap(target);
+      return StringCap(target);
     } else {
       if (trimmed.isNotEmpty) {
-        throw Exception('\ntarget string\n    `$target`\nshould be blank');
+        throw ShouldlyTestFailure(
+            '\n$targetLabel string\n    `$target`\nshould be blank');
       }
     }
 
-    return Cap(target, isReversed: isReversed);
+    return StringCap(target, isReversed: isReversed);
   }
 
-  Cap<String> match(String exp) {
+  StringCap match(String exp) {
     final regExp = RegExp(exp);
     if (isReversed) {
-      if (regExp.hasMatch(target)) {
-        throw Exception(
-            '\ntarget string\n  `$target`\nshould not match\n    `$exp`\nbut does');
+      if (regExp.hasMatch(target!)) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel string\n  `$target`\nshould not match\n    `$exp`\nbut does');
       }
     } else {
-      if (!regExp.hasMatch(target)) {
-        throw Exception(
-            '\ntarget string\n  `$target`\nshould match\n    `$exp`\nbut it does not');
+      if (!regExp.hasMatch(target!)) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel string\n  `$target`\nshould match\n    `$exp`\nbut it does not');
       }
     }
 
-    return Cap(target, isReversed: isReversed);
+    return StringCap(target, isReversed: isReversed);
+  }
+
+  @override
+  StringCap copy(String? target,
+      {bool isReversed = false, String? targetLabel}) {
+    return StringCap(
+      target,
+      isReversed: isReversed,
+      targetLabel: targetLabel,
+    );
   }
 }

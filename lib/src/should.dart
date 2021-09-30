@@ -1,3 +1,4 @@
+import 'package:shouldly/src/exception.dart';
 import 'package:shouldly/src/functions.dart';
 
 class Should {
@@ -6,7 +7,7 @@ class Should {
       await func();
 
       throw FunctionExecutionException(
-          'target function does not throw exception');
+          '\nTarget function does not throw exception');
     } catch (e) {
       if (e is FunctionExecutionException) {
         throw FunctionExecutionException(
@@ -47,7 +48,7 @@ class Should {
     if (elapsed > duration) {
       print('the function executed in ${elapsed}');
       final ms = stopwatch.elapsed.inMilliseconds - duration.inMilliseconds;
-      throw Exception(
+      throw ShouldlyTestFailure(
           'the function should be complited in ${duration.inMilliseconds} ms\n    but execution took more\n$ms ms');
     }
   }

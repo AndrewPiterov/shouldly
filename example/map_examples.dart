@@ -10,7 +10,7 @@ void main() {
   product.should.beTypeOf<Map>();
 
   // Equality
-  product.should.be({
+  product.should.beEqual({
     'id': 1,
     'name': 'Product #1',
   });

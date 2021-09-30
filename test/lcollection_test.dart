@@ -10,6 +10,14 @@ void main() {
     [1, 2, 3].should.beEqual([1, 2, 3]);
   });
 
+  test('compare non nullable and non empty to equal lists', () {
+    [1, 2, 3].should.not.contain(4).and.beEqual([1, 2, 3]);
+  });
+
+  test('compare non nullable and non empty to equal lists 2', () {
+    [1, 2, 3].should.as('myList').not.beNull.and.beEqual([1, 2, 3]);
+  });
+
   test('compare non empty non equal lists', () {
     [1, 2, 3].should.not.beEqual([1, 2, 4]);
   });

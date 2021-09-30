@@ -1,35 +1,44 @@
 import 'package:shouldly/src/cap.dart';
 
-extension BoolExtensions on bool {
-  Cap<bool> get should => Cap<bool>(this);
+extension BoolExtensions on bool? {
+  BooleanCap get should => BooleanCap(this);
 }
 
-extension BoolCapExtension on Cap<bool> {
-  Cap<bool> beTrue() {
+class BooleanCap extends Cap<bool, BooleanCap> {
+  BooleanCap(bool? target, {bool isReversed = false, String? targetLabel})
+      : super(target, isReversed: isReversed, targetLabel: targetLabel);
+
+  BooleanCap beTrue() {
     if (isReversed) {
-      if (target) {
-        throw Exception('\nTarget value should not be True');
+      if (target!) {
+        throw Exception('\n$targetLabel value should not be True');
       }
     } else {
-      if (!target) {
-        throw Exception('\nTarget value should be True');
+      if (!target!) {
+        throw Exception('\n$targetLabel value should be True');
       }
     }
 
-    return Cap(target);
+    return BooleanCap(target);
   }
 
-  Cap<bool> beFalse() {
+  BooleanCap beFalse() {
     if (isReversed) {
-      if (!target) {
-        throw Exception('\nTarget value should not be False');
+      if (!target!) {
+        throw Exception('\n$targetLabel value should not be False');
       }
     } else {
-      if (target) {
-        throw Exception('\nTarget value should be False');
+      if (target!) {
+        throw Exception('\n$targetLabel value should be False');
       }
     }
 
-    return Cap(target);
+    return BooleanCap(target);
+  }
+
+  @override
+  BooleanCap copy(bool? target,
+      {bool isReversed = false, String? targetLabel}) {
+    return BooleanCap(target, isReversed: isReversed, targetLabel: targetLabel);
   }
 }

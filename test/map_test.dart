@@ -9,6 +9,29 @@ void main() {
       "hasChildren": null,
     };
 
+    test('should be type of Map', () {
+      target.should.beTypeOf<Map>();
+    });
+
+    test('should be equal', () {
+      target.should.not.beNull.and
+          .beEqual({
+            'name': 'John',
+            'age': 32,
+            "hasChildren": null,
+          })
+          .and
+          .containKey('name');
+    });
+
+    test('should not be equal', () {
+      target.should.not.beEqual({
+        'name': 'John',
+        'age': 33,
+        "hasChildren": null,
+      });
+    });
+
     test('should contain key', () {
       target.should.containKey('name');
     });

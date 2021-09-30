@@ -1,7 +1,8 @@
 import 'package:shouldly/src/cap.dart';
+import 'package:shouldly/src/exception.dart';
 
 extension FunctionExtensions on Function {
-  Cap<Function> get should => Cap<Function>(this);
+  FunctionCap get should => FunctionCap(this);
 }
 
 class FunctionExecutionException implements Exception {
@@ -9,10 +10,13 @@ class FunctionExecutionException implements Exception {
   FunctionExecutionException(this.cause);
 }
 
-extension FunctionCapExtensions on Cap<Function> {
+class FunctionCap extends Cap<Function, FunctionCap> {
+  FunctionCap(Function? target, {bool isReversed = false, String? targetLabel})
+      : super(target, isReversed: isReversed, targetLabel: targetLabel);
+
   void throwException() {
     try {
-      target.call();
+      target!.call();
       throw FunctionExecutionException(
           'The function has not thowed any exception');
     } catch (e) {
@@ -24,7 +28,7 @@ extension FunctionCapExtensions on Cap<Function> {
 
   void throwExact<T extends Exception>() {
     try {
-      target.call();
+      target!.call();
       throw FunctionExecutionException(
           'The function has not thowed any exception');
     } catch (e) {
@@ -33,16 +37,27 @@ extension FunctionCapExtensions on Cap<Function> {
       }
 
       if (e is! T) {
-        throw Exception('Should throw the axception of exact type <$T>');
+        throw ShouldlyTestFailure(
+            'Should throw the axception of exact type <$T>');
       }
     }
   }
 
   void notThrowException() {
     try {
-      target.call();
+      target!.call();
     } catch (e) {
-      throw Exception('Should not throw any axception');
+      throw ShouldlyTestFailure('Should not throw any axception');
     }
+  }
+
+  @override
+  FunctionCap copy(Function? target,
+      {bool isReversed = false, String? targetLabel}) {
+    return FunctionCap(
+      target,
+      isReversed: isReversed,
+      targetLabel: targetLabel,
+    );
   }
 }

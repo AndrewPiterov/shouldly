@@ -2,112 +2,124 @@ import 'package:shouldly/src/cap.dart';
 import 'package:shouldly/src/exception.dart';
 
 extension NumExtensions on num {
-  Cap<num> get should => Cap<num>(this);
+  NumberCap get should => NumberCap(this);
 }
 
-extension NumCapExtensions on Cap<num> {
-  Cap<num> beOdd() {
+class NumberCap extends Cap<num, NumberCap> {
+  NumberCap(num? target, {bool isReversed = false, String? targetLabel})
+      : super(target, isReversed: isReversed, targetLabel: targetLabel);
+
+  NumberCap beOdd() {
     if (isReversed) {
-      return Cap(target).beEven();
+      return NumberCap(target).beEven();
     }
 
-    if (target % 2 == 0) {
-      throw Exception('$target is not odd');
+    if (target! % 2 == 0) {
+      throw ShouldlyTestFailure('$target is not odd');
     }
 
-    return Cap<num>(target);
+    return NumberCap(target);
   }
 
-  Cap<num> beEven() {
+  NumberCap beEven() {
     if (isReversed) {
-      return Cap(target).beOdd();
+      return NumberCap(target).beOdd();
     }
 
-    if (target % 2 != 0) {
-      throw Exception('$target is not even');
+    if (target! % 2 != 0) {
+      throw ShouldlyTestFailure('$target is not even');
     }
 
-    return Cap<num>(target);
+    return NumberCap(target);
   }
 
-  Cap<num> beGreaterThan(num value) {
+  NumberCap beGreaterThan(num value) {
     if (isReversed) {
-      if (target > value) {
-        throw Exception(
-            'Target number\n    $target\nshould not greater than\n    $value');
+      if (target! > value) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel number\n    $target\nshould not greater than\n    $value');
       }
     } else {
-      if (target <= value) {
-        throw Exception(
-            'Target number\n    $target\nshould be greater than\n    $value');
+      if (target! <= value) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel number\n    $target\nshould be greater than\n    $value');
       }
     }
 
-    return Cap<num>(target);
+    return NumberCap(target);
   }
 
-  Cap<num> beAbove(num value) {
+  NumberCap beAbove(num value) {
     return beGreaterThan(value);
   }
 
-  Cap<num> beLessThan(num value) {
+  NumberCap beLessThan(num value) {
     if (isReversed) {
-      if (target < value) {
-        throw Exception(
-            'Target number\n    $target\nshould not less than\n    $value');
+      if (target! < value) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel number\n    $target\nshould not less than\n    $value');
       }
     } else {
-      if (target >= value) {
-        throw Exception(
-            'Target number\n    $target\nshould be less than\n    $value');
+      if (target! >= value) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel number\n    $target\nshould be less than\n    $value');
       }
     }
 
-    return Cap<num>(target);
+    return NumberCap(target);
   }
 
-  Cap<num> beBelow(num value) {
+  NumberCap beBelow(num value) {
     return beLessThan(value);
   }
 
-  Cap<num> beGreaterOrEqualThan(num value) {
+  NumberCap beGreaterOrEqualThan(num value) {
     if (isReversed) {
-      return Cap(target).beLessOrEqualThan(value);
+      return NumberCap(target).beLessOrEqualThan(value);
     }
 
-    if (target < value) {
-      throw Exception('$target less than $value');
+    if (target! < value) {
+      throw ShouldlyTestFailure('$target less than $value');
     }
 
-    return Cap<num>(target);
+    return NumberCap(target);
   }
 
-  Cap<num> beLessOrEqualThan(num value) {
+  NumberCap beLessOrEqualThan(num value) {
     if (isReversed) {
-      return Cap(target).beGreaterOrEqualThan(value);
+      return NumberCap(target).beGreaterOrEqualThan(value);
     }
 
     final m = value + 1;
-    if (target > m) {
-      throw Exception('$target is not less than $m');
+    if (target! > m) {
+      throw ShouldlyTestFailure('$target is not less than $m');
     }
 
-    return Cap<num>(target);
+    return NumberCap(target);
   }
 
-  Cap<num> beWithin(num min, num max) {
+  NumberCap beWithin(num min, num max) {
     if (isReversed) {
-      if (target < max && target > min) {
-        throw Exception(
-            '\nTarget number\n    $target\nshould not be within\n    [$min, $max]');
+      if (target! < max && target! > min) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel number\n    $target\nshould not be within\n    [$min, $max]');
       }
     } else {
-      if (target > max || target < min) {
-        throw Exception(
-            '\nTarget number\n    $target\nshould be within\n    [$min, $max]');
+      if (target! > max || target! < min) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel number\n    $target\nshould be within\n    [$min, $max]');
       }
     }
 
-    return Cap<num>(target);
+    return NumberCap(target);
+  }
+
+  @override
+  NumberCap copy(num? target, {bool isReversed = false, String? targetLabel}) {
+    return NumberCap(
+      target,
+      isReversed: isReversed,
+      targetLabel: targetLabel,
+    );
   }
 }

@@ -1,13 +1,13 @@
 import 'package:shouldly/src/exception.dart';
 
-class Cap<T> {
+abstract class Cap<T, K> {
   Cap(
     this.target, {
     this.isReversed = false,
     String? targetLabel,
   }) : _targetLabel = targetLabel;
 
-  final T target;
+  final T? target;
   final bool isReversed;
   final String? _targetLabel;
 
@@ -18,17 +18,16 @@ class Cap<T> {
         : _targetLabel!;
   }
 
-  Cap<T> get and => Cap<T>(target, isReversed: isReversed);
+  K copy(T? target, {bool isReversed = false, String? targetLabel});
 
-  Cap<T> get not => Cap<T>(target, isReversed: true);
+  K get and => copy(target, isReversed: isReversed, targetLabel: targetLabel);
 
-  Cap<T> as(String targetLabel) => Cap<T>(
-        target,
-        isReversed: isReversed,
-        targetLabel: targetLabel,
-      );
+  K get not => copy(target, isReversed: true, targetLabel: targetLabel);
 
-  Cap<T> beEqual(Object value) {
+  K as(String targetLabel) =>
+      copy(target, isReversed: isReversed, targetLabel: targetLabel);
+
+  K beEqual(Object value) {
     if (isReversed) {
       if (value == this.target) {
         throw Exception(
@@ -41,42 +40,36 @@ class Cap<T> {
       }
     }
 
-    return Cap(this.target);
+    return copy(target, targetLabel: targetLabel);
   }
 
-  Cap<T> beTypeOf<K>() {
+  K beTypeOf<Q>() {
     if (isReversed) {
-      if (target is K) {
+      if (target is Q) {
         throw Exception(
-            '\nType of $targetLabel should not be\n    `$K`\but it was');
+            '\nType of $targetLabel should not be\n    `$Q`\but it was');
       }
     } else {
-      if (target is! K) {
+      if (target is! Q) {
         throw Exception(
-            '\nType of $targetLabel should be\n    `$K`\nbut it is\n    `$T`');
+            '\nType of $targetLabel should be\n    `$Q`\nbut it is\n    `$T`');
       }
     }
 
-    return Cap(target);
+    return copy(target, targetLabel: targetLabel);
   }
-}
 
-extension ObjectExtensions on Object? {
-  Cap<Object?> get should => Cap<Object?>(this);
-}
-
-extension ObjectCapExtensions on Cap<Object?> {
-  Cap<Object?> get beNull {
+  K get beNull {
     if (isReversed) {
       if (target == null) {
-        throw ShouldlyTestFailure('Target should not be null');
+        throw ShouldlyTestFailure('\n$targetLabel should not be null');
       }
     } else {
       if (target != null) {
-        throw ShouldlyTestFailure('Target should be null');
+        throw ShouldlyTestFailure('\n$targetLabel should be null');
       }
     }
 
-    return Cap(target);
+    return copy(target, targetLabel: targetLabel);
   }
 }
