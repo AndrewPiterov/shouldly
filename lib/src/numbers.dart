@@ -29,50 +29,82 @@ extension NumCapExtensions on Cap<num> {
     return Cap<num>(target);
   }
 
-  Cap<num> beGreaterThan(int min) {
+  Cap<num> beGreaterThan(num value) {
     if (isReversed) {
-      return Cap(target).beLessThan(min);
-    }
-
-    if (target <= min) {
-      throw Exception('$target is not greater than $min');
+      if (target > value) {
+        throw Exception(
+            'Target number\n    $target\nshould not greater than\n    $value');
+      }
+    } else {
+      if (target <= value) {
+        throw Exception(
+            'Target number\n    $target\nshould be greater than\n    $value');
+      }
     }
 
     return Cap<num>(target);
   }
 
-  Cap<num> beLessThan(int min) {
-    if (isReversed) {
-      return Cap(target).beGreaterThan(min);
-    }
+  Cap<num> beAbove(num value) {
+    return beGreaterThan(value);
+  }
 
-    if (target >= min) {
-      throw Exception('$target is not less than $min');
+  Cap<num> beLessThan(num value) {
+    if (isReversed) {
+      if (target < value) {
+        throw Exception(
+            'Target number\n    $target\nshould not less than\n    $value');
+      }
+    } else {
+      if (target >= value) {
+        throw Exception(
+            'Target number\n    $target\nshould be less than\n    $value');
+      }
     }
 
     return Cap<num>(target);
   }
 
-  Cap<num> beGreaterOrEqualThan(int min) {
+  Cap<num> beBelow(num value) {
+    return beLessThan(value);
+  }
+
+  Cap<num> beGreaterOrEqualThan(num value) {
     if (isReversed) {
-      return Cap(target).beLessOrEqualThan(min);
+      return Cap(target).beLessOrEqualThan(value);
     }
 
-    if (target < min) {
-      throw Exception('$target less than $min');
+    if (target < value) {
+      throw Exception('$target less than $value');
     }
 
     return Cap<num>(target);
   }
 
-  Cap<num> beLessOrEqualThan(int min) {
+  Cap<num> beLessOrEqualThan(num value) {
     if (isReversed) {
-      return Cap(target).beGreaterOrEqualThan(min);
+      return Cap(target).beGreaterOrEqualThan(value);
     }
 
-    final m = min + 1;
+    final m = value + 1;
     if (target > m) {
       throw Exception('$target is not less than $m');
+    }
+
+    return Cap<num>(target);
+  }
+
+  Cap<num> beWithin(num min, num max) {
+    if (isReversed) {
+      if (target < max && target > min) {
+        throw Exception(
+            '\nTarget number\n    $target\nshould not be within\n    [$min, $max]');
+      }
+    } else {
+      if (target > max || target < min) {
+        throw Exception(
+            '\nTarget number\n    $target\nshould be within\n    [$min, $max]');
+      }
     }
 
     return Cap<num>(target);

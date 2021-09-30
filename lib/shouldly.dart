@@ -1,3 +1,4 @@
+/// A simple, extensible, readable library for assertions.
 library shouldly;
 
 export './src/bool.dart';

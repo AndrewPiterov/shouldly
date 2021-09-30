@@ -5,35 +5,31 @@ extension BoolExtensions on bool {
 }
 
 extension BoolCapExtension on Cap<bool> {
-  void beTrue() {
+  Cap<bool> beTrue() {
     if (isReversed) {
       if (target) {
-        throw Exception('Value should not be True');
+        throw Exception('\nTarget value should not be True');
       }
-      return;
+    } else {
+      if (!target) {
+        throw Exception('\nTarget value should be True');
+      }
     }
 
-    if (!target) {
-      throw Exception('Value should be True');
-    }
+    return Cap(target);
   }
 
-  void beFalse() {
+  Cap<bool> beFalse() {
     if (isReversed) {
       if (!target) {
-        throw Exception('Value should not be False');
+        throw Exception('\nTarget value should not be False');
       }
-      return;
+    } else {
+      if (target) {
+        throw Exception('\nTarget value should be False');
+      }
     }
 
-    if (target) {
-      throw Exception('Value should be False');
-    }
-  }
-
-  void notBeFalse() {
-    if (!target) {
-      throw Exception('Value should be True');
-    }
+    return Cap(target);
   }
 }

@@ -1,25 +1,54 @@
 import 'package:shouldly/src/cap.dart';
+import 'package:collection/collection.dart';
+
+final _eq = DeepCollectionEquality().equals;
 
 extension MapExtensions on Map {
-  Cap<Map> get should => Cap<Map>(this);
+  ///
+  /// Starting point to verify your conditions
+  ///
+  MapCap get should => MapCap(this);
 }
 
-extension MapCapExtensions on Cap<Map> {
-  Cap<Map> containKey(String key) {
+class MapCap extends Cap<Map> {
+  MapCap(Map target, {bool isReversed = false})
+      : super(target, isReversed: isReversed);
+
+  @override
+  MapCap be(Object value) {
     if (isReversed) {
-      if (target.containsKey(key)) {
-        throw Exception('target has not contain key `$key`');
-      }
-    } else {
-      if (!target.containsKey(key)) {
-        throw Exception('target has contain key `$key`');
+      return MapCap(this.target);
+    }
+
+    if (value != this.target) {
+      if (!_eq(this.target, value)) {
+        throw Exception(
+            'target map should be\n  `$value`\nbut was\n  `${this.target}`');
       }
     }
 
-    return Cap(target, isReversed: isReversed);
+    return MapCap(this.target);
+  }
+}
+
+extension MapCapExtensions on Cap<Map> {
+  MapCap containKey(String key) {
+    if (isReversed) {
+      if (target.containsKey(key)) {
+        throw Exception(
+            'target map should not contain the key\n    `$key`\nbut it does');
+      }
+    } else {
+      if (!target.containsKey(key)) {
+        throw Exception(
+            'target map should has contain the key\n    `$key`\nbut it does not');
+      }
+    }
+
+    return MapCap(target, isReversed: isReversed);
   }
 
-  Cap<Map> hasValueInKey(String key) {
+  MapCap hasValueInKey(String key) {
     if (!target.containsKey(key)) {
       throw Exception('target has contain key `$key`');
     }
@@ -33,10 +62,10 @@ extension MapCapExtensions on Cap<Map> {
         throw Exception('target should has some value in key `$key`');
       }
     }
-    return Cap(target, isReversed: isReversed);
+    return MapCap(target, isReversed: isReversed);
   }
 
-  Cap<Map> containKeyWithValue(dynamic key, dynamic value) {
+  MapCap containKeyWithValue(dynamic key, dynamic value) {
     if (!target.containsKey(key)) {
       throw Exception('target has contain key `$key`');
     }
@@ -52,6 +81,6 @@ extension MapCapExtensions on Cap<Map> {
       }
     }
 
-    return Cap(target, isReversed: isReversed);
+    return MapCap(target, isReversed: isReversed);
   }
 }

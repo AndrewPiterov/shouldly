@@ -8,16 +8,33 @@ extension StringCapExtensions on Cap<String> {
   Cap<String> startWith(String str) {
     if (isReversed) {
       if (target.startsWith(str)) {
-        throw Exception('String \'$target\' starts with \'$str\'');
+        throw Exception(
+            '\ntarget string\n    `$target`\nshould not start with\n    `$str`\nbut it does');
       }
-      return Cap(target, isReversed: isReversed);
+    } else {
+      if (!target.startsWith(str)) {
+        throw Exception(
+            '\ntarget string\n    `$target`\nshould end start\n    `$str`\nbut it does not');
+      }
     }
 
-    if (!target.startsWith(str)) {
-      throw Exception('String \'$target\' does not start with \'$str\'');
+    return Cap(target);
+  }
+
+  Cap<String> endWith(String str) {
+    if (isReversed) {
+      if (target.endsWith(str)) {
+        throw Exception(
+            '\ntarget string\n    `$target`\nshould not end with\n    `$str`\nbut it does');
+      }
+    } else {
+      if (!target.endsWith(str)) {
+        throw Exception(
+            '\ntarget string\n    `$target`\nshould end with\n    `$str`\nbut it does not');
+      }
     }
 
-    return Cap(target, isReversed: isReversed);
+    return Cap(target);
   }
 
   Cap<String> hasLength(int length) {
@@ -35,17 +52,51 @@ extension StringCapExtensions on Cap<String> {
     return Cap(target, isReversed: isReversed);
   }
 
+  Cap<String> get beNullOrEmpty {
+    if (isReversed) {
+      if (target == null || target == '') {
+        throw Exception(
+            'target string\n    `$target`\nshould not be null or empty');
+      }
+      return Cap(target);
+    } else {
+      if (target != null && target != '') {
+        throw Exception(
+            'target string\n    `$target`\nshould be null or empty');
+      }
+    }
+
+    return Cap(target, isReversed: isReversed);
+  }
+
+  Cap<String> get beBlank {
+    final trimmed = target.trim();
+    if (isReversed) {
+      if (trimmed.isEmpty) {
+        throw Exception('\ntarget string\n    `$target`\nshould not be blank');
+      }
+      return Cap(target);
+    } else {
+      if (trimmed.isNotEmpty) {
+        throw Exception('\ntarget string\n    `$target`\nshould be blank');
+      }
+    }
+
+    return Cap(target, isReversed: isReversed);
+  }
+
   Cap<String> match(String exp) {
     final regExp = RegExp(exp);
     if (isReversed) {
       if (regExp.hasMatch(target)) {
         throw Exception(
-            'target\n  should not match\n$exp\n  but was\n"$target"');
+            '\ntarget string\n  `$target`\nshould not match\n    `$exp`\nbut does');
       }
-      return Cap(target, isReversed: isReversed);
-    }
-    if (!regExp.hasMatch(target)) {
-      throw Exception('target\n  should match\n$exp\n  but was\n"$target"');
+    } else {
+      if (!regExp.hasMatch(target)) {
+        throw Exception(
+            '\ntarget string\n  `$target`\nshould match\n    `$exp`\nbut it does not');
+      }
     }
 
     return Cap(target, isReversed: isReversed);

@@ -28,17 +28,19 @@ class Cap<T> {
     return Cap(this.target);
   }
 
-  void beTypeOf<K>() {
+  Cap<T> beTypeOf<K>() {
     if (isReversed) {
       if (target is K) {
-        throw Exception('Type of value `$T` should be type of `$K`');
+        throw Exception('\nType of target should not be\n    `$K`\but it was');
       }
-      return;
+    } else {
+      if (target is! K) {
+        throw Exception(
+            '\nType of target should be\n    `$K`\nbut it is\n    `$T`');
+      }
     }
 
-    if (target is! K) {
-      throw Exception('Value should be Type of `$K`');
-    }
+    return Cap(target);
   }
 
   Cap<T> get and => Cap<T>(target, isReversed: isReversed);
