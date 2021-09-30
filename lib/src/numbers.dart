@@ -1,4 +1,5 @@
 import 'package:shouldly/src/cap.dart';
+import 'package:shouldly/src/exception.dart';
 
 extension NumExtensions on num {
   Cap<num> get should => Cap<num>(this);

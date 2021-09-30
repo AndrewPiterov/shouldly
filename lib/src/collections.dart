@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
+import 'package:shouldly/shouldly_function.dart';
 import 'package:shouldly/src/cap.dart';
+import 'package:shouldly/src/exception.dart';
 
 Function _eq = const ListEquality().equals;
 
@@ -12,31 +14,15 @@ class IterableCap<T> extends Cap<Iterable<T>> {
       : super(target, isReversed: isReversed);
 
   @override
-  IterableCap<T> be(Object value) {
+  IterableCap<T> beEqual(Object value) {
     if (isReversed) {
-      return IterableCap<T>(this.target);
-    }
-
-    if (value != this.target) {
-      if (!_eq(this.target, value)) {
-        throw Exception(
-            '\nTarget collectionshould be\n  `$value`\nbut was\n  `$target`');
-      }
-    }
-
-    return IterableCap<T>(this.target);
-  }
-
-  @override
-  IterableCap<T> equal(Object value) {
-    if (isReversed) {
-      return IterableCap<T>(this.target);
-    }
-
-    if (value != this.target) {
-      if (!_eq(this.target, value)) {
-        throw Exception(
-            '\nTarget collection should be\n  `$value`\nbut was\n  `$target`');
+      throw FunctionExecutionException('Not implemented');
+    } else {
+      if (value != this.target) {
+        if (!_eq(this.target, value)) {
+          throw ShouldlyTestFailure(
+              '\nTarget collection should be\n  `$value`\nbut was\n  `$target`');
+        }
       }
     }
 
@@ -78,12 +64,14 @@ extension IterableCapExtensions<T> on Cap<Iterable<T>> {
   IterableCap<T> contain(T item) {
     if (isReversed) {
       if (target.contains(item)) {
-        throw Exception('Iterable should not contain item $item');
+        throw ShouldlyTestFailure(
+            '$targetLabel\n    $target\nshould not contain\n    $item\nbut does');
       }
-      return IterableCap(target, isReversed: !isReversed);
-    }
-    if (!target.contains(item)) {
-      throw Exception('Iterable should contain item $item');
+    } else {
+      if (!target.contains(item)) {
+        throw ShouldlyTestFailure(
+            '$targetLabel\n    $target\nshould contain\n    $item\nbut does not');
+      }
     }
 
     return IterableCap(target);

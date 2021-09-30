@@ -9,10 +9,10 @@ void main() {
   // Equality checking
   iamRock.should.beTrue();
   iamRock.should.not.beFalse();
-  iamRock.should.be(true);
-  iamRock.should.not.be(false);
-  iamRock.should.equal(true);
-  iamRock.should.not.equal(false);
+  iamRock.should.beEqual(true);
+  iamRock.should.not.beEqual(false);
+  iamRock.should.beEqual(true);
+  iamRock.should.not.beEqual(false);
 
   print('Done with bools');
 }

@@ -3,11 +3,11 @@ import 'package:test/test.dart';
 
 void main() {
   test('comparison', () {
-    2.should.be(2);
+    2.should.beEqual(2);
   });
 
   test('comparison (2)', () {
-    2.should.not.equal(3);
+    2.should.not.beEqual(3);
   });
 
   test('should be even', () {
@@ -43,6 +43,6 @@ void main() {
   });
 
   test('should be and not equal', () {
-    7.5.should.be(7.5).and.not.equal(0);
+    7.5.should.beEqual(7.5).and.not.beEqual(0);
   });
 }

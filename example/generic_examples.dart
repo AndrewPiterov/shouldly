@@ -10,9 +10,9 @@ void genericExample() {
   val.should.beTypeOf<double>(); //oops, doubles aren't int --> error
 
   //2.0 == 2.0 && 2.0 != 0--> No error
-  val.should.be(2.0).and.not.equal(0);
+  val.should.beEqual(2.0).and.not.beEqual(0);
 
-  val.should.equal(2);
+  val.should.beEqual(2);
 
   print('Done');
 }

@@ -26,6 +26,48 @@ and the Flutter guide for
 
 ### Better test failure messages
 
+To get more contextual information
+
+```bash
+// Non-Shouldly
+Expected: <18>
+  Actual: <17>
+
+// Shouldly
+Target int should be
+  `18`
+but was
+  `17`
+
+// more with Shouldly 😍
+customer.age should be
+  `18`
+but was
+  `17`
+```
+
+```bash
+// Non-Shouldly
+Expected: not null
+  Actual: <null>
+
+// Shouldly
+Target should not be null
+```
+
+```bash
+// Non-Shouldly
+Expected: some element <4>
+  Actual: [1, 2, 3, 5]
+
+// Non-Shouldly
+myList
+    [1, 2, 3, 5]
+should contain
+    4
+but does not
+```
+
 ### Readability
 
 More readable test code as an English sentence.
@@ -252,4 +294,3 @@ We accept the following contributions:
 ## Maintainers
 
 * [Andrew Piterov](mailto:piterov1990@gmail.com?subject=[GitHub]%20Source%20Dart%20fluent_result)
-

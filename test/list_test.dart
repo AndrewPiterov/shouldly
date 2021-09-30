@@ -3,15 +3,15 @@ import 'package:test/test.dart';
 
 void main() {
   test('compare empty lists', () {
-    [].should.be([]);
+    [].should.beEqual([]);
   });
 
   test('compare non empty equal lists', () {
-    [1, 2, 3].should.be([1, 2, 3]);
+    [1, 2, 3].should.beEqual([1, 2, 3]);
   });
 
   test('compare non empty non equal lists', () {
-    [1, 2, 3].should.not.be([1, 2, 4]);
+    [1, 2, 3].should.not.beEqual([1, 2, 4]);
   });
 
   test('should be empty', () {
@@ -68,5 +68,10 @@ void main() {
 
   test('empty list does not have length of 1', () {
     [].should.not.hasLenght(1);
+  });
+
+  test('nullable list should be null', () {
+    List<String>? nullableList = null;
+    nullableList.should.beNull;
   });
 }

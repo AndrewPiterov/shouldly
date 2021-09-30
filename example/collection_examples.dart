@@ -8,8 +8,8 @@ void main() {
   attendies.should.beTypeOf<Iterable<String>>();
 
   // Equality
-  attendies.should.be(['Andrew', 'Bobby', 'Larry']);
-  attendies.should.equal(['Andrew', 'Bobby', 'Larry']);
+  attendies.should.beEqual(['Andrew', 'Bobby', 'Larry']);
+  attendies.should.beEqual(['Andrew', 'Bobby', 'Larry']);
 
   // Contains
   attendies.should.contain('Andrew');

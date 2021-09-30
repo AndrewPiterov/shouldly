@@ -15,7 +15,7 @@ class MapCap extends Cap<Map> {
       : super(target, isReversed: isReversed);
 
   @override
-  MapCap be(Object value) {
+  MapCap be(Object value, {String? targetLabel}) {
     if (isReversed) {
       return MapCap(this.target);
     }

@@ -1,16 +1,17 @@
 import 'package:shouldly/src/strings.dart';
+import 'package:shouldly/shouldly.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('String', () {
     test('comparison', () {
       const str = 'Flutter';
-      str.toLowerCase().should.be("flutter");
+      str.toLowerCase().should.beEqual("flutter");
     });
 
     test('comparison with not equal', () {
       const str = 'Flutter';
-      str.should.be("Flutter").and.not.equal("flutter");
+      str.should.beEqual("Flutter").and.not.beEqual("flutter");
     });
 
     test('length should be excact length', () {
@@ -51,6 +52,16 @@ void main() {
     test('should not match to Regular Expression', () {
       final target = 'Homer Simpson';
       target.should.not.match("Bart .*");
+    });
+
+    test('nullable string should be null', () {
+      String? nullableString = null;
+      nullableString.should.beNull;
+    });
+
+    test('nullable string should not be null', () {
+      String? nullableString = 'Some string';
+      nullableString.should.not.beNull;
     });
   });
 }
