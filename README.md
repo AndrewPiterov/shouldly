@@ -13,6 +13,9 @@ and the Flutter guide for
 
 # shouldly
 
+[![pub package](https://img.shields.io/pub/v/shouldly.svg?label=shouldly&color=blue)](https://pub.dev/packages/shouldly)
+[![likes](https://badges.bar/shouldly/likes)](https://pub.dev/packages/shouldly/score)
+
 `Shouldly` is an assertion framework which focuses on giving great error messages when the assertion fails while being simple and terse.
 
 `shouldly` allows you write more readable test assertions.
