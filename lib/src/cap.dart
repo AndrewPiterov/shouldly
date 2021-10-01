@@ -30,12 +30,12 @@ abstract class Cap<T, K> {
   K beEqual(Object value) {
     if (isReversed) {
       if (value == this.target) {
-        throw Exception(
+        throw ShouldlyTestFailure(
             '\n$targetLabel should not be\n  `$value`\nbut was\n  `$target`');
       }
     } else {
       if (value != this.target) {
-        throw Exception(
+        throw ShouldlyTestFailure(
             '\n$targetLabel should be\n  `$value`\nbut was\n  `$target`');
       }
     }
@@ -43,20 +43,59 @@ abstract class Cap<T, K> {
     return copy(target, targetLabel: targetLabel);
   }
 
-  K beTypeOf<Q>() {
+  ///
+  /// Check exact type
+  /// And return instance of U
+  U? beOfType<U>() {
+    final runtimeType = target.runtimeType;
+    final isNamesEqual = target.runtimeType.toString() == U.toString();
     if (isReversed) {
-      if (target is Q) {
-        throw Exception(
-            '\nType of $targetLabel should not be\n    `$Q`\but it was');
+      if (target.runtimeType == U && isNamesEqual) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel\n    $runtimeType\nshould not be an instantiation of Type\n    `$U`\nbut does');
       }
     } else {
-      if (target is! Q) {
-        throw Exception(
-            '\nType of $targetLabel should be\n    `$Q`\nbut it is\n    `$T`');
+      if (target.runtimeType != U && !isNamesEqual) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel\n    $runtimeType\nshould be an instantiation of Type\n    `$U`\nbut does not');
       }
     }
 
-    return copy(target, targetLabel: targetLabel);
+    try {
+      final x = target as U;
+      return x;
+    } catch (e) {
+      // TODO: catch exact type cast error - example myIntNumber.should.not.beOfType<double>();
+      return null;
+    }
+  }
+
+  U? beAssignableTo<U>() {
+    final eval = EvalCondition<T>(
+      condition: (x) => x.runtimeType != U && x is U,
+      target: target,
+      title: 'should be subclass of $U',
+    );
+
+    if (isReversed) {
+      if (eval.eval()) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel\n    $target\nshould not be a subbclass of\n    `$U`\nbut does');
+      }
+    } else {
+      if (!eval.eval()) {
+        throw ShouldlyTestFailure(
+            '\n$targetLabel\n    $target\nshould be a subbclass of\n    `$U`\nbut does not');
+      }
+    }
+
+    try {
+      final x = target as U;
+      return x;
+    } catch (e) {
+      // TODO: catch exact type cast error - example with List<String/Int/etc>
+      return null;
+    }
   }
 
   K get beNull {
@@ -71,5 +110,22 @@ abstract class Cap<T, K> {
     }
 
     return copy(target, targetLabel: targetLabel);
+  }
+}
+
+class EvalCondition<T> {
+  bool Function(T? target) condition;
+  final T? target;
+  final String title;
+
+  EvalCondition({
+    required this.condition,
+    required this.target,
+    required this.title,
+  });
+
+  bool eval() {
+    final res = condition(target);
+    return res;
   }
 }

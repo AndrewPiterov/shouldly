@@ -4,7 +4,7 @@ void main() {
   final iamRock = true;
 
   // Type checking
-  iamRock.should.beTypeOf<bool>();
+  iamRock.should.beOfType<bool>();
 
   // Equality checking
   iamRock.should.beTrue();

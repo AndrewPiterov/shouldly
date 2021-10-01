@@ -7,7 +7,8 @@ void main() {
   };
 
   // Type checking
-  product.should.beTypeOf<Map>();
+  // TODO: as in test product.should.beOfType<Map<String, Object?>>();
+  product.should.beAssignableTo<Map>();
 
   // Equality
   product.should.beEqual({

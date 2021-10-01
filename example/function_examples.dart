@@ -2,9 +2,9 @@ import 'package:shouldly/shouldly_function.dart';
 
 void main() {
   // Type checking
-  someAction.should.beTypeOf<Function>();
-  someFunction.should.beTypeOf<SumOperation>();
-  someFunction.should.not.beTypeOf<PowerOperation>();
+  someAction.should.beAssignableTo<Function>();
+  someFunction.should.beOfType<SumOperation>();
+  someFunction.should.not.beOfType<PowerOperation>();
 
   // Exceptions
   throwException.should.throwException();

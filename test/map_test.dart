@@ -9,8 +9,24 @@ void main() {
       "hasChildren": null,
     };
 
+    // TODO: hot to cjeck
+    /*
+Target _InternalLinkedHashMap<String, Object?>
+    _InternalLinkedHashMap<String, Object?>
+should be an instantiation of Type
+    `LinkedHashMap<String, Object>`
+but does not
+    */
+    // test('should be instantiation of type `Map<String, Object>`', () {
+    //   target.should.beOfType<LinkedHashMap<String, Object>>();
+    // });
+
     test('should be type of Map', () {
-      target.should.beTypeOf<Map>();
+      target.should.beAssignableTo<Map>();
+    });
+
+    test('should be type of Map (with specify genetic types)', () {
+      target.should.beAssignableTo<Map<String, Object?>>();
     });
 
     test('should be equal', () {

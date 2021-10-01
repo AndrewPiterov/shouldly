@@ -4,8 +4,8 @@ void main() {
   final attendies = ['Andrew', 'Bobby', 'Larry'];
 
   // Type checking
-  attendies.should.beTypeOf<Iterable>();
-  attendies.should.beTypeOf<Iterable<String>>();
+  attendies.should.beOfType<List<String>>();
+  attendies.should.beAssignableTo<Iterable<String>>();
 
   // Equality
   attendies.should.beEqual(['Andrew', 'Bobby', 'Larry']);

@@ -4,8 +4,8 @@ void main() {
   const str = 'Flutter is awesome';
 
   // Type checking
-  str.should.beTypeOf<String>();
-  str.should.not.beTypeOf<num>();
+  str.should.beOfType<String>();
+  str.should.not.beOfType<num>();
 
   // Equlaity
   str.should.beEqual('Flutter is awesome');

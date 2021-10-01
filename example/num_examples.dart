@@ -4,17 +4,11 @@ void main() {
   const myIntNumber = 2021;
 
   // Type checking
-  myIntNumber.should.beTypeOf<num>();
-  myIntNumber.should.beTypeOf<int>();
+  myIntNumber.should.beOfType<int>();
+  myIntNumber.should.beAssignableTo<num>();
 
-  // or you can concatinate with `and`
-  myIntNumber.should
-      .beTypeOf<num>()
-      .and
-      .beTypeOf<int>()
-      .and
-      .not
-      .beTypeOf<double>();
+  //
+  myIntNumber.should.not.beOfType<double>();
 
   //
   20.should.beGreaterThan(19);
