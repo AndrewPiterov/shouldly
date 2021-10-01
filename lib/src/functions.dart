@@ -1,19 +1,23 @@
-import 'package:shouldly/src/cap.dart';
+import 'package:shouldly/src/base_assertions.dart';
 import 'package:shouldly/src/exception.dart';
 
+/// Contains Functions's extension methods for custom assertions in unit tests.
 extension FunctionExtensions on Function {
-  FunctionCap get should => FunctionCap(this);
+  /// Returns an `FunctionAssertions` object that can be used to assert the
+  /// current `Function` />.
+  FunctionAssertions get should => FunctionAssertions(this);
 }
 
-class FunctionExecutionException implements Exception {
-  final String cause;
-  FunctionExecutionException(this.cause);
-}
+///
+class FunctionAssertions extends BaseAssertions<Function, FunctionAssertions> {
+  ///
+  FunctionAssertions(
+    Function? target, {
+    bool isReversed = false,
+    String? targetLabel,
+  }) : super(target, isReversed: isReversed, targetLabel: targetLabel);
 
-class FunctionCap extends Cap<Function, FunctionCap> {
-  FunctionCap(Function? target, {bool isReversed = false, String? targetLabel})
-      : super(target, isReversed: isReversed, targetLabel: targetLabel);
-
+  /// Expects the function to throw any exception.
   void throwException() {
     try {
       target!.call();
@@ -27,6 +31,7 @@ class FunctionCap extends Cap<Function, FunctionCap> {
     }
   }
 
+  /// Expects the function to throw specified exception.
   void throwExact<T extends Exception>() {
     try {
       target!.call();
@@ -46,6 +51,7 @@ class FunctionCap extends Cap<Function, FunctionCap> {
     }
   }
 
+  /// Expects the function to not throw any exception.
   void notThrowException() {
     try {
       target!.call();
@@ -55,15 +61,24 @@ class FunctionCap extends Cap<Function, FunctionCap> {
   }
 
   @override
-  FunctionCap copy(
+  FunctionAssertions copy(
     Function? target, {
     bool isReversed = false,
     String? targetLabel,
   }) {
-    return FunctionCap(
+    return FunctionAssertions(
       target,
       isReversed: isReversed,
       targetLabel: targetLabel,
     );
   }
+}
+
+///
+class FunctionExecutionException implements Exception {
+  ///
+  final String cause;
+
+  ///
+  FunctionExecutionException(this.cause);
 }

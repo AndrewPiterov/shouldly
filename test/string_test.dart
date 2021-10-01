@@ -5,12 +5,12 @@ void main() {
   group('String', () {
     test('comparison', () {
       const str = 'Flutter';
-      str.toLowerCase().should.beEqual('flutter');
+      str.toLowerCase().should.be('flutter');
     });
 
     test('comparison with not equal', () {
       const str = 'Flutter';
-      str.should.beEqual('Flutter').and.not.beEqual('flutter');
+      str.should.be('Flutter').and.not.be('flutter');
     });
 
     test('length should be excact length', () {
@@ -64,7 +64,7 @@ void main() {
     });
 
     test('xxx', () {
-      'x'.should.beEqual('x').and.not.beBlank;
+      'x'.should.be('x').and.not.beBlank;
       'x'.should.not.beNull.and.not.beBlank;
     });
   });

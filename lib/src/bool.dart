@@ -1,48 +1,58 @@
-import 'package:shouldly/src/cap.dart';
+import 'package:shouldly/src/base_assertions.dart';
+import 'package:shouldly/src/eva_condition.dart';
 
+/// Contains boolean's extension methods for custom assertions in unit tests.
 extension BoolExtensions on bool? {
-  BooleanCap get should => BooleanCap(this);
+  /// Returns an `BoolAssertions` object that can be used to assert the
+  /// current `bool` />.
+  BoolAssertions get should => BoolAssertions(this);
 }
 
-class BooleanCap extends Cap<bool, BooleanCap> {
+/// Contains a number of methods to assert that a `bool` is in the expected state.
+class BoolAssertions extends BaseAssertions<bool, BoolAssertions> {
+  /// Initializes a new instance of the `BoolAssertions` class.
   // ignore: avoid_positional_boolean_parameters
-  BooleanCap(bool? target, {bool isReversed = false, String? targetLabel})
+  BoolAssertions(bool? target, {bool isReversed = false, String? targetLabel})
       : super(target, isReversed: isReversed, targetLabel: targetLabel);
 
-  BooleanCap beTrue() {
-    if (isReversed) {
-      if (target!) {
-        throw Exception('\n$targetLabel value should not be True');
-      }
-    } else {
-      if (!target!) {
-        throw Exception('\n$targetLabel value should be True');
-      }
-    }
+  /// Asserts that the value is `true`
+  BoolAssertions beTrue() {
+    final eval = EvalCondition(
+      condition: (x) => x! == true,
+      target: target,
+      errorMessage: '\n$targetLabel should be `true`',
+      errorMessageForReverse: '\n$targetLabel should not be `true`',
+    );
 
-    return BooleanCap(target);
+    eval.eval(isReversed: isReversed);
+
+    return BoolAssertions(target);
   }
 
-  BooleanCap beFalse() {
-    if (isReversed) {
-      if (!target!) {
-        throw Exception('\n$targetLabel value should not be False');
-      }
-    } else {
-      if (target!) {
-        throw Exception('\n$targetLabel value should be False');
-      }
-    }
+  /// Asserts that the value is `false`
+  BoolAssertions beFalse() {
+    final eval = EvalCondition(
+      condition: (x) => x! == false,
+      target: target,
+      errorMessage: '\n$targetLabel should be `false`',
+      errorMessageForReverse: '\n$targetLabel should not be `false`',
+    );
 
-    return BooleanCap(target);
+    eval.eval(isReversed: isReversed);
+
+    return BoolAssertions(target);
   }
 
   @override
-  BooleanCap copy(
+  BoolAssertions copy(
     bool? target, {
     bool isReversed = false,
     String? targetLabel,
   }) {
-    return BooleanCap(target, isReversed: isReversed, targetLabel: targetLabel);
+    return BoolAssertions(
+      target,
+      isReversed: isReversed,
+      targetLabel: targetLabel,
+    );
   }
 }

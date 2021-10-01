@@ -3,23 +3,23 @@ import 'package:test/test.dart';
 
 void main() {
   test('compare empty lists', () {
-    [].should.beEqual([]);
+    [].should.be([]);
   });
 
   test('compare non empty equal lists', () {
-    [1, 2, 3].should.beEqual([1, 2, 3]);
+    [1, 2, 3].should.be([1, 2, 3]);
   });
 
   test('compare non nullable and non empty to equal lists', () {
-    [1, 2, 3].should.not.contain(4).and.beEqual([1, 2, 3]);
+    [1, 2, 3].should.not.contain(4).and.be([1, 2, 3]);
   });
 
   test('compare non nullable and non empty to equal lists 2', () {
-    [1, 2, 3].should.as('myList').not.beNull.and.beEqual([1, 2, 3]);
+    [1, 2, 3].should.as('myList').not.beNull.and.be([1, 2, 3]);
   });
 
   test('compare non empty non equal lists', () {
-    [1, 2, 3].should.not.beEqual([1, 2, 4]);
+    [1, 2, 3].should.not.be([1, 2, 4]);
   });
 
   test('should be empty', () {

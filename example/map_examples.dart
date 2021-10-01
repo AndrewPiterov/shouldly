@@ -13,7 +13,7 @@ void main() {
   product.should.beAssignableTo<Map>();
 
   // Equality
-  product.should.beEqual({
+  product.should.be({
     'id': 1,
     'name': 'Product #1',
   });

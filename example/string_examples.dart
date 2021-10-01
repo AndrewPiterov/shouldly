@@ -10,8 +10,8 @@ void main() {
   str.should.not.beOfType<num>();
 
   // Equlaity
-  str.should.beEqual('Flutter is awesome');
-  str.should.not.beEqual('Flutter is awesome'.toUpperCase());
+  str.should.be('Flutter is awesome');
+  str.should.not.be('Flutter is awesome'.toUpperCase());
 
   str.should.not.beNullOrEmpty.and.match('.* awesome').and.match('Flutter .*');
 

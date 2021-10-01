@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('true should be `true`', () {
-    true.should.beEqual(true);
+    true.should.be(true);
   });
 
   test('true should be `true` (second way)', () {
@@ -15,7 +15,7 @@ void main() {
   });
 
   test('false should be `false` (second way)', () {
-    false.should.beEqual(false);
+    false.should.be(false);
   });
 
   test('false should not be `true`', () {
@@ -23,7 +23,7 @@ void main() {
   });
 
   test('false should not be `true` (second way)', () {
-    false.should.not.beEqual(true);
+    false.should.not.be(true);
   });
 
   test('true should not be `false`', () {

@@ -15,8 +15,8 @@ void main() {
 
   // capture the type
   final boss = enemy.should.beOfType<BossEnemy>()!;
-  boss.name.should.beEqual(enemyName);
-  boss.superPower.should.beEqual(42);
+  boss.name.should.be(enemyName);
+  boss.superPower.should.be(42);
 
   // ignore: avoid_print
   print('Done with enemies');
@@ -50,7 +50,7 @@ extension EnemyExtension on Enemy? {
   EnemyCap get should => EnemyCap(this);
 }
 
-class EnemyCap extends Cap<Enemy, EnemyCap> {
+class EnemyCap extends BaseAssertions<Enemy, EnemyCap> {
   EnemyCap(Enemy? target, {bool isReversed = false, String? targetLabel})
       : super(
           target,

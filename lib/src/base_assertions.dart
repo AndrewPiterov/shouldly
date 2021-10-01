@@ -1,16 +1,24 @@
+import 'package:shouldly/src/eva_condition.dart';
 import 'package:shouldly/src/exception.dart';
 
-abstract class Cap<T, K> {
-  Cap(
+/// Base Matcher
+abstract class BaseAssertions<T, K> {
+  /// Matcher constructor
+  BaseAssertions(
     this.target, {
     this.isReversed = false,
     String? targetLabel,
   }) : _targetLabel = targetLabel;
 
+  /// the object which value is being asserted.
   final T? target;
+
+  /// Checking reverse
   final bool isReversed;
+
   final String? _targetLabel;
 
+  /// Friendly label for the target object
   String get targetLabel {
     final runtimeType = target.runtimeType;
     return _targetLabel == null || _targetLabel == ''
@@ -18,16 +26,21 @@ abstract class Cap<T, K> {
         : _targetLabel!;
   }
 
+  /// Copy the matcher
   K copy(T? target, {bool isReversed = false, String? targetLabel});
 
+  /// For conjuction
   K get and => copy(target, isReversed: isReversed, targetLabel: targetLabel);
 
+  /// Invert assertion
   K get not => copy(target, isReversed: true, targetLabel: targetLabel);
 
+  /// Set friendly title for the target
   K as(String targetLabel) =>
       copy(target, isReversed: isReversed, targetLabel: targetLabel);
 
-  K beEqual(Object value) {
+  /// Check equality to value
+  K be(Object value) {
     if (isReversed) {
       if (value == target) {
         throw ShouldlyTestFailure(
@@ -45,9 +58,7 @@ abstract class Cap<T, K> {
     return copy(target, targetLabel: targetLabel);
   }
 
-  ///
-  /// Check exact type
-  /// And return instance of U
+  /// Asserts that the object is not of the specified type `U`
   U? beOfType<U>() {
     final runtimeType = target.runtimeType;
     final isNamesEqual = target.runtimeType.toString() == U.toString();
@@ -74,26 +85,18 @@ abstract class Cap<T, K> {
     }
   }
 
+  /// Asserts that the object is assignable to a variable of type `U`
   U? beAssignableTo<U>() {
     final eval = EvalCondition<T>(
       condition: (x) => x.runtimeType != U && x is U,
       target: target,
-      title: 'should be subclass of $U',
+      errorMessage:
+          '\n$targetLabel\n    $target\nshould not be a subbclass of\n    `$U`\nbut does',
+      errorMessageForReverse:
+          '\n$targetLabel\n    $target\nshould be a subbclass of\n    `$U`\nbut does not',
     );
 
-    if (isReversed) {
-      if (eval.eval()) {
-        throw ShouldlyTestFailure(
-          '\n$targetLabel\n    $target\nshould not be a subbclass of\n    `$U`\nbut does',
-        );
-      }
-    } else {
-      if (!eval.eval()) {
-        throw ShouldlyTestFailure(
-          '\n$targetLabel\n    $target\nshould be a subbclass of\n    `$U`\nbut does not',
-        );
-      }
-    }
+    eval.eval(isReversed: isReversed);
 
     try {
       final x = target as U;
@@ -104,34 +107,17 @@ abstract class Cap<T, K> {
     }
   }
 
+  /// Check on null
   K get beNull {
-    if (isReversed) {
-      if (target == null) {
-        throw ShouldlyTestFailure('\n$targetLabel should not be null');
-      }
-    } else {
-      if (target != null) {
-        throw ShouldlyTestFailure('\n$targetLabel should be null');
-      }
-    }
+    final eval = EvalCondition<T>(
+      condition: (x) => x == null,
+      target: target,
+      errorMessage: '\n$targetLabel should be null',
+      errorMessageForReverse: '\n$targetLabel should not be null',
+    );
+
+    eval.eval(isReversed: isReversed);
 
     return copy(target, targetLabel: targetLabel);
-  }
-}
-
-class EvalCondition<T> {
-  bool Function(T? target) condition;
-  final T? target;
-  final String title;
-
-  EvalCondition({
-    required this.condition,
-    required this.target,
-    required this.title,
-  });
-
-  bool eval() {
-    final res = condition(target);
-    return res;
   }
 }

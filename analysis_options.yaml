@@ -29,6 +29,8 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    # Good packages document everything
+    public_member_api_docs: true
     avoid_shadowing_type_parameters: true
     always_declare_return_types: true
     unawaited_futures: true

@@ -9,7 +9,7 @@ void main() {
       'hasChildren': null,
     };
 
-    // TODO: hot to cjeck
+    // TODO:  check
     /*
 Target _InternalLinkedHashMap<String, Object?>
     _InternalLinkedHashMap<String, Object?>
@@ -31,7 +31,7 @@ but does not
 
     test('should be equal', () {
       target.should.not.beNull.and
-          .beEqual({
+          .be({
             'name': 'John',
             'age': 32,
             'hasChildren': null,
@@ -41,7 +41,7 @@ but does not
     });
 
     test('should not be equal', () {
-      target.should.not.beEqual({
+      target.should.not.be({
         'name': 'John',
         'age': 33,
         'hasChildren': null,

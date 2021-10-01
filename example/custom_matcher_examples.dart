@@ -6,11 +6,11 @@ void main() {
   print('Done');
 }
 
-extension CE on NumberCap {
-  NumberCap get beNegative {
+extension CustomNumAssertions on NumericAssertions {
+  NumericAssertions get beNegative {
     if (target! >= 0) {
       throw Exception('Value\n  should be negative\n  but was\n$target');
     }
-    return NumberCap(target);
+    return NumericAssertions(target);
   }
 }

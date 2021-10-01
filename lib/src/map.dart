@@ -1,24 +1,27 @@
 import 'package:collection/collection.dart';
-import 'package:shouldly/src/cap.dart';
+import 'package:shouldly/src/base_assertions.dart';
 import 'package:shouldly/src/exception.dart';
 
 final _eq = const DeepCollectionEquality().equals;
 
+///
 extension MapExtensions on Map? {
   ///
   /// Starting point to verify your conditions
   ///
-  MapCap get should => MapCap(this);
+  MapAssertions get should => MapAssertions(this);
 }
 
-class MapCap extends Cap<Map, MapCap> {
-  MapCap(Map? target, {bool isReversed = false, String? targetLabel})
+///
+class MapAssertions extends BaseAssertions<Map, MapAssertions> {
+  ///
+  MapAssertions(Map? target, {bool isReversed = false, String? targetLabel})
       : super(target, isReversed: isReversed, targetLabel: targetLabel);
 
   @override
-  MapCap beEqual(Object value) {
+  MapAssertions be(Object value) {
     if (isReversed) {
-      return MapCap(target, isReversed: !isReversed);
+      return MapAssertions(target, isReversed: !isReversed);
     }
 
     if (value != target) {
@@ -29,10 +32,11 @@ class MapCap extends Cap<Map, MapCap> {
       }
     }
 
-    return MapCap(target);
+    return MapAssertions(target);
   }
 
-  MapCap containKey(String key) {
+  ///
+  MapAssertions containKey(String key) {
     if (isReversed) {
       if (target!.containsKey(key)) {
         throw ShouldlyTestFailure(
@@ -47,10 +51,11 @@ class MapCap extends Cap<Map, MapCap> {
       }
     }
 
-    return MapCap(target, isReversed: isReversed);
+    return MapAssertions(target, isReversed: isReversed);
   }
 
-  MapCap hasValueInKey(String key) {
+  ///
+  MapAssertions hasValueInKey(String key) {
     if (!target!.containsKey(key)) {
       throw ShouldlyTestFailure('\n$targetLabel has contain key `$key`');
     }
@@ -68,10 +73,11 @@ class MapCap extends Cap<Map, MapCap> {
         );
       }
     }
-    return MapCap(target, isReversed: isReversed);
+    return MapAssertions(target, isReversed: isReversed);
   }
 
-  MapCap containKeyWithValue(dynamic key, dynamic value) {
+  ///
+  MapAssertions containKeyWithValue(dynamic key, dynamic value) {
     if (!target!.containsKey(key)) {
       throw ShouldlyTestFailure('\n$targetLabel has contain key `$key`');
     }
@@ -90,12 +96,16 @@ class MapCap extends Cap<Map, MapCap> {
       }
     }
 
-    return MapCap(target, isReversed: isReversed);
+    return MapAssertions(target, isReversed: isReversed);
   }
 
   @override
-  MapCap copy(Map? target, {bool isReversed = false, String? targetLabel}) {
-    return MapCap(
+  MapAssertions copy(
+    Map? target, {
+    bool isReversed = false,
+    String? targetLabel,
+  }) {
+    return MapAssertions(
       target,
       isReversed: isReversed,
       targetLabel: targetLabel,

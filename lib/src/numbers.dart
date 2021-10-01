@@ -1,39 +1,55 @@
-import 'package:shouldly/src/cap.dart';
+import 'package:shouldly/src/base_assertions.dart';
+import 'package:shouldly/src/eva_condition.dart';
 import 'package:shouldly/src/exception.dart';
 
+/// Contains Numbers's extension methods for custom assertions in unit tests.
 extension NumExtensions on num {
-  NumberCap get should => NumberCap(this);
+  /// Returns an `NumAssertions` object that can be used to assert the
+  /// current `num` />.
+  NumericAssertions get should => NumericAssertions(this);
 }
 
-class NumberCap extends Cap<num, NumberCap> {
-  NumberCap(num? target, {bool isReversed = false, String? targetLabel})
-      : super(target, isReversed: isReversed, targetLabel: targetLabel);
+/// Contains a number of methods to assert that a `num` is in the expected state.
+class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
+  /// Initializes a new instance of the `NumericAssertions` class.
+  NumericAssertions(
+    num? target, {
+    bool isReversed = false,
+    String? targetLabel,
+  }) : super(target, isReversed: isReversed, targetLabel: targetLabel);
 
-  NumberCap beOdd() {
-    if (isReversed) {
-      return NumberCap(target).beEven();
-    }
+  /// Asserts that the numeric value is odd.
+  NumericAssertions beOdd() {
+    final eval = EvalCondition(
+      condition: (x) => target! % 2 != 0,
+      target: target,
+      errorMessage: '\n$targetLabel\n    $target\nshould be odd number.',
+      errorMessageForReverse:
+          '\n$targetLabel\n    $target\nshould not be odd number.',
+    );
 
-    if (target! % 2 == 0) {
-      throw ShouldlyTestFailure('$target is not odd');
-    }
+    eval.eval(isReversed: isReversed);
 
-    return NumberCap(target);
+    return NumericAssertions(target);
   }
 
-  NumberCap beEven() {
-    if (isReversed) {
-      return NumberCap(target).beOdd();
-    }
+  /// Asserts that the numeric value is even.
+  NumericAssertions beEven() {
+    final eval = EvalCondition(
+      condition: (x) => target! % 2 == 0,
+      target: target,
+      errorMessage: '\n$targetLabel\n    $target\nshould be even number.',
+      errorMessageForReverse:
+          '\n$targetLabel\n    $target\nshould not be even number.',
+    );
 
-    if (target! % 2 != 0) {
-      throw ShouldlyTestFailure('$target is not even');
-    }
+    eval.eval(isReversed: isReversed);
 
-    return NumberCap(target);
+    return NumericAssertions(target);
   }
 
-  NumberCap beGreaterThan(num value) {
+  /// Asserts that the numeric value is odd.
+  NumericAssertions beGreaterThan(num value) {
     if (isReversed) {
       if (target! > value) {
         throw ShouldlyTestFailure(
@@ -48,61 +64,80 @@ class NumberCap extends Cap<num, NumberCap> {
       }
     }
 
-    return NumberCap(target);
+    return NumericAssertions(target);
   }
 
-  NumberCap beAbove(num value) {
-    return beGreaterThan(value);
+  /// Asserts that the numeric value is greater than the specified [expected] value.
+  ///
+  /// [expected] The value to compare the current numeric value with.
+  NumericAssertions beAbove(num expected) {
+    return beGreaterThan(expected);
   }
 
-  NumberCap beLessThan(num value) {
+  /// Asserts that the numeric value is less than the specified [expected] value.
+  ///
+  /// [expected] The value to compare the current numeric value with.
+  NumericAssertions beLessThan(num expected) {
     if (isReversed) {
-      if (target! < value) {
+      if (target! < expected) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel number\n    $target\nshould not less than\n    $value',
+          '\n$targetLabel number\n    $target\nshould not less than\n    $expected',
         );
       }
     } else {
-      if (target! >= value) {
+      if (target! >= expected) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel number\n    $target\nshould be less than\n    $value',
+          '\n$targetLabel number\n    $target\nshould be less than\n    $expected',
         );
       }
     }
 
-    return NumberCap(target);
+    return NumericAssertions(target);
   }
 
-  NumberCap beBelow(num value) {
-    return beLessThan(value);
+  /// Asserts that the numeric value is less than the specified [expected] value.
+  ///
+  /// [expected] The value to compare the current numeric value with.
+  NumericAssertions beBelow(num expected) {
+    return beLessThan(expected);
   }
 
-  NumberCap beGreaterOrEqualThan(num value) {
+  /// Asserts that the numeric value is greater or equal than the specified [expected] value.
+  ///
+  /// [expected] The value to compare the current numeric value with.
+  NumericAssertions beGreaterOrEqualThan(num expected) {
     if (isReversed) {
-      return NumberCap(target).beLessOrEqualThan(value);
+      return NumericAssertions(target).beLessOrEqualThan(expected);
     }
 
-    if (target! < value) {
-      throw ShouldlyTestFailure('$target less than $value');
+    if (target! < expected) {
+      throw ShouldlyTestFailure('$target less than $expected');
     }
 
-    return NumberCap(target);
+    return NumericAssertions(target);
   }
 
-  NumberCap beLessOrEqualThan(num value) {
+  /// Asserts that the numeric value is less or equal than the specified [expected] value.
+  ///
+  /// [expected] The value to compare the current numeric value with.
+  NumericAssertions beLessOrEqualThan(num expected) {
     if (isReversed) {
-      return NumberCap(target).beGreaterOrEqualThan(value);
+      return NumericAssertions(target).beGreaterOrEqualThan(expected);
     }
 
-    final m = value + 1;
+    final m = expected + 1;
     if (target! > m) {
       throw ShouldlyTestFailure('$target is not less than $m');
     }
 
-    return NumberCap(target);
+    return NumericAssertions(target);
   }
 
-  NumberCap beWithin(num min, num max) {
+  /// Asserts that a value is within a range.
+  ///
+  /// [min] The minimum valid value of the range.</param>
+  /// [max] The maximum valid value of the range.</param>
+  NumericAssertions beWithin(num min, num max) {
     if (isReversed) {
       if (target! < max && target! > min) {
         throw ShouldlyTestFailure(
@@ -117,12 +152,16 @@ class NumberCap extends Cap<num, NumberCap> {
       }
     }
 
-    return NumberCap(target);
+    return NumericAssertions(target);
   }
 
   @override
-  NumberCap copy(num? target, {bool isReversed = false, String? targetLabel}) {
-    return NumberCap(
+  NumericAssertions copy(
+    num? target, {
+    bool isReversed = false,
+    String? targetLabel,
+  }) {
+    return NumericAssertions(
       target,
       isReversed: isReversed,
       targetLabel: targetLabel,

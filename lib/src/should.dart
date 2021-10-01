@@ -4,7 +4,9 @@ import 'package:shouldly/src/exception.dart';
 import 'package:shouldly/src/functions.dart';
 
 // ignore: avoid_classes_with_only_static_members
+///Static class for shoulds
 class Should {
+  /// Expects the function to throw Exception
   static Future throwAsync<T extends Exception>(Function func) async {
     try {
       await func();
@@ -30,6 +32,7 @@ class Should {
     }
   }
 
+  /// Check that the function should not throw any exception
   static Future notThrowAsync(Function func) async {
     try {
       await func();
@@ -41,6 +44,7 @@ class Should {
     }
   }
 
+  /// Check that the function should complte execution in a duration
   static Future completeIn(
     Duration duration, {
     required Function func,
