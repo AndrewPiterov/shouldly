@@ -1,7 +1,7 @@
 import 'package:shouldly/shouldly_bool.dart';
 
 void main() {
-  final iamRock = true;
+  const iamRock = true;
 
   // Type checking
   iamRock.should.beOfType<bool>();
@@ -14,5 +14,6 @@ void main() {
   iamRock.should.beEqual(true);
   iamRock.should.not.beEqual(false);
 
+  // ignore: avoid_print
   print('Done with bools');
 }

@@ -17,29 +17,29 @@ void main() {
 
   test('async function should throw exception', () async {
     await Should.throwAsync(() {
-      Future.delayed(Duration(milliseconds: 100));
+      Future.delayed(const Duration(milliseconds: 100));
       throw Exception('test');
     });
   });
 
   test('async function should not throw exception', () async {
     await Should.notThrowAsync(() {
-      Future.delayed(Duration(milliseconds: 100));
+      Future.delayed(const Duration(milliseconds: 100));
     });
   });
 
   test('async function should throw exact exception', () async {
     await Should.throwAsync<CustomException>(() {
-      Future.delayed(Duration(milliseconds: 100));
+      Future.delayed(const Duration(milliseconds: 100));
       throw CustomException('custom execption test');
     });
   });
 
   test('should complete in a duration', () async {
     await Should.completeIn(
-      Duration(seconds: 1),
+      const Duration(seconds: 1),
       func: () => slowFunction(
-        Duration(milliseconds: 900),
+        const Duration(milliseconds: 900),
       ),
     );
   });

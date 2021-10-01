@@ -6,7 +6,7 @@ void main() {
     final target = {
       'name': 'John',
       'age': 32,
-      "hasChildren": null,
+      'hasChildren': null,
     };
 
     // TODO: hot to cjeck
@@ -34,7 +34,7 @@ but does not
           .beEqual({
             'name': 'John',
             'age': 32,
-            "hasChildren": null,
+            'hasChildren': null,
           })
           .and
           .containKey('name');
@@ -44,7 +44,7 @@ but does not
       target.should.not.beEqual({
         'name': 'John',
         'age': 33,
-        "hasChildren": null,
+        'hasChildren': null,
       });
     });
 
@@ -65,7 +65,7 @@ but does not
     });
 
     test('should contain key with exact value', () {
-      target.should.containKeyWithValue('name', "John");
+      target.should.containKeyWithValue('name', 'John');
     });
 
     test('should not contain key with value', () {

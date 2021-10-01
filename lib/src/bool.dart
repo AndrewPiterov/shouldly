@@ -5,6 +5,7 @@ extension BoolExtensions on bool? {
 }
 
 class BooleanCap extends Cap<bool, BooleanCap> {
+  // ignore: avoid_positional_boolean_parameters
   BooleanCap(bool? target, {bool isReversed = false, String? targetLabel})
       : super(target, isReversed: isReversed, targetLabel: targetLabel);
 
@@ -37,8 +38,11 @@ class BooleanCap extends Cap<bool, BooleanCap> {
   }
 
   @override
-  BooleanCap copy(bool? target,
-      {bool isReversed = false, String? targetLabel}) {
+  BooleanCap copy(
+    bool? target, {
+    bool isReversed = false,
+    String? targetLabel,
+  }) {
     return BooleanCap(target, isReversed: isReversed, targetLabel: targetLabel);
   }
 }

@@ -14,7 +14,7 @@ abstract class Cap<T, K> {
   String get targetLabel {
     final runtimeType = target.runtimeType;
     return _targetLabel == null || _targetLabel == ''
-        ? 'Target ${runtimeType}'
+        ? 'Target $runtimeType'
         : _targetLabel!;
   }
 
@@ -29,14 +29,16 @@ abstract class Cap<T, K> {
 
   K beEqual(Object value) {
     if (isReversed) {
-      if (value == this.target) {
+      if (value == target) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel should not be\n  `$value`\nbut was\n  `$target`');
+          '\n$targetLabel should not be\n  `$value`\nbut was\n  `$target`',
+        );
       }
     } else {
-      if (value != this.target) {
+      if (value != target) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel should be\n  `$value`\nbut was\n  `$target`');
+          '\n$targetLabel should be\n  `$value`\nbut was\n  `$target`',
+        );
       }
     }
 
@@ -52,12 +54,14 @@ abstract class Cap<T, K> {
     if (isReversed) {
       if (target.runtimeType == U && isNamesEqual) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel\n    $runtimeType\nshould not be an instantiation of Type\n    `$U`\nbut does');
+          '\n$targetLabel\n    $runtimeType\nshould not be an instantiation of Type\n    `$U`\nbut does',
+        );
       }
     } else {
       if (target.runtimeType != U && !isNamesEqual) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel\n    $runtimeType\nshould be an instantiation of Type\n    `$U`\nbut does not');
+          '\n$targetLabel\n    $runtimeType\nshould be an instantiation of Type\n    `$U`\nbut does not',
+        );
       }
     }
 
@@ -80,12 +84,14 @@ abstract class Cap<T, K> {
     if (isReversed) {
       if (eval.eval()) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel\n    $target\nshould not be a subbclass of\n    `$U`\nbut does');
+          '\n$targetLabel\n    $target\nshould not be a subbclass of\n    `$U`\nbut does',
+        );
       }
     } else {
       if (!eval.eval()) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel\n    $target\nshould be a subbclass of\n    `$U`\nbut does not');
+          '\n$targetLabel\n    $target\nshould be a subbclass of\n    `$U`\nbut does not',
+        );
       }
     }
 

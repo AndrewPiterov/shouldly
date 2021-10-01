@@ -2,6 +2,7 @@ import 'package:shouldly/shouldly.dart';
 
 void main() {
   (-10).should.beNegative;
+  // ignore: avoid_print
   print('Done');
 }
 

@@ -31,11 +31,12 @@ void main() {
   });
 
   test('nullable boolean should be null', () {
-    bool? nullableTrue = null;
+    const bool? nullableTrue = null;
     nullableTrue.should.beNull;
   });
 
   test('nullable boolean should not be null', () {
+    // ignore: prefer_final_locals
     bool? nullableTrue = true;
     nullableTrue.should.not.beNull;
   });

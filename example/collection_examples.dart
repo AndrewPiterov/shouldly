@@ -18,5 +18,6 @@ void main() {
   attendies.should.containAll(['Andrew', 'Bobby']);
   attendies.should.not.containAll(['Andrei', 'Bobby']);
 
+  // ignore: avoid_print
   print('Done with collection');
 }

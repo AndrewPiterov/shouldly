@@ -79,7 +79,7 @@ void main() {
   });
 
   test('nullable list should be null', () {
-    List<String>? nullableList = null;
+    const List<String>? nullableList = null;
     nullableList.should.beNull;
   });
 }

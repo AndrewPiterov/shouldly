@@ -2,39 +2,45 @@ import 'package:collection/collection.dart';
 import 'package:shouldly/src/cap.dart';
 import 'package:shouldly/src/exception.dart';
 
-Function _eq = const ListEquality().equals;
+final _eq = const ListEquality().equals;
 
 extension IterableExtensions<T> on Iterable<T>? {
   IterableCap<T> get should => IterableCap<T>(this);
 }
 
 class IterableCap<T> extends Cap<Iterable<T>, IterableCap<T>> {
-  IterableCap(Iterable<T>? target,
-      {bool isReversed = false, String? targetLabel})
-      : super(target, isReversed: isReversed, targetLabel: targetLabel);
+  IterableCap(
+    Iterable<T>? target, {
+    bool isReversed = false,
+    String? targetLabel,
+  }) : super(target, isReversed: isReversed, targetLabel: targetLabel);
 
   @override
   IterableCap<T> beEqual(Object value) {
+    final isEqual = _eq(target!.toList(), value as List);
     if (isReversed) {
-      if (_eq(target, value)) {
+      if (isEqual) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel collection\n    `$target`\nshould not be equal to\n    `$value`');
+          '\n$targetLabel collection\n    `$target`\nshould not be equal to\n    `$value`',
+        );
       }
     } else {
-      if (value != target) {
-        if (!_eq(target, value)) {
-          throw ShouldlyTestFailure(
-              '\n$targetLabel collection\n    `$target`\nshould be equal to\n    `$value`');
-        }
+      if (!isEqual) {
+        throw ShouldlyTestFailure(
+          '\n$targetLabel collection\n    `$target`\nshould be equal to\n    `$value`',
+        );
       }
     }
 
-    return IterableCap<T>(target!);
+    return IterableCap<T>(target);
   }
 
   @override
-  IterableCap<T> copy(Iterable<T>? target,
-      {bool isReversed = false, String? targetLabel}) {
+  IterableCap<T> copy(
+    Iterable<T>? target, {
+    bool isReversed = false,
+    String? targetLabel,
+  }) {
     return IterableCap<T>(
       target,
       isReversed: isReversed,
@@ -53,56 +59,62 @@ class IterableCap<T> extends Cap<Iterable<T>, IterableCap<T>> {
       }
     }
 
-    return IterableCap(target!);
+    return IterableCap(target);
   }
 
   IterableCap<T> hasLenght(int length) {
     if (isReversed) {
       if (target!.length == length) {
         throw ShouldlyTestFailure(
-            'Current length ${target!.length} is not equal to $length.');
+          'Current length ${target!.length} is not equal to $length.',
+        );
       }
     } else {
       if (target!.length != length) {
         throw ShouldlyTestFailure(
-            'Current length ${target!.length} is not equal to $length.');
+          'Current length ${target!.length} is not equal to $length.',
+        );
       }
     }
 
-    return IterableCap(target!);
+    return IterableCap(target);
   }
 
   IterableCap<T> contain(T item) {
     if (isReversed) {
       if (target!.contains(item)) {
         throw ShouldlyTestFailure(
-            '$targetLabel\n    $target\nshould not contain\n    $item\nbut does');
+          '$targetLabel\n    $target\nshould not contain\n    $item\nbut does',
+        );
       }
     } else {
       if (!target!.contains(item)) {
         throw ShouldlyTestFailure(
-            '$targetLabel\n    $target\nshould contain\n    $item\nbut does not');
+          '$targetLabel\n    $target\nshould contain\n    $item\nbut does not',
+        );
       }
     }
 
-    return IterableCap(target!);
+    return IterableCap(target);
   }
 
   IterableCap<T> containAll(Iterable<T> items) {
     if (isReversed) {
       if (target!.toSet().containsAll(items)) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel iterable\n    $target\nshould not contain all items of\n    $items\nbut it does');
+          '\n$targetLabel iterable\n    $target\nshould not contain all items of\n    $items\nbut it does',
+        );
       }
-      return IterableCap(target!);
+      return IterableCap(target);
     } else {
       if (!target!.toSet().containsAll(items)) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel iterable\n    $target\nshould contain all items of\n    $items\nbut it does not');
+          '\n$targetLabel iterable\n    $target\nshould contain all items of\n    $items\nbut it does not',
+        );
       }
     }
 
-    return IterableCap(target!);
+    return IterableCap(target);
   }
 
   IterableCap<T> all(void Function(T item) predicate) {
@@ -114,7 +126,7 @@ class IterableCap<T> extends Cap<Iterable<T>, IterableCap<T>> {
       predicate(target!.elementAt(i));
     }
 
-    return IterableCap(target!);
+    return IterableCap(target);
   }
 
   IterableCap<T> every(bool Function(T item) predicate) {

@@ -1,17 +1,22 @@
+// ignore_for_file: avoid_print
+
 import 'package:shouldly/src/exception.dart';
 import 'package:shouldly/src/functions.dart';
 
+// ignore: avoid_classes_with_only_static_members
 class Should {
   static Future throwAsync<T extends Exception>(Function func) async {
     try {
       await func();
 
       throw FunctionExecutionException(
-          '\nTarget function does not throw exception');
+        '\nTarget function does not throw exception',
+      );
     } catch (e) {
       if (e is FunctionExecutionException) {
         throw FunctionExecutionException(
-            'target function does not throw exception');
+          'target function does not throw exception',
+        );
       }
 
       if (e is T) {
@@ -46,10 +51,11 @@ class Should {
     final elapsed = stopwatch.elapsed;
 
     if (elapsed > duration) {
-      print('the function executed in ${elapsed}');
+      print('the function executed in $elapsed');
       final ms = stopwatch.elapsed.inMilliseconds - duration.inMilliseconds;
       throw ShouldlyTestFailure(
-          'the function should be complited in ${duration.inMilliseconds} ms\n    but execution took more\n$ms ms');
+        'the function should be complited in ${duration.inMilliseconds} ms\n    but execution took more\n$ms ms',
+      );
     }
   }
 }

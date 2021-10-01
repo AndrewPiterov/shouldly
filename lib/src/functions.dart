@@ -18,7 +18,8 @@ class FunctionCap extends Cap<Function, FunctionCap> {
     try {
       target!.call();
       throw FunctionExecutionException(
-          'The function has not thowed any exception');
+        'The function has not thowed any exception',
+      );
     } catch (e) {
       if (e is FunctionExecutionException) {
         rethrow;
@@ -30,7 +31,8 @@ class FunctionCap extends Cap<Function, FunctionCap> {
     try {
       target!.call();
       throw FunctionExecutionException(
-          'The function has not thowed any exception');
+        'The function has not thowed any exception',
+      );
     } catch (e) {
       if (e is FunctionExecutionException) {
         rethrow;
@@ -38,7 +40,8 @@ class FunctionCap extends Cap<Function, FunctionCap> {
 
       if (e is! T) {
         throw ShouldlyTestFailure(
-            'Should throw the axception of exact type <$T>');
+          'Should throw the axception of exact type <$T>',
+        );
       }
     }
   }
@@ -52,8 +55,11 @@ class FunctionCap extends Cap<Function, FunctionCap> {
   }
 
   @override
-  FunctionCap copy(Function? target,
-      {bool isReversed = false, String? targetLabel}) {
+  FunctionCap copy(
+    Function? target, {
+    bool isReversed = false,
+    String? targetLabel,
+  }) {
     return FunctionCap(
       target,
       isReversed: isReversed,

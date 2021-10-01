@@ -1,8 +1,8 @@
-import 'package:shouldly/src/cap.dart';
 import 'package:collection/collection.dart';
+import 'package:shouldly/src/cap.dart';
 import 'package:shouldly/src/exception.dart';
 
-final _eq = DeepCollectionEquality().equals;
+final _eq = const DeepCollectionEquality().equals;
 
 extension MapExtensions on Map? {
   ///
@@ -18,33 +18,36 @@ class MapCap extends Cap<Map, MapCap> {
   @override
   MapCap beEqual(Object value) {
     if (isReversed) {
-      return MapCap(target!, isReversed: !isReversed);
+      return MapCap(target, isReversed: !isReversed);
     }
 
-    if (value != this.target) {
-      if (!_eq(this.target, value)) {
+    if (value != target) {
+      if (!_eq(target, value)) {
         throw ShouldlyTestFailure(
-            '$targetLabel map should be\n  `$value`\nbut was\n  `${target}`');
+          '$targetLabel map should be\n  `$value`\nbut was\n  `$target`',
+        );
       }
     }
 
-    return MapCap(target!);
+    return MapCap(target);
   }
 
   MapCap containKey(String key) {
     if (isReversed) {
       if (target!.containsKey(key)) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel map should not contain the key\n    `$key`\nbut it does');
+          '\n$targetLabel map should not contain the key\n    `$key`\nbut it does',
+        );
       }
     } else {
       if (!target!.containsKey(key)) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel map should has contain the key\n    `$key`\nbut it does not');
+          '\n$targetLabel map should has contain the key\n    `$key`\nbut it does not',
+        );
       }
     }
 
-    return MapCap(target!, isReversed: isReversed);
+    return MapCap(target, isReversed: isReversed);
   }
 
   MapCap hasValueInKey(String key) {
@@ -55,15 +58,17 @@ class MapCap extends Cap<Map, MapCap> {
     if (isReversed) {
       if (target![key] != null) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel should not have value in key `$key`');
+          '\n$targetLabel should not have value in key `$key`',
+        );
       }
     } else {
       if (target![key] == null) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel should has some value in key `$key`');
+          '\n$targetLabel should has some value in key `$key`',
+        );
       }
     }
-    return MapCap(target!, isReversed: isReversed);
+    return MapCap(target, isReversed: isReversed);
   }
 
   MapCap containKeyWithValue(dynamic key, dynamic value) {
@@ -74,16 +79,18 @@ class MapCap extends Cap<Map, MapCap> {
     if (isReversed) {
       if (target![key] == value) {
         throw ShouldlyTestFailure(
-            '$targetLabel map\n  should not have exact value\n`$value`\n  in key\n`$key`\nbut does');
+          '$targetLabel map\n  should not have exact value\n`$value`\n  in key\n`$key`\nbut does',
+        );
       }
     } else {
       if (target![key] != value) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel should has exact value `$value` in key `$key`');
+          '\n$targetLabel should has exact value `$value` in key `$key`',
+        );
       }
     }
 
-    return MapCap(target!, isReversed: isReversed);
+    return MapCap(target, isReversed: isReversed);
   }
 
   @override

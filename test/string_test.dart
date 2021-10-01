@@ -5,12 +5,12 @@ void main() {
   group('String', () {
     test('comparison', () {
       const str = 'Flutter';
-      str.toLowerCase().should.beEqual("flutter");
+      str.toLowerCase().should.beEqual('flutter');
     });
 
     test('comparison with not equal', () {
       const str = 'Flutter';
-      str.should.beEqual("Flutter").and.not.beEqual("flutter");
+      str.should.beEqual('Flutter').and.not.beEqual('flutter');
     });
 
     test('length should be excact length', () {
@@ -44,22 +44,22 @@ void main() {
     });
 
     test('should match to Regular Expression', () {
-      final target = 'Bart Simpson';
-      target.should.match("Bart .*");
+      const target = 'Bart Simpson';
+      target.should.match('Bart .*');
     });
 
     test('should not match to Regular Expression', () {
-      final target = 'Homer Simpson';
-      target.should.not.match("Bart .*");
+      const target = 'Homer Simpson';
+      target.should.not.match('Bart .*');
     });
 
     test('nullable string should be null', () {
-      String? nullableString = null;
+      const String? nullableString = null;
       nullableString.should.beNull;
     });
 
     test('nullable string should not be null', () {
-      String? nullableString = 'Some string';
+      const nullableString = 'Some string';
       nullableString.should.not.beNull.and.not.beBlank;
     });
 

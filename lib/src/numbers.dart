@@ -37,12 +37,14 @@ class NumberCap extends Cap<num, NumberCap> {
     if (isReversed) {
       if (target! > value) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel number\n    $target\nshould not greater than\n    $value');
+          '\n$targetLabel number\n    $target\nshould not greater than\n    $value',
+        );
       }
     } else {
       if (target! <= value) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel number\n    $target\nshould be greater than\n    $value');
+          '\n$targetLabel number\n    $target\nshould be greater than\n    $value',
+        );
       }
     }
 
@@ -57,12 +59,14 @@ class NumberCap extends Cap<num, NumberCap> {
     if (isReversed) {
       if (target! < value) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel number\n    $target\nshould not less than\n    $value');
+          '\n$targetLabel number\n    $target\nshould not less than\n    $value',
+        );
       }
     } else {
       if (target! >= value) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel number\n    $target\nshould be less than\n    $value');
+          '\n$targetLabel number\n    $target\nshould be less than\n    $value',
+        );
       }
     }
 
@@ -102,12 +106,14 @@ class NumberCap extends Cap<num, NumberCap> {
     if (isReversed) {
       if (target! < max && target! > min) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel number\n    $target\nshould not be within\n    [$min, $max]');
+          '\n$targetLabel number\n    $target\nshould not be within\n    [$min, $max]',
+        );
       }
     } else {
       if (target! > max || target! < min) {
         throw ShouldlyTestFailure(
-            '\n$targetLabel number\n    $target\nshould be within\n    [$min, $max]');
+          '\n$targetLabel number\n    $target\nshould be within\n    [$min, $max]',
+        );
       }
     }
 

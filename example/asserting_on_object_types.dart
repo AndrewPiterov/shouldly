@@ -4,7 +4,7 @@ void main() {
   final enemyFactory = EnemyFactory();
 
   const enemyName = 'Bossy';
-  Enemy enemy = enemyFactory.create(true, enemyName);
+  final enemy = enemyFactory.create(isBoss: true, name: enemyName);
 
   // exact type
   enemy.should.beOfType<BossEnemy>();
@@ -18,6 +18,7 @@ void main() {
   boss.name.should.beEqual(enemyName);
   boss.superPower.should.beEqual(42);
 
+  // ignore: avoid_print
   print('Done with enemies');
 }
 
@@ -40,7 +41,7 @@ class BossEnemy extends Enemy {
 }
 
 class EnemyFactory {
-  Enemy create(bool isBoss, String name) {
+  Enemy create({required bool isBoss, required String name}) {
     return isBoss ? BossEnemy(name) : NormalEnemy(name);
   }
 }

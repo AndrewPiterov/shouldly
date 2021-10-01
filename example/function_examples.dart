@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:shouldly/shouldly_function.dart';
 
 void main() {
@@ -25,5 +27,5 @@ int someFunction(int a, int b) {
 }
 
 void throwException() {
-  throw IntegerDivisionByZeroException();
+  throw const IntegerDivisionByZeroException();
 }
