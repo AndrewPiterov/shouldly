@@ -23,19 +23,19 @@ class AssertionScope {
   // Func<string>? expectation;
   ///
   final fallbackIdentifier = 'object';
-  var _isSucceeded = false;
+  var _isFailed = false;
 
   ///
   // ignore: avoid_positional_boolean_parameters
   AssertionScope forCondition(bool condition) {
-    _isSucceeded = condition;
+    _isFailed = condition;
     return this;
   }
 
   ///
   void failWith(String message) {
-    if (_isSucceeded) {
-      throw ShouldlyTestFailure('\n$message\n');
+    if (_isFailed) {
+      throw ShouldlyTestFailureError('\n$message\n');
     }
   }
 }

@@ -26,13 +26,13 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
   StringAssertions startWith(String expected) {
     if (isReversed) {
       if (subject!.startsWith(expected)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel string\n    `$subject`\nshould not start with\n    `$expected`\nbut it does',
         );
       }
     } else {
       if (!subject!.startsWith(expected)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel string\n    `$subject`\nshould end start\n    `$expected`\nbut it does not',
         );
       }
@@ -48,13 +48,13 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
   StringAssertions endWith(String expected) {
     if (isReversed) {
       if (subject!.endsWith(expected)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel string\n    `$subject`\nshould not end with\n    `$expected`\nbut it does',
         );
       }
     } else {
       if (!subject!.endsWith(expected)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel string\n    `$subject`\nshould end with\n    `$expected`\nbut it does not',
         );
       }
@@ -68,7 +68,7 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
   StringAssertions haveLength(int expected) {
     if (isReversed) {
       if (subject!.length == expected) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           "String length of '$subject' is $expected chars",
         );
       }
@@ -76,7 +76,7 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
     }
 
     if (subject!.length != expected) {
-      throw ShouldlyTestFailure(
+      throw ShouldlyTestFailureError(
         'String length of `$subject` is not $expected chars',
       );
     }
@@ -88,14 +88,14 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
   StringAssertions beNullOrEmpty() {
     if (isReversed) {
       if (subject == null || subject == '') {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel string\n    `$subject`\nshould not be null or empty',
         );
       }
       return StringAssertions(subject);
     } else {
       if (subject != null && subject != '') {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel string\n    `$subject`\nshould be null or empty',
         );
       }
@@ -128,14 +128,14 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
     final trimmed = subject!.trim();
     if (isReversed) {
       if (trimmed.isEmpty) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel string\n    `$subject`\nshould not be blank',
         );
       }
       return StringAssertions(subject);
     } else {
       if (trimmed.isNotEmpty) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel string\n    `$subject`\nshould be blank',
         );
       }
@@ -151,13 +151,13 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
     final regExp = RegExp(wildcardPattern);
     if (isReversed) {
       if (regExp.hasMatch(subject!)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel string\n  `$subject`\nshould not match\n    `$wildcardPattern`\nbut does',
         );
       }
     } else {
       if (!regExp.hasMatch(subject!)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel string\n  `$subject`\nshould match\n    `$wildcardPattern`\nbut it does not',
         );
       }

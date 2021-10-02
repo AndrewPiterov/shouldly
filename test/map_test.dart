@@ -1,8 +1,9 @@
+import 'package:shouldly/shouldly.dart';
 import 'package:shouldly/shouldly_map.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Map', () {
+  group('Map -', () {
     final target = {
       'name': 'John',
       'age': 32,
@@ -23,6 +24,98 @@ but does not
 
     test('should have items', () {
       target.should.not.haveCount(2).and.not.beEmpty().and.haveCount(3);
+    });
+
+    group('throw error -', () {
+      test('compare different maps', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => {}.should.be({'name': 'Anddrew'}),
+        );
+      });
+      test('compare the same map', () {
+        Should.throwError<ShouldlyTestFailureError>(() => {}.should.not.be({}));
+      });
+
+      group('contains key -', () {
+        test('should contain key', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {}.should.containKey('myKey'),
+          );
+        });
+
+        test('should not contain key', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {'myKey': 1}.should.not.containKey('myKey'),
+          );
+        });
+      });
+
+      group('have value in key -', () {
+        test('should have value in key', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {'myKey': null}.should.haveValueInKey('myKey'),
+          );
+        });
+
+        test('should not have value in key', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {'myKey': 1}.should.not.haveValueInKey('myKey'),
+          );
+        });
+
+        test('should not have value in key because non existing key', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {'myKey': 1}.should.haveValueInKey('myKey2'),
+          );
+        });
+      });
+
+      group('have key with value -', () {
+        test('should have key with value', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {'myKey': 1}.should.containKeyWithValue('myKey', 2),
+          );
+        });
+
+        test('should not have key with value', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {'myKey': 1}.should.not.containKeyWithValue('myKey', 1),
+          );
+        });
+
+        test('should not have key with value because non existing key', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {'myKey': 1}.should.containKeyWithValue('myKey2', 1),
+          );
+        });
+      });
+
+      group('contain -', () {
+        test('should contain key:value', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {'myKey': 1}.should.contain(const [MapEntry('myKey', 2)]),
+          );
+        });
+
+        test('should not contain key:value', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {'myKey': 1}.should.not.contain(const [MapEntry('myKey', 1)]),
+          );
+        });
+
+        test('should contain key:value - non existing key', () {
+          Should.throwError<ShouldlyTestFailureError>(
+            () => {'myKey': 1}.should.contain(const [MapEntry('myKey2', 1)]),
+          );
+        });
+
+        // TODO: test('should not contain key:value - wrong value', () {
+        //   Should.throwError<ShouldlyTestFailureError>(
+        //     () =>
+        //         {'myKey': 1}.should.not.contain(const [MapEntry('myKey2', 1)]),
+        //   );
+        // });
+      });
     });
 
     test('empty map should have count 0', () {
@@ -67,7 +160,7 @@ but does not
       target.should.not.containKey('isMarried');
     });
 
-    test('should not contain keys', () {
+    test('should contain keys', () {
       target.should.containKeys(['name', 'age']);
     });
 
@@ -76,11 +169,11 @@ but does not
     });
 
     test('should have value in key', () {
-      target.should.hasValueInKey('name');
+      target.should.haveValueInKey('name');
     });
 
     test('should not have value in key', () {
-      target.should.not.hasValueInKey('hasChildren');
+      target.should.not.haveValueInKey('hasChildren');
     });
 
     test('should contain key with exact value', () {

@@ -1,3 +1,4 @@
+import 'package:shouldly/shouldly.dart';
 import 'package:shouldly/shouldly_string.dart';
 import 'package:test/test.dart';
 
@@ -26,6 +27,11 @@ void main() {
     test('should start with subsctring', () {
       const str = 'Flutter';
       str.should.startWith('F');
+    });
+
+    test('should end with subsctring', () {
+      const str = 'Flutter';
+      str.should.endWith('r');
     });
 
     test('should not start with substring', () {
@@ -85,6 +91,80 @@ void main() {
 
       test('string should not be null or whitespace', () {
         '  x '.should.not.beNullOrWhiteSpace();
+      });
+    });
+
+    group('throw error -', () {
+      test('start with', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 'string'.should.startWith('a'),
+        );
+      });
+
+      test('not start with', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 'string'.should.not.startWith('s'),
+        );
+      });
+
+      test('end with', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 'string'.should.endWith('a'),
+        );
+      });
+
+      test('not end with', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 'string'.should.not.endWith('g'),
+        );
+      });
+
+      test('have length', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 'string'.should.haveLength(100),
+        );
+      });
+
+      test('not have length', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 'string'.should.not.haveLength(6),
+        );
+      });
+
+      test('be null or empty', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 'string'.should.beNullOrEmpty(),
+        );
+      });
+
+      test('not be null or empty', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => ''.should.not.beNullOrEmpty(),
+        );
+      });
+
+      test('be blank', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 'string'.should.beBlank(),
+        );
+      });
+
+      test('not be blank', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => '   '.should.not.beBlank(),
+        );
+      });
+
+      test('match', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 'string'.should.match('\\d+'),
+        );
+      });
+
+      test('match', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => '1234567890'.should.not.match('\\d+'),
+        );
       });
     });
   });

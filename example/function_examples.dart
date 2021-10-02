@@ -10,8 +10,8 @@ void main() {
 
   // Exceptions
   throwException.should.throwException();
-  throwException.should.throwExact<IntegerDivisionByZeroException>();
-  someAction.should.notThrowException();
+  throwException.should.throwException<IntegerDivisionByZeroException>();
+  someAction.should.not.throwException();
 
   print('Done with functions');
 }

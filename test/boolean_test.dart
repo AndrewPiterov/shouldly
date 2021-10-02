@@ -1,9 +1,23 @@
+import 'package:shouldly/shouldly.dart';
 import 'package:shouldly/shouldly_bool.dart';
+import 'package:shouldly/src/should.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('true should be `true`', () {
     true.should.be(true);
+  });
+
+  group('throw error -', () {
+    test('when `true` should be `false`', () {
+      Should.throwError<ShouldlyTestFailureError>(() => true.should.be(false));
+    });
+
+    test('when `true` should not be `true`', () {
+      Should.throwError<ShouldlyTestFailureError>(
+        () => true.should.not.be(true),
+      );
+    });
   });
 
   group('true -', () {

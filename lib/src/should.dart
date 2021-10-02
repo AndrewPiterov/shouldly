@@ -7,6 +7,32 @@ import 'package:shouldly/src/functions/functions.dart';
 ///Static class for shoulds
 class Should {
   /// Expects the function to throw Exception
+  static T throwError<T extends Error>(Function func) {
+    try {
+      func();
+
+      throw FunctionExecutionException(
+        '\nsubject function does not throw exception',
+      );
+    } catch (e) {
+      if (e is FunctionExecutionException) {
+        throw FunctionExecutionException(
+          'subject function does not throw exception',
+        );
+      }
+
+      if (e is T) {
+        return e;
+      } else {
+        final message =
+            'subject function does not throw exact exception of `$T`';
+        print(message);
+        throw FunctionExecutionException(message);
+      }
+    }
+  }
+
+  /// Expects the function to throw Exception
   static Future throwAsync<T extends Exception>(Function func) async {
     try {
       await func();
@@ -57,7 +83,7 @@ class Should {
     if (elapsed > duration) {
       print('the function executed in $elapsed');
       final ms = stopwatch.elapsed.inMilliseconds - duration.inMilliseconds;
-      throw ShouldlyTestFailure(
+      throw ShouldlyTestFailureError(
         'the function should be complited in ${duration.inMilliseconds} ms\n    but execution took more\n$ms ms',
       );
     }

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:shouldly/src/base_assertions.dart';
 import 'package:shouldly/src/exception.dart';
 
@@ -18,45 +20,75 @@ class FunctionAssertions extends BaseAssertions<Function, FunctionAssertions> {
   }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
   /// Expects the function to throw any exception.
-  void throwException() {
-    try {
-      subject!.call();
-      throw FunctionExecutionException(
-        'The function has not thowed any exception',
-      );
-    } catch (e) {
-      if (e is FunctionExecutionException) {
-        rethrow;
+  void throwException<T extends Exception>() {
+    if (isReversed) {
+      try {
+        subject!.call();
+      } catch (e) {
+        final message =
+            '$subjectLabel function should not throw exact exception of `$T`';
+        print(message);
+        throw ShouldlyTestFailureError(message);
+      }
+    } else {
+      try {
+        subject!.call();
+        throw ShouldlyTestFailureError(
+          '\nsubject function does not throw exception',
+        );
+      } catch (e) {
+        if (e is ShouldlyTestFailureError) {
+          throw ShouldlyTestFailureError(
+            'subject function does not throw exception',
+          );
+        }
+
+        if (e is T) {
+          // good catch
+        } else {
+          final message =
+              'subject function does not throw exact exception of `$T`';
+          print(message);
+          throw FunctionExecutionException(message);
+        }
       }
     }
   }
 
   /// Expects the function to throw specified exception.
-  void throwExact<T extends Exception>() {
-    try {
-      subject!.call();
-      throw FunctionExecutionException(
-        'The function has not thowed any exception',
-      );
-    } catch (e) {
-      if (e is FunctionExecutionException) {
-        rethrow;
+  T? throwError<T extends Error>() {
+    if (isReversed) {
+      try {
+        subject!.call();
+        return null;
+      } catch (e) {
+        final message =
+            '$subjectLabel function should not throw exact exception of `$T`';
+        print(message);
+        throw ShouldlyTestFailureError(message);
       }
-
-      if (e is! T) {
-        throw ShouldlyTestFailure(
-          'Should throw the axception of exact type <$T>',
+    } else {
+      try {
+        subject!.call();
+        throw ShouldlyTestFailureError(
+          '\nsubject function does not throw exception',
         );
-      }
-    }
-  }
+      } catch (e) {
+        if (e is ShouldlyTestFailureError) {
+          throw ShouldlyTestFailureError(
+            'subject function does not throw exception',
+          );
+        }
 
-  /// Expects the function to not throw any exception.
-  void notThrowException() {
-    try {
-      subject!.call();
-    } catch (e) {
-      throw ShouldlyTestFailure('Should not throw any axception');
+        if (e is T) {
+          return e;
+        } else {
+          final message =
+              'subject function does not throw exact exception of `$T`';
+          print(message);
+          throw FunctionExecutionException(message);
+        }
+      }
     }
   }
 

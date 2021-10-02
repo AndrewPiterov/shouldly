@@ -6,6 +6,18 @@ void main() {
     true.should.beOfType<bool>();
   });
 
+  test('should throw error when should be of type', () {
+    Should.throwError<ShouldlyTestFailureError>(
+      () => true.should.beOfType<num>(),
+    );
+  });
+
+  test('should throw error when should not be of type', () {
+    Should.throwError<ShouldlyTestFailureError>(
+      () => true.should.not.beOfType<bool>(),
+    );
+  });
+
   test('Int should be type of `int`', () {
     10.should.beOfType<int>();
   });

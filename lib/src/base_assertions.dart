@@ -45,13 +45,13 @@ abstract class BaseAssertions<T, K> {
   K be(Object expected) {
     if (isReversed) {
       if (expected == subject) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel should not be\n  `$expected`\nbut was\n  `$subject`',
         );
       }
     } else {
       if (expected != subject) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel should be\n  `$expected`\nbut was\n  `$subject`',
         );
       }
@@ -66,13 +66,13 @@ abstract class BaseAssertions<T, K> {
     final isNamesEqual = subject.runtimeType.toString() == U.toString();
     if (isReversed) {
       if (subject.runtimeType == U && isNamesEqual) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel\n    $runtimeType\nshould not be an instantiation of Type\n    `$U`\nbut does',
         );
       }
     } else {
       if (subject.runtimeType != U && !isNamesEqual) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel\n    $runtimeType\nshould be an instantiation of Type\n    `$U`\nbut does not',
         );
       }

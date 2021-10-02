@@ -26,13 +26,13 @@ class IterableAssertions<T>
     final isEqual = _eq(subject!.toList(), value as List);
     if (isReversed) {
       if (isEqual) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel collection\n    `$subject`\nshould not be equal to\n    `$value`',
         );
       }
     } else {
       if (!isEqual) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel collection\n    `$subject`\nshould be equal to\n    `$value`',
         );
       }
@@ -42,14 +42,14 @@ class IterableAssertions<T>
   }
 
   /// Asserts that the collection does not contain any items.
-  IterableAssertions<T> get beEmpty {
+  IterableAssertions<T> beEmpty() {
     if (isReversed) {
       if (subject!.isEmpty) {
-        throw ShouldlyTestFailure('Iterable should be empty');
+        throw ShouldlyTestFailureError('Iterable should be empty');
       }
     } else {
       if (subject!.isNotEmpty) {
-        throw ShouldlyTestFailure('Iterable should be empty');
+        throw ShouldlyTestFailureError('Iterable should be empty');
       }
     }
 
@@ -60,13 +60,13 @@ class IterableAssertions<T>
   IterableAssertions<T> haveCount(int expected) {
     if (isReversed) {
       if (subject!.length == expected) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           'Current length ${subject!.length} is not equal to $expected.',
         );
       }
     } else {
       if (subject!.length != expected) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           'Current length ${subject!.length} is not equal to $expected.',
         );
       }
@@ -79,13 +79,13 @@ class IterableAssertions<T>
   IterableAssertions<T> contain(T expected) {
     if (isReversed) {
       if (subject!.contains(expected)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '$subjectLabel\n    $subject\nshould not contain\n    $expected\nbut does',
         );
       }
     } else {
       if (!subject!.contains(expected)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '$subjectLabel\n    $subject\nshould contain\n    $expected\nbut does not',
         );
       }
@@ -98,14 +98,14 @@ class IterableAssertions<T>
   IterableAssertions<T> containAll(Iterable<T> expected) {
     if (isReversed) {
       if (subject!.toSet().containsAll(expected)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel iterable\n    $subject\nshould not contain all items of\n    $expected\nbut it does',
         );
       }
       return IterableAssertions(subject);
     } else {
       if (!subject!.toSet().containsAll(expected)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel iterable\n    $subject\nshould contain all items of\n    $expected\nbut it does not',
         );
       }
@@ -117,7 +117,7 @@ class IterableAssertions<T>
   ///
   IterableAssertions<T> all(void Function(T item) predicate) {
     if (isReversed) {
-      throw ShouldlyTestFailure('Please change expression without `not`.');
+      throw ShouldlyTestFailureError('Please change expression without `not`.');
     }
 
     for (var i = 0; i < subject!.length; i++) {
@@ -130,35 +130,35 @@ class IterableAssertions<T>
   /// Asserts that the collection contains items that matches the predicate.
   IterableAssertions<T> every(bool Function(T item) predicate) {
     if (isReversed) {
-      throw ShouldlyTestFailure('Please change expression without `not`.');
+      throw ShouldlyTestFailureError('Please change expression without `not`.');
       // return Cap(value).any(predicate);
     }
 
     for (var i = 0; i < subject!.length; i++) {
       final element = subject!.elementAt(i);
       if (!predicate(element)) {
-        throw Exception('$element in index $i is invalid');
+        throw ShouldlyTestFailureError('$element in index $i is invalid');
       }
     }
 
-    return IterableAssertions<T>(subject, isReversed: isReversed);
+    return IterableAssertions<T>(subject);
   }
 
   /// Asserts that the collection contains at least one item that matches the predicate.
   IterableAssertions<T> any(bool Function(T item) predicate) {
     if (isReversed) {
-      throw ShouldlyTestFailure('Please change expression without `not`.');
+      throw ShouldlyTestFailureError('Please change expression without `not`.');
       // return Cap(value).every(predicate);
     }
 
     for (var i = 0; i < subject!.length; i++) {
       final element = subject!.elementAt(i);
       if (predicate(element)) {
-        return IterableAssertions<T>(subject, isReversed: isReversed);
+        return IterableAssertions<T>(subject);
       }
     }
 
-    throw ShouldlyTestFailure('No any element there');
+    throw ShouldlyTestFailureError('No any element there');
   }
 
   @override

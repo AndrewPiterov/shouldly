@@ -1,3 +1,4 @@
+import 'package:shouldly/shouldly.dart';
 import 'package:shouldly/shouldly_num.dart';
 import 'package:test/test.dart';
 
@@ -19,8 +20,29 @@ void main() {
       3.should.beOdd();
     });
 
+    test('should be odd', () {
+      4.should.not.beOdd();
+    });
+
     test('should be even and greater than', () {
-      20.should.beEven().and.beGreaterThan(19);
+      20.should.beGreaterThan(19).and.beEven();
+    });
+
+    test('should be greater or equal than', () {
+      20.should.beGreaterOrEqualThan(20);
+      20.should.beGreaterOrEqualThan(19);
+    });
+
+    test('should not be greater or equal than', () {
+      20.should.not.beGreaterOrEqualThan(21);
+    });
+
+    test('should throw error when number should not be greater or equal than',
+        () {
+      // Should.throw()
+      Should.throwError<ShouldlyTestFailureError>(
+        () => 20.should.beGreaterOrEqualThan(21),
+      );
     });
 
     test('should be odd and greater or equal than', () {
@@ -28,7 +50,19 @@ void main() {
     });
 
     test('should be even and not greater than', () {
-      2.should.beEven().and.not.beGreaterThan(3);
+      2.should.not.beGreaterThan(3).and.beEven();
+    });
+
+    test('should be above', () {
+      2.should.beAbove(1);
+    });
+
+    test('should be below', () {
+      2.should.beBelow(3);
+    });
+
+    test('should be less than', () {
+      10.should.beLessThan(11);
     });
 
     test('should be even and not less or equal than', () {
@@ -62,6 +96,56 @@ void main() {
 
       test('number should not be within a range', () {
         10.should.not.beWithin(11, 20);
+      });
+    });
+
+    group('throw error -', () {
+      test('be within', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 11.should.beWithin(0, 10),
+        );
+      });
+
+      test('not be within', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 5.should.not.beWithin(0, 10),
+        );
+      });
+
+      test('be less then', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 11.should.beLessThan(10),
+        );
+      });
+
+      test('not be less then', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 5.should.not.beLessThan(10),
+        );
+      });
+
+      test('be less or equal then', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 11.should.beLessOrEqualThan(10),
+        );
+      });
+
+      test('not be less or equal then', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 1.should.not.beLessOrEqualThan(10),
+        );
+      });
+
+      test('be greater then', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 5.should.beGreaterThan(10),
+        );
+      });
+
+      test('not be greater then', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 20.should.not.beGreaterThan(10),
+        );
       });
     });
   });

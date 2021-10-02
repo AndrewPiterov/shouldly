@@ -1,3 +1,4 @@
+import 'package:shouldly/shouldly.dart';
 import 'package:shouldly/src/base_assertions.dart';
 import 'package:shouldly/src/exception.dart';
 import 'package:shouldly/src/execute_assertion.dart';
@@ -52,13 +53,13 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
   NumericAssertions beGreaterThan(num expected) {
     if (isReversed) {
       if (subject! > expected) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel number\n    $subject\nshould not greater than\n    $expected',
         );
       }
     } else {
       if (subject! <= expected) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel number\n    $subject\nshould be greater than\n    $expected',
         );
       }
@@ -80,13 +81,13 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
   NumericAssertions beLessThan(num expected) {
     if (isReversed) {
       if (subject! < expected) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel number\n    $subject\nshould not less than\n    $expected',
         );
       }
     } else {
       if (subject! >= expected) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel number\n    $subject\nshould be less than\n    $expected',
         );
       }
@@ -111,7 +112,7 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
     }
 
     if (subject! < expected) {
-      throw ShouldlyTestFailure('$subject less than $expected');
+      throw ShouldlyTestFailureError('$subject less than $expected');
     }
 
     return NumericAssertions(subject);
@@ -125,10 +126,9 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
       return NumericAssertions(subject).beGreaterOrEqualThan(expected);
     }
 
-    final m = expected + 1;
-    if (subject! > m) {
-      throw ShouldlyTestFailure('$subject is not less than $m');
-    }
+    Execute.assertion
+        .forCondition(subject! > expected)
+        .failWith('$subject\n    \n$subject\nnot less than\n    $expected');
 
     return NumericAssertions(subject);
   }
@@ -140,13 +140,13 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
   NumericAssertions beWithin(num min, num max) {
     if (isReversed) {
       if (subject! < max && subject! > min) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel number\n    $subject\nshould not be within\n    [$min, $max]',
         );
       }
     } else {
       if (subject! > max || subject! < min) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel number\n    $subject\nshould be within\n    [$min, $max]',
         );
       }

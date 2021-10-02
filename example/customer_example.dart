@@ -28,11 +28,11 @@ class CustomerAssertions extends BaseAssertions<Customer, CustomerAssertions> {
   CustomerAssertions get beMarried {
     if (isReversed) {
       if (subject!.isMarried) {
-        throw ShouldlyTestFailure('Customer should not be married');
+        throw ShouldlyTestFailureError('Customer should not be married');
       }
     } else {
       if (!subject!.isMarried) {
-        throw ShouldlyTestFailure('Customer should be married');
+        throw ShouldlyTestFailureError('Customer should be married');
       }
     }
     return CustomerAssertions(subject);

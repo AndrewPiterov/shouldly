@@ -63,13 +63,13 @@ class MapAssertions<TKey, TValue>
   MapAssertions containKey(String key) {
     if (isReversed) {
       if (subject!.containsKey(key)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel map should not contain the key\n    `$key`\nbut it does',
         );
       }
     } else {
       if (!subject!.containsKey(key)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel map should has contain the key\n    `$key`\nbut it does not',
         );
       }
@@ -103,48 +103,48 @@ class MapAssertions<TKey, TValue>
   }
 
   /// Asserts that the dictionary contains a value (not null) in specified key.
-  MapAssertions hasValueInKey(String key) {
+  MapAssertions haveValueInKey(String key) {
     if (!subject!.containsKey(key)) {
-      throw ShouldlyTestFailure('\n$subjectLabel has contain key `$key`');
+      throw ShouldlyTestFailureError('\n$subjectLabel has contain key `$key`');
     }
 
     if (isReversed) {
       if (subject![key] != null) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel should not have value in key `$key`',
         );
       }
     } else {
       if (subject![key] == null) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel should has some value in key `$key`',
         );
       }
     }
-    return MapAssertions(subject, isReversed: isReversed);
+    return MapAssertions(subject);
   }
 
   /// Asserts that the dictionary contains the specified value in specified key.
   MapAssertions containKeyWithValue(dynamic key, dynamic value) {
     if (!subject!.containsKey(key)) {
-      throw ShouldlyTestFailure('\n$subjectLabel has contain key `$key`');
+      throw ShouldlyTestFailureError('\n$subjectLabel has contain key `$key`');
     }
 
     if (isReversed) {
       if (subject![key] == value) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '$subjectLabel map\n  should not have exact value\n`$value`\n  in key\n`$key`\nbut does',
         );
       }
     } else {
       if (subject![key] != value) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '\n$subjectLabel should has exact value `$value` in key `$key`',
         );
       }
     }
 
-    return MapAssertions(subject, isReversed: isReversed);
+    return MapAssertions(subject);
   }
 
   /// Asserts that the dictionary contains the specified values in specified keys.
@@ -164,7 +164,7 @@ class MapAssertions<TKey, TValue>
       }
 
       if (failedEntries.isNotEmpty) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '$subjectLabel\n    $subject\nshould not contain\n    $failedEntries',
         );
       }
@@ -182,7 +182,7 @@ class MapAssertions<TKey, TValue>
       }
 
       if (failedEntries.isNotEmpty) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '$subjectLabel\n    $subject\nshould contain\n    $failedEntries',
         );
       }
@@ -197,12 +197,14 @@ class MapAssertions<TKey, TValue>
   @override
   MapAssertions<TKey, TValue> be(Object expected) {
     if (isReversed) {
-      return MapAssertions(subject, isReversed: !isReversed);
-    }
-
-    if (expected != subject) {
+      if (_eq(subject, expected)) {
+        throw ShouldlyTestFailureError(
+          '$subjectLabel map should be\n  `$expected`\nbut was\n  `$subject`',
+        );
+      }
+    } else {
       if (!_eq(subject, expected)) {
-        throw ShouldlyTestFailure(
+        throw ShouldlyTestFailureError(
           '$subjectLabel map should be\n  `$expected`\nbut was\n  `$subject`',
         );
       }
