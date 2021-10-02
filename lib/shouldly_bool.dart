@@ -1,3 +1,3 @@
 library shouldly_bool;
 
-export './src/bool.dart';
+export 'src/booleans/bool.dart';

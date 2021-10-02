@@ -1,5 +1,5 @@
 import 'package:shouldly/shouldly.dart';
-import 'package:shouldly/src/functions.dart';
+import 'package:shouldly/shouldly_function.dart';
 import 'package:test/test.dart';
 
 void main() {

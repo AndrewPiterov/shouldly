@@ -1,4 +1,4 @@
-import 'package:shouldly/src/map.dart';
+import 'package:shouldly/shouldly_map.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -21,6 +21,15 @@ but does not
     //   target.should.beOfType<LinkedHashMap<String, Object>>();
     // });
 
+    test('should have items', () {
+      target.should.not.haveCount(2).and.not.beEmpty().and.haveCount(3);
+    });
+
+    test('empty map should have count 0', () {
+      final map = {};
+      map.should.haveCount(0).and.beEmpty();
+    });
+
     test('should be type of Map', () {
       target.should.beAssignableTo<Map>();
     });
@@ -30,7 +39,9 @@ but does not
     });
 
     test('should be equal', () {
-      target.should.not.beNull.and
+      target.should.not
+          .beNull()
+          .and
           .be({
             'name': 'John',
             'age': 32,
@@ -56,6 +67,14 @@ but does not
       target.should.not.containKey('isMarried');
     });
 
+    test('should not contain keys', () {
+      target.should.containKeys(['name', 'age']);
+    });
+
+    test('should not contain keys', () {
+      target.should.not.containKeys(['isMarried', 'age']);
+    });
+
     test('should have value in key', () {
       target.should.hasValueInKey('name');
     });
@@ -70,6 +89,22 @@ but does not
 
     test('should not contain key with value', () {
       target.should.not.containKeyWithValue('age', 17);
+    });
+
+    group('contain', () {
+      test('should contain keys with values', () {
+        target.shouldAs('John').contain(const [
+          MapEntry('name', 'John'),
+          MapEntry('age', 32),
+        ]);
+      });
+
+      test('should not contain keys with values', () {
+        target.should.as('customer').not.contain(const [
+          MapEntry('firstName', 'John'),
+          MapEntry('address', 'NYC'),
+        ]);
+      });
     });
   });
 }

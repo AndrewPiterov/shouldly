@@ -47,23 +47,27 @@ class EnemyFactory {
 }
 
 extension EnemyExtension on Enemy? {
-  EnemyCap get should => EnemyCap(this);
+  EnemyAssertions get should => EnemyAssertions(this);
 }
 
-class EnemyCap extends BaseAssertions<Enemy, EnemyCap> {
-  EnemyCap(Enemy? target, {bool isReversed = false, String? targetLabel})
+class EnemyAssertions extends BaseAssertions<Enemy, EnemyAssertions> {
+  EnemyAssertions(Enemy? target, {bool isReversed = false, String? targetLabel})
       : super(
           target,
           isReversed: isReversed,
-          targetLabel: targetLabel,
+          subjectLabel: targetLabel,
         );
 
   @override
-  EnemyCap copy(Enemy? target, {bool isReversed = false, String? targetLabel}) {
-    return EnemyCap(
-      target,
+  EnemyAssertions copy(
+    Enemy? subject, {
+    bool isReversed = false,
+    String? subjectLabel,
+  }) {
+    return EnemyAssertions(
+      subject,
       isReversed: isReversed,
-      targetLabel: targetLabel,
+      targetLabel: subjectLabel,
     );
   }
 }

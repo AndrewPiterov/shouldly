@@ -1,3 +1,3 @@
 library shouldly_function;
 
-export './src/functions.dart';
+export 'src/functions/functions.dart';

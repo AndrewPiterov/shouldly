@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:shouldly/src/exception.dart';
-import 'package:shouldly/src/functions.dart';
+import 'package:shouldly/src/functions/functions.dart';
 
 // ignore: avoid_classes_with_only_static_members
 ///Static class for shoulds
@@ -12,12 +12,12 @@ class Should {
       await func();
 
       throw FunctionExecutionException(
-        '\nTarget function does not throw exception',
+        '\nsubject function does not throw exception',
       );
     } catch (e) {
       if (e is FunctionExecutionException) {
         throw FunctionExecutionException(
-          'target function does not throw exception',
+          'subject function does not throw exception',
         );
       }
 
@@ -25,7 +25,7 @@ class Should {
         // good catch
       } else {
         final message =
-            'target function does not throw exact exception of `$T`';
+            'subject function does not throw exact exception of `$T`';
         print(message);
         throw FunctionExecutionException(message);
       }
@@ -38,7 +38,7 @@ class Should {
       await func();
     } catch (e) {
       final message =
-          'target function should not throw any exception\n    but threw\n${e.toString()}';
+          'subject function should not throw any exception\n    but threw\n${e.toString()}';
       print(message);
       throw FunctionExecutionException(message);
     }

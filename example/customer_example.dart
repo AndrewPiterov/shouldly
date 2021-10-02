@@ -1,5 +1,4 @@
 import 'package:shouldly/shouldly.dart';
-import 'package:shouldly/src/exception.dart';
 
 class Customer {
   final bool isMarried;
@@ -21,47 +20,52 @@ extension CustomerExtension on Customer {
 
 class CustomerAssertions extends BaseAssertions<Customer, CustomerAssertions> {
   CustomerAssertions(
-    Customer? target, {
+    Customer? subject, {
     bool isReversed = false,
-    String? targetLabel,
-  }) : super(target, isReversed: isReversed, targetLabel: targetLabel);
+    String? subjectLabel,
+  }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
   CustomerAssertions get beMarried {
     if (isReversed) {
-      if (target!.isMarried) {
+      if (subject!.isMarried) {
         throw ShouldlyTestFailure('Customer should not be married');
       }
     } else {
-      if (!target!.isMarried) {
+      if (!subject!.isMarried) {
         throw ShouldlyTestFailure('Customer should be married');
       }
     }
-    return CustomerAssertions(target);
+    return CustomerAssertions(subject);
   }
 
   CustomerAssertions get beMale {
     if (isReversed) {
-      if (target!.gender == Gender.male) {
-        throw ShouldlyTestFailure('Customer should be female');
-      }
+      Execute.assertion
+          .forCondition(subject!.gender == Gender.male)
+          .failWith('Customer should not be male');
     } else {
-      if (target!.gender != Gender.male) {
-        throw ShouldlyTestFailure('Customer should be male');
-      }
+      Execute.assertion
+          .forCondition(subject!.gender != Gender.male)
+          .failWith('Customer should be male');
     }
 
-    return CustomerAssertions(target);
+    Execute.assertion
+        .forCondition(subject!.gender != Gender.male)
+        .failWith('Customer should be male');
+
+    return CustomerAssertions(subject);
   }
 
   @override
   CustomerAssertions copy(
-    Customer? target, {
+    Customer? subject, {
     bool isReversed = false,
-    String? targetLabel,
-  }) =>
-      CustomerAssertions(
-        target,
-        isReversed: isReversed,
-        targetLabel: targetLabel,
-      );
+    String? subjectLabel,
+  }) {
+    return CustomerAssertions(
+      subject,
+      isReversed: isReversed,
+      subjectLabel: subjectLabel,
+    );
+  }
 }

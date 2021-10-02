@@ -8,9 +8,9 @@ void main() {
 
 extension CustomNumAssertions on NumericAssertions {
   NumericAssertions get beNegative {
-    if (target! >= 0) {
-      throw Exception('Value\n  should be negative\n  but was\n$target');
+    if (subject! >= 0) {
+      throw Exception('Value\n  should be negative\n  but was\n$subject');
     }
-    return NumericAssertions(target);
+    return NumericAssertions(subject);
   }
 }

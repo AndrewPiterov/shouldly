@@ -1,3 +1,3 @@
 library shouldly_collection;
 
-export './src/collections.dart';
+export 'src/collections/collections.dart';

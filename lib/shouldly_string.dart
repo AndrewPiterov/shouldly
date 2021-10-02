@@ -1,3 +1,3 @@
 library shouldly_string;
 
-export './src/strings.dart';
+export 'src/strings/strings.dart';

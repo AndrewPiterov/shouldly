@@ -1,83 +1,85 @@
-import 'package:shouldly/src/eva_condition.dart';
 import 'package:shouldly/src/exception.dart';
+import 'package:shouldly/src/execute_assertion.dart';
 
 /// Base Matcher
 abstract class BaseAssertions<T, K> {
   /// Matcher constructor
   BaseAssertions(
-    this.target, {
+    this.subject, {
     this.isReversed = false,
-    String? targetLabel,
-  }) : _targetLabel = targetLabel;
+    String? subjectLabel,
+  }) : _subjectLabel = subjectLabel;
 
   /// the object which value is being asserted.
-  final T? target;
+  final T? subject;
 
   /// Checking reverse
   final bool isReversed;
 
-  final String? _targetLabel;
+  final String? _subjectLabel;
 
-  /// Friendly label for the target object
-  String get targetLabel {
-    final runtimeType = target.runtimeType;
-    return _targetLabel == null || _targetLabel == ''
-        ? 'Target $runtimeType'
-        : _targetLabel!;
+  /// Friendly label for the subject object
+  String get subjectLabel {
+    final runtimeType = subject.runtimeType;
+    return _subjectLabel == null || _subjectLabel == ''
+        ? 'subject $runtimeType'
+        : _subjectLabel!;
   }
 
   /// Copy the matcher
-  K copy(T? target, {bool isReversed = false, String? targetLabel});
+  K copy(T? subject, {bool isReversed = false, String? subjectLabel});
 
-  /// For conjuction
-  K get and => copy(target, isReversed: isReversed, targetLabel: targetLabel);
+  /// Bind assertions
+  K get and =>
+      copy(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
   /// Invert assertion
-  K get not => copy(target, isReversed: true, targetLabel: targetLabel);
+  K get not => copy(subject, isReversed: true, subjectLabel: subjectLabel);
 
-  /// Set friendly title for the target
-  K as(String targetLabel) =>
-      copy(target, isReversed: isReversed, targetLabel: targetLabel);
+  /// Set friendly title for the subject
+  K as(String subjectLabel) =>
+      copy(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
-  /// Check equality to value
-  K be(Object value) {
+  /// Asserts that the value is equal to the specified [expected] value.
+  /// [expected] The expected value
+  K be(Object expected) {
     if (isReversed) {
-      if (value == target) {
+      if (expected == subject) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel should not be\n  `$value`\nbut was\n  `$target`',
+          '\n$subjectLabel should not be\n  `$expected`\nbut was\n  `$subject`',
         );
       }
     } else {
-      if (value != target) {
+      if (expected != subject) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel should be\n  `$value`\nbut was\n  `$target`',
+          '\n$subjectLabel should be\n  `$expected`\nbut was\n  `$subject`',
         );
       }
     }
 
-    return copy(target, targetLabel: targetLabel);
+    return copy(subject, subjectLabel: subjectLabel);
   }
 
   /// Asserts that the object is not of the specified type `U`
   U? beOfType<U>() {
-    final runtimeType = target.runtimeType;
-    final isNamesEqual = target.runtimeType.toString() == U.toString();
+    final runtimeType = subject.runtimeType;
+    final isNamesEqual = subject.runtimeType.toString() == U.toString();
     if (isReversed) {
-      if (target.runtimeType == U && isNamesEqual) {
+      if (subject.runtimeType == U && isNamesEqual) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel\n    $runtimeType\nshould not be an instantiation of Type\n    `$U`\nbut does',
+          '\n$subjectLabel\n    $runtimeType\nshould not be an instantiation of Type\n    `$U`\nbut does',
         );
       }
     } else {
-      if (target.runtimeType != U && !isNamesEqual) {
+      if (subject.runtimeType != U && !isNamesEqual) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel\n    $runtimeType\nshould be an instantiation of Type\n    `$U`\nbut does not',
+          '\n$subjectLabel\n    $runtimeType\nshould be an instantiation of Type\n    `$U`\nbut does not',
         );
       }
     }
 
     try {
-      final x = target as U;
+      final x = subject as U;
       return x;
     } catch (e) {
       // TODO: catch exact type cast error - example myIntNumber.should.not.beOfType<double>();
@@ -87,19 +89,18 @@ abstract class BaseAssertions<T, K> {
 
   /// Asserts that the object is assignable to a variable of type `U`
   U? beAssignableTo<U>() {
-    final eval = EvalCondition<T>(
-      condition: (x) => x.runtimeType != U && x is U,
-      target: target,
-      errorMessage:
-          '\n$targetLabel\n    $target\nshould not be a subbclass of\n    `$U`\nbut does',
-      errorMessageForReverse:
-          '\n$targetLabel\n    $target\nshould be a subbclass of\n    `$U`\nbut does not',
-    );
-
-    eval.eval(isReversed: isReversed);
+    if (isReversed) {
+      Execute.assertion.forCondition(subject is U).failWith(
+            '$subjectLabel\n    $subject\nshould not be a subbclass of\n    `$U`\nbut does.',
+          );
+    } else {
+      Execute.assertion.forCondition(subject is! U).failWith(
+            '$subjectLabel\n    $subject\nshould be a subbclass of\n    `$U`\nbut does not',
+          );
+    }
 
     try {
-      final x = target as U;
+      final x = subject as U;
       return x;
     } catch (e) {
       // TODO: catch exact type cast error - example with List<String/Int/etc>
@@ -107,17 +108,18 @@ abstract class BaseAssertions<T, K> {
     }
   }
 
-  /// Check on null
-  K get beNull {
-    final eval = EvalCondition<T>(
-      condition: (x) => x == null,
-      target: target,
-      errorMessage: '\n$targetLabel should be null',
-      errorMessageForReverse: '\n$targetLabel should not be null',
-    );
+  /// Asserts that the object is not `null`
+  K beNull() {
+    if (isReversed) {
+      Execute.assertion
+          .forCondition(subject == null)
+          .failWith('$subjectLabel should not be `null`.');
+    } else {
+      Execute.assertion
+          .forCondition(subject != null)
+          .failWith('$subjectLabel should be `null`.');
+    }
 
-    eval.eval(isReversed: isReversed);
-
-    return copy(target, targetLabel: targetLabel);
+    return copy(subject, subjectLabel: subjectLabel);
   }
 }

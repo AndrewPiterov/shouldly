@@ -1,4 +1,4 @@
-import 'package:shouldly/src/bool.dart';
+import 'package:shouldly/shouldly_bool.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -6,8 +6,10 @@ void main() {
     true.should.be(true);
   });
 
-  test('true should be `true` (second way)', () {
-    true.should.beTrue();
+  group('true -', () {
+    test('true should be `true` (second way)', () {
+      true.should.beTrue();
+    });
   });
 
   test('false should be `false`', () {
@@ -32,12 +34,12 @@ void main() {
 
   test('nullable boolean should be null', () {
     const bool? nullableTrue = null;
-    nullableTrue.should.beNull;
+    nullableTrue.should.beNull();
   });
 
   test('nullable boolean should not be null', () {
     // ignore: prefer_final_locals
     bool? nullableTrue = true;
-    nullableTrue.should.not.beNull;
+    nullableTrue.should.not.beNull();
   });
 }

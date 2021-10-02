@@ -1,4 +1,5 @@
-import 'package:shouldly/shouldly.dart';
+import 'package:shouldly/shouldly_collection.dart';
+import 'package:shouldly/shouldly_num.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -15,7 +16,7 @@ void main() {
   });
 
   test('compare non nullable and non empty to equal lists 2', () {
-    [1, 2, 3].should.as('myList').not.beNull.and.be([1, 2, 3]);
+    [1, 2, 3].should.as('myList').not.beNull().and.be([1, 2, 3]);
   });
 
   test('compare non empty non equal lists', () {
@@ -23,11 +24,11 @@ void main() {
   });
 
   test('should be empty', () {
-    [].should.beEmpty();
+    [].should.beEmpty;
   });
 
   test('should not be empty', () {
-    ['yes'].should.not.beEmpty();
+    ['yes'].should.not.beEmpty;
   });
 
   test('should contain', () {
@@ -63,23 +64,23 @@ void main() {
   // });
 
   test('should has length', () {
-    [30, 500, 70, 2].should.hasLenght(4);
+    [30, 500, 70, 2].should.haveCount(4);
   });
 
   test('should not has wrong length', () {
-    [30, 500, 70, 2].should.not.hasLenght(5);
+    [30, 500, 70, 2].should.not.haveCount(5).and.not.beEmpty;
   });
 
   test('empty list has length of 0', () {
-    [].should.hasLenght(0);
+    [].should.haveCount(0).and.beEmpty;
   });
 
   test('empty list does not have length of 1', () {
-    [].should.not.hasLenght(1);
+    [].should.not.haveCount(1).and.beEmpty;
   });
 
   test('nullable list should be null', () {
     const List<String>? nullableList = null;
-    nullableList.should.beNull;
+    nullableList.should.beNull();
   });
 }

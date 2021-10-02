@@ -1,6 +1,6 @@
 import 'package:shouldly/src/base_assertions.dart';
-import 'package:shouldly/src/eva_condition.dart';
 import 'package:shouldly/src/exception.dart';
+import 'package:shouldly/src/execute_assertion.dart';
 
 /// Contains Numbers's extension methods for custom assertions in unit tests.
 extension NumExtensions on num {
@@ -13,58 +13,58 @@ extension NumExtensions on num {
 class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
   /// Initializes a new instance of the `NumericAssertions` class.
   NumericAssertions(
-    num? target, {
+    num? subject, {
     bool isReversed = false,
-    String? targetLabel,
-  }) : super(target, isReversed: isReversed, targetLabel: targetLabel);
+    String? subjectLabel,
+  }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
   /// Asserts that the numeric value is odd.
   NumericAssertions beOdd() {
-    final eval = EvalCondition(
-      condition: (x) => target! % 2 != 0,
-      target: target,
-      errorMessage: '\n$targetLabel\n    $target\nshould be odd number.',
-      errorMessageForReverse:
-          '\n$targetLabel\n    $target\nshould not be odd number.',
-    );
+    if (isReversed) {
+      Execute.assertion
+          .forCondition(subject! % 2 != 0)
+          .failWith('$subjectLabel\n    $subject\nshould not be odd number.');
+    } else {
+      Execute.assertion
+          .forCondition(subject! % 2 == 0)
+          .failWith('$subjectLabel\n    $subject\nshould be odd number.');
+    }
 
-    eval.eval(isReversed: isReversed);
-
-    return NumericAssertions(target);
+    return NumericAssertions(subject);
   }
 
   /// Asserts that the numeric value is even.
   NumericAssertions beEven() {
-    final eval = EvalCondition(
-      condition: (x) => target! % 2 == 0,
-      target: target,
-      errorMessage: '\n$targetLabel\n    $target\nshould be even number.',
-      errorMessageForReverse:
-          '\n$targetLabel\n    $target\nshould not be even number.',
-    );
+    if (isReversed) {
+      Execute.assertion
+          .forCondition(subject! % 2 == 0)
+          .failWith('$subjectLabel\n    $subject\nshould not be even number.');
+    } else {
+      Execute.assertion
+          .forCondition(subject! % 2 != 0)
+          .failWith('$subjectLabel\n    $subject\nshould be even number.');
+    }
 
-    eval.eval(isReversed: isReversed);
-
-    return NumericAssertions(target);
+    return NumericAssertions(subject);
   }
 
   /// Asserts that the numeric value is odd.
-  NumericAssertions beGreaterThan(num value) {
+  NumericAssertions beGreaterThan(num expected) {
     if (isReversed) {
-      if (target! > value) {
+      if (subject! > expected) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel number\n    $target\nshould not greater than\n    $value',
+          '\n$subjectLabel number\n    $subject\nshould not greater than\n    $expected',
         );
       }
     } else {
-      if (target! <= value) {
+      if (subject! <= expected) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel number\n    $target\nshould be greater than\n    $value',
+          '\n$subjectLabel number\n    $subject\nshould be greater than\n    $expected',
         );
       }
     }
 
-    return NumericAssertions(target);
+    return NumericAssertions(subject);
   }
 
   /// Asserts that the numeric value is greater than the specified [expected] value.
@@ -79,20 +79,20 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
   /// [expected] The value to compare the current numeric value with.
   NumericAssertions beLessThan(num expected) {
     if (isReversed) {
-      if (target! < expected) {
+      if (subject! < expected) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel number\n    $target\nshould not less than\n    $expected',
+          '\n$subjectLabel number\n    $subject\nshould not less than\n    $expected',
         );
       }
     } else {
-      if (target! >= expected) {
+      if (subject! >= expected) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel number\n    $target\nshould be less than\n    $expected',
+          '\n$subjectLabel number\n    $subject\nshould be less than\n    $expected',
         );
       }
     }
 
-    return NumericAssertions(target);
+    return NumericAssertions(subject);
   }
 
   /// Asserts that the numeric value is less than the specified [expected] value.
@@ -107,14 +107,14 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
   /// [expected] The value to compare the current numeric value with.
   NumericAssertions beGreaterOrEqualThan(num expected) {
     if (isReversed) {
-      return NumericAssertions(target).beLessOrEqualThan(expected);
+      return NumericAssertions(subject).beLessOrEqualThan(expected);
     }
 
-    if (target! < expected) {
-      throw ShouldlyTestFailure('$target less than $expected');
+    if (subject! < expected) {
+      throw ShouldlyTestFailure('$subject less than $expected');
     }
 
-    return NumericAssertions(target);
+    return NumericAssertions(subject);
   }
 
   /// Asserts that the numeric value is less or equal than the specified [expected] value.
@@ -122,15 +122,15 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
   /// [expected] The value to compare the current numeric value with.
   NumericAssertions beLessOrEqualThan(num expected) {
     if (isReversed) {
-      return NumericAssertions(target).beGreaterOrEqualThan(expected);
+      return NumericAssertions(subject).beGreaterOrEqualThan(expected);
     }
 
     final m = expected + 1;
-    if (target! > m) {
-      throw ShouldlyTestFailure('$target is not less than $m');
+    if (subject! > m) {
+      throw ShouldlyTestFailure('$subject is not less than $m');
     }
 
-    return NumericAssertions(target);
+    return NumericAssertions(subject);
   }
 
   /// Asserts that a value is within a range.
@@ -139,32 +139,32 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
   /// [max] The maximum valid value of the range.</param>
   NumericAssertions beWithin(num min, num max) {
     if (isReversed) {
-      if (target! < max && target! > min) {
+      if (subject! < max && subject! > min) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel number\n    $target\nshould not be within\n    [$min, $max]',
+          '\n$subjectLabel number\n    $subject\nshould not be within\n    [$min, $max]',
         );
       }
     } else {
-      if (target! > max || target! < min) {
+      if (subject! > max || subject! < min) {
         throw ShouldlyTestFailure(
-          '\n$targetLabel number\n    $target\nshould be within\n    [$min, $max]',
+          '\n$subjectLabel number\n    $subject\nshould be within\n    [$min, $max]',
         );
       }
     }
 
-    return NumericAssertions(target);
+    return NumericAssertions(subject);
   }
 
   @override
   NumericAssertions copy(
-    num? target, {
+    num? subject, {
     bool isReversed = false,
-    String? targetLabel,
+    String? subjectLabel,
   }) {
     return NumericAssertions(
-      target,
+      subject,
       isReversed: isReversed,
-      targetLabel: targetLabel,
+      subjectLabel: subjectLabel,
     );
   }
 }

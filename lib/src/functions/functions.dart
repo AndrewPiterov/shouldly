@@ -12,15 +12,15 @@ extension FunctionExtensions on Function {
 class FunctionAssertions extends BaseAssertions<Function, FunctionAssertions> {
   ///
   FunctionAssertions(
-    Function? target, {
+    Function? subject, {
     bool isReversed = false,
-    String? targetLabel,
-  }) : super(target, isReversed: isReversed, targetLabel: targetLabel);
+    String? subjectLabel,
+  }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
   /// Expects the function to throw any exception.
   void throwException() {
     try {
-      target!.call();
+      subject!.call();
       throw FunctionExecutionException(
         'The function has not thowed any exception',
       );
@@ -34,7 +34,7 @@ class FunctionAssertions extends BaseAssertions<Function, FunctionAssertions> {
   /// Expects the function to throw specified exception.
   void throwExact<T extends Exception>() {
     try {
-      target!.call();
+      subject!.call();
       throw FunctionExecutionException(
         'The function has not thowed any exception',
       );
@@ -54,7 +54,7 @@ class FunctionAssertions extends BaseAssertions<Function, FunctionAssertions> {
   /// Expects the function to not throw any exception.
   void notThrowException() {
     try {
-      target!.call();
+      subject!.call();
     } catch (e) {
       throw ShouldlyTestFailure('Should not throw any axception');
     }
@@ -62,14 +62,14 @@ class FunctionAssertions extends BaseAssertions<Function, FunctionAssertions> {
 
   @override
   FunctionAssertions copy(
-    Function? target, {
+    Function? subject, {
     bool isReversed = false,
-    String? targetLabel,
+    String? subjectLabel,
   }) {
     return FunctionAssertions(
-      target,
+      subject,
       isReversed: isReversed,
-      targetLabel: targetLabel,
+      subjectLabel: subjectLabel,
     );
   }
 }
