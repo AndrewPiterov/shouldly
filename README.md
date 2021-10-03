@@ -27,7 +27,7 @@ and the Flutter guide for
 
 * Better test failure messages
 * More readable test code
-* Conjunction support (`and` only for now)
+* Conjunction support (`and`)
 * Custom matchers
 
 ### Better test failure messages
@@ -40,7 +40,7 @@ Expected: <18>
   Actual: <17>
 
 // Shouldly
-Target int should be
+Subject int should be
   `18`
 but was
   `17`
@@ -58,7 +58,7 @@ Expected: not null
   Actual: <null>
 
 // Shouldly
-Target should not be null
+Subject should not be null
 ```
 
 ```bash
@@ -113,10 +113,10 @@ participants.should.contain('Andrew').and.not.contain('Bobby');
 ```dart
 extension CustomNumAssertions on NumericAssertions {
   NumericAssertions get beNegative {
-    if (target >= 0) {
-      throw Exception('Target number\n  should be negative');
+    if (subject >= 0) {
+      throw ShouldlyTestFailureError('Number\n  should be negative');
     }
-    return NumericAssertions(target);
+    return NumericAssertions(subject);
   }
 }
 ```
@@ -160,8 +160,9 @@ test('false should not be `true`', () {
 ### Numbers
 
 ```dart
-test('Int should be type of `num`', () {
-  10.should.beTypeOf<num>();
+test('Int should be type of `int`', () {
+  10.should.beOfType<int>();
+  10.should.beAssignableTo<num>();
 });
 ```
 
@@ -197,29 +198,25 @@ test('with some elements in collection is true for predicate', () {
 ### Maps
 
 ```dart
-final target = {
+final subject = {
   'name': 'John',
   'age': 18,
 };
 
 test('should contain key', () {
-  target.should.containKey('name');
+  subject.should.containKey('name');
 });
 
 test('should contain key with exact value', () {
-  target.should.containKeyWithValue('age', 18);
+  subject.should.containKeyWithValue('age', 18);
 });
 ```
 
 ### Functions
 
 ```dart
-test('should not throw throw an exception', () {
-  someMethod.should.notThrowException();
-});
-
 test('should throw exact type of exception', () {
-  throwExactException.should.throwExact<CustomException>();
+  throwExactException.should.throwException<CustomException>();
 });
 
 test('async function should throw exception', () async {
@@ -257,48 +254,48 @@ extension CustomerExtension on Customer {
 
 class CustomerAssertions extends BaseAssertions<Customer, CustomerAssertions> {
   CustomerAssertions(
-    Customer? target, {
+    Customer? subject, {
     bool isReversed = false,
-    String? targetLabel,
-  }) : super(target, isReversed: isReversed, targetLabel: targetLabel);
+    String? subjectLabel,
+  }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
   CustomerAssertions get beMarried {
     if (isReversed) {
-      if (target!.isMarried) {
+      if (subject!.isMarried) {
         throw ShouldlyTestFailure('Customer should not be married');
       }
     } else {
-      if (!target!.isMarried) {
+      if (!subject!.isMarried) {
         throw ShouldlyTestFailure('Customer should be married');
       }
     }
-    return CustomerAssertions(target);
+    return CustomerAssertions(subject);
   }
 
   CustomerAssertions get beMale {
     if (isReversed) {
-      if (target!.gender == Gender.male) {
+      if (subject!.gender == Gender.male) {
         throw ShouldlyTestFailure('Customer should be female');
       }
     } else {
-      if (target!.gender != Gender.male) {
+      if (subject!.gender != Gender.male) {
         throw ShouldlyTestFailure('Customer should be male');
       }
     }
 
-    return CustomerAssertions(target);
+    return CustomerAssertions(subject);
   }
 
   @override
   CustomerAssertions copy(
-    Customer? target, {
+    Customer? subject, {
     bool isReversed = false,
-    String? targetLabel,
+    String? subjectLabel,
   }) =>
       CustomerAssertions(
-        target,
+        subject,
         isReversed: isReversed,
-        targetLabel: targetLabel,
+        subjectLabel: subjectLabel,
       );
 }
 ```
@@ -310,7 +307,6 @@ We accept the following contributions:
 * Reporting issues
 * Fixing bugs
 * More tests
-* Conjunction support (see: should.js and/or) (and conjunctions complete)
 * More class integrations (Streams? Futures?)
 * Improving documentation and comments
 
