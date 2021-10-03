@@ -2,14 +2,15 @@ import 'package:shouldly/shouldly.dart';
 
 void main() {
   (-10).should.beNegative;
+  // ignore: avoid_print
   print('Done');
 }
 
-extension CustomNumberExtensions on Cap<num> {
-  Cap<num> get beNegative {
-    if (target >= 0) {
-      throw Exception('Value\n  should be negative\n  but was\n$target');
+extension CustomNumAssertions on NumericAssertions {
+  NumericAssertions get beNegative {
+    if (subject! >= 0) {
+      throw Exception('Value\n  should be negative\n  but was\n$subject');
     }
-    return Cap(target);
+    return NumericAssertions(subject);
   }
 }

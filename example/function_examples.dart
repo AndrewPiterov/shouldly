@@ -1,15 +1,17 @@
+// ignore_for_file: avoid_print
+
 import 'package:shouldly/shouldly_function.dart';
 
 void main() {
   // Type checking
-  someAction.should.beTypeOf<Function>();
-  someFunction.should.beTypeOf<SumOperation>();
-  someFunction.should.not.beTypeOf<PowerOperation>();
+  someAction.should.beAssignableTo<Function>();
+  someFunction.should.beOfType<SumOperation>();
+  someFunction.should.not.beOfType<PowerOperation>();
 
   // Exceptions
   throwException.should.throwException();
-  throwException.should.throwExact<IntegerDivisionByZeroException>();
-  someAction.should.notThrowException();
+  throwException.should.throwException<IntegerDivisionByZeroException>();
+  someAction.should.not.throwException();
 
   print('Done with functions');
 }
@@ -25,5 +27,5 @@ int someFunction(int a, int b) {
 }
 
 void throwException() {
-  throw IntegerDivisionByZeroException();
+  throw const IntegerDivisionByZeroException();
 }

@@ -4,12 +4,12 @@ void main() {
   final attendies = ['Andrew', 'Bobby', 'Larry'];
 
   // Type checking
-  attendies.should.beTypeOf<Iterable>();
-  attendies.should.beTypeOf<Iterable<String>>();
+  attendies.should.beOfType<List<String>>();
+  attendies.should.beAssignableTo<Iterable<String>>();
 
   // Equality
-  attendies.should.beEqual(['Andrew', 'Bobby', 'Larry']);
-  attendies.should.beEqual(['Andrew', 'Bobby', 'Larry']);
+  attendies.should.be(['Andrew', 'Bobby', 'Larry']);
+  attendies.should.be(['Andrew', 'Bobby', 'Larry']);
 
   // Contains
   attendies.should.contain('Andrew');
@@ -18,5 +18,6 @@ void main() {
   attendies.should.containAll(['Andrew', 'Bobby']);
   attendies.should.not.containAll(['Andrei', 'Bobby']);
 
+  // ignore: avoid_print
   print('Done with collection');
 }

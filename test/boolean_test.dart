@@ -1,14 +1,29 @@
-import 'package:shouldly/src/bool.dart';
 import 'package:shouldly/shouldly.dart';
+import 'package:shouldly/shouldly_bool.dart';
+import 'package:shouldly/src/should.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('true should be `true`', () {
-    true.should.beEqual(true);
+    true.should.be(true);
   });
 
-  test('true should be `true` (second way)', () {
-    true.should.beTrue();
+  group('throw error -', () {
+    test('when `true` should be `false`', () {
+      Should.throwError<ShouldlyTestFailureError>(() => true.should.be(false));
+    });
+
+    test('when `true` should not be `true`', () {
+      Should.throwError<ShouldlyTestFailureError>(
+        () => true.should.not.be(true),
+      );
+    });
+  });
+
+  group('true -', () {
+    test('true should be `true` (second way)', () {
+      true.should.beTrue();
+    });
   });
 
   test('false should be `false`', () {
@@ -16,7 +31,7 @@ void main() {
   });
 
   test('false should be `false` (second way)', () {
-    false.should.beEqual(false);
+    false.should.be(false);
   });
 
   test('false should not be `true`', () {
@@ -24,7 +39,7 @@ void main() {
   });
 
   test('false should not be `true` (second way)', () {
-    false.should.not.beEqual(true);
+    false.should.not.be(true);
   });
 
   test('true should not be `false`', () {
@@ -32,12 +47,13 @@ void main() {
   });
 
   test('nullable boolean should be null', () {
-    bool? nullableTrue = null;
-    nullableTrue.should.beNull;
+    const bool? nullableTrue = null;
+    nullableTrue.should.beNull();
   });
 
   test('nullable boolean should not be null', () {
+    // ignore: prefer_final_locals
     bool? nullableTrue = true;
-    nullableTrue.should.not.beNull;
+    nullableTrue.should.not.beNull();
   });
 }

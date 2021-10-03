@@ -1,3 +1,3 @@
 library shouldly_num;
 
-export './src/numbers.dart';
+export 'src/numbers/numbers.dart';

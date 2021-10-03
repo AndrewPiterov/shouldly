@@ -1,3 +1,3 @@
 library shouldly_map;
 
-export './src/map.dart';
+export 'src/maps/map.dart';

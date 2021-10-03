@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:shouldly/shouldly_map.dart';
 
 void main() {
@@ -7,7 +9,8 @@ void main() {
   };
 
   // Type checking
-  product.should.beTypeOf<Map>();
+  // TODO: as in test product.should.beOfType<Map<String, Object?>>();
+  product.should.beAssignableTo<Map>();
 
   // Equality
   product.should.be({

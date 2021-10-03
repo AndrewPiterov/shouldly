@@ -13,6 +13,12 @@ and the Flutter guide for
 
 # shouldly
 
+[![pub package](https://img.shields.io/pub/v/shouldly.svg?label=shouldly&color=blue)](https://pub.dev/packages/shouldly)
+[![codecov](https://codecov.io/gh/AndrewPiterov/shouldly/branch/dev/graph/badge.svg?token=VM9LTJXGQS)](https://codecov.io/gh/AndrewPiterov/shouldly)
+[![likes](https://badges.bar/shouldly/likes)](https://pub.dev/packages/shouldly/score)
+[![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
+[![Dart](https://github.com/AndrewPiterov/shouldly/actions/workflows/dart.yml/badge.svg)](https://github.com/AndrewPiterov/shouldly/actions/workflows/dart.yml)
+
 `Shouldly` is an assertion framework which focuses on giving great error messages when the assertion fails while being simple and terse.
 
 `shouldly` allows you write more readable test assertions.
@@ -105,12 +111,12 @@ participants.should.contain('Andrew').and.not.contain('Bobby');
 ### Custom matchers
 
 ```dart
-extension CustomNumberExtensions on Cap<num> {
-  Cap<num> get beNegative {
-    if (value >= 0) {
-      throw Exception('Value\n  should be negative\n  but was\n$value');
+extension CustomNumAssertions on NumericAssertions {
+  NumericAssertions get beNegative {
+    if (target >= 0) {
+      throw Exception('Target number\n  should be negative');
     }
-    return Cap(value);
+    return NumericAssertions(target);
   }
 }
 ```
@@ -245,38 +251,55 @@ More examples [here](./example/README.md)
 ## Writing Custom Matchers
 
 ```dart
-class Customer {
-  final bool isMarried;
-  final Gender gender;
-
-  Customer(this.isMarried, this.gender);
-}
-
 extension CustomerExtension on Customer {
-  Cap<Customer> get should => Cap<Customer>(this);
+  CustomerAssertions get should => CustomerAssertions(this);
 }
 
-extension CustomerMatcherExtension on Cap<Customer> {
-  Cap<Customer> get beMarried {
-    if (!target.isMarried) {
-      throw Exception('target should be married');
-    }
-    return Cap(target);
-  }
+class CustomerAssertions extends BaseAssertions<Customer, CustomerAssertions> {
+  CustomerAssertions(
+    Customer? target, {
+    bool isReversed = false,
+    String? targetLabel,
+  }) : super(target, isReversed: isReversed, targetLabel: targetLabel);
 
-  Cap<Customer> get beMale {
+  CustomerAssertions get beMarried {
     if (isReversed) {
-      if (target.gender == Gender.male) {
-        throw Exception('target should be female');
+      if (target!.isMarried) {
+        throw ShouldlyTestFailure('Customer should not be married');
       }
     } else {
-      if (target.gender != Gender.male) {
-        throw Exception('target should be male');
+      if (!target!.isMarried) {
+        throw ShouldlyTestFailure('Customer should be married');
+      }
+    }
+    return CustomerAssertions(target);
+  }
+
+  CustomerAssertions get beMale {
+    if (isReversed) {
+      if (target!.gender == Gender.male) {
+        throw ShouldlyTestFailure('Customer should be female');
+      }
+    } else {
+      if (target!.gender != Gender.male) {
+        throw ShouldlyTestFailure('Customer should be male');
       }
     }
 
-    return Cap(target);
+    return CustomerAssertions(target);
   }
+
+  @override
+  CustomerAssertions copy(
+    Customer? target, {
+    bool isReversed = false,
+    String? targetLabel,
+  }) =>
+      CustomerAssertions(
+        target,
+        isReversed: isReversed,
+        targetLabel: targetLabel,
+      );
 }
 ```
 
