@@ -14,6 +14,7 @@ and the Flutter guide for
 # shouldly
 
 [![pub package](https://img.shields.io/pub/v/shouldly.svg?label=shouldly&color=blue)](https://pub.dev/packages/shouldly)
+[![codecov](https://codecov.io/gh/AndrewPiterov/shouldly/branch/dev/graph/badge.svg?token=VM9LTJXGQS)](https://codecov.io/gh/AndrewPiterov/shouldly)
 [![likes](https://badges.bar/shouldly/likes)](https://pub.dev/packages/shouldly/score)
 [![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 [![Dart](https://github.com/AndrewPiterov/shouldly/actions/workflows/dart.yml/badge.svg)](https://github.com/AndrewPiterov/shouldly/actions/workflows/dart.yml)
