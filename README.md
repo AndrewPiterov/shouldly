@@ -28,7 +28,7 @@ and the Flutter guide for
 * Better test failure messages
 * More readable test code
 * Conjunction support (`and`)
-* Custom matchers
+* Custom assertions
 
 ### Better test failure messages
 
@@ -240,6 +240,46 @@ test('should complete in a duration', () async {
       Duration(milliseconds: 900),
     ),
   );
+});
+```
+
+### Objects
+
+```dart
+test('should be not null', () {
+  final obj = Object();
+  obj.should.not.beNull();
+});
+
+test('should be null', () {
+  const Object? obj = null;
+  obj.should.beNull();
+});
+
+test('should be type of `int`', () {
+  const obj = 1;
+  obj.should.beOfType<int>();
+});
+
+test('should be assignable to `num`', () {
+  const obj = 1;
+  obj.should.beAssignableTo<num>();
+});
+```
+
+### Enums
+
+```dart
+test('should not be equal', () {
+  seasons.spring.should.not.be(seasons.winter);
+});
+
+test('should not be type of', () {
+  seasons.spring.should.not.beOfType<level>();
+});
+
+test('should be assignable to `Enum`', () {
+  seasons.spring.should.beAssignableTo<Enum>();
 });
 ```
 
