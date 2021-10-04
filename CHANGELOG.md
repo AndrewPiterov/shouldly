@@ -1,3 +1,8 @@
+## 0.1.2
+
+* Add `ObjectAssertions`
+* Add `EnumAssertions`
+
 ## 0.1.1
 
 * Document improvement.
