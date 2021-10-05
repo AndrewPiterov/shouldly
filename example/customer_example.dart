@@ -1,4 +1,6 @@
 import 'package:shouldly/shouldly.dart';
+import 'package:test/expect.dart';
+import 'package:test/scaffolding.dart';
 
 class Customer {
   final bool isMarried;
@@ -42,16 +44,16 @@ class CustomerAssertions extends BaseAssertions<Customer, CustomerAssertions> {
     if (isReversed) {
       Execute.assertion
           .forCondition(subject!.gender == Gender.male)
-          .failWith('Customer should not be male');
+          .failWith('$subjectLabel should not be male');
     } else {
       Execute.assertion
           .forCondition(subject!.gender != Gender.male)
-          .failWith('Customer should be male');
+          .failWith('$subjectLabel should be male');
     }
 
     Execute.assertion
         .forCondition(subject!.gender != Gender.male)
-        .failWith('Customer should be male');
+        .failWith('$subjectLabel should be male');
 
     return CustomerAssertions(subject);
   }
@@ -69,3 +71,18 @@ class CustomerAssertions extends BaseAssertions<Customer, CustomerAssertions> {
     );
   }
 }
+
+void main() {
+  test('Customer should be male', () {
+    final andrew = Customer(false, Gender.male);
+
+    expect(andrew.isMarried, isFalse);
+    andrew.gender.should.be(Gender.male);
+  });
+
+  test('Custom model (without its assertions) is not null', () {
+    Contact().should.not.beNull();
+  });
+}
+
+class Contact {}
