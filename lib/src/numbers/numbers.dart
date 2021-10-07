@@ -19,6 +19,66 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
     String? subjectLabel,
   }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
+  ///
+  NumericAssertions beNegative() {
+    if (isReversed) {
+      Execute.assertion
+          .forCondition(subject! >= 0)
+          .failWith('$subjectLabel\n    $subject\nshould not be negative.');
+    } else {
+      Execute.assertion
+          .forCondition(subject! < 0)
+          .failWith('$subjectLabel\n    $subject\nshould be negative.');
+    }
+
+    return NumericAssertions(subject);
+  }
+
+  ///
+  NumericAssertions bePositive() {
+    if (isReversed) {
+      Execute.assertion
+          .forCondition(subject! < 0)
+          .failWith('$subjectLabel\n    $subject\nshould not be positive.');
+    } else {
+      Execute.assertion
+          .forCondition(subject! >= 0)
+          .failWith('$subjectLabel\n    $subject\nshould be positive.');
+    }
+
+    return NumericAssertions(subject);
+  }
+
+  ///
+  NumericAssertions isZero() {
+    if (isReversed) {
+      Execute.assertion
+          .forCondition(subject! == 0)
+          .failWith('$subjectLabel\n    $subject\nshould not be null.');
+    } else {
+      Execute.assertion
+          .forCondition(subject! != 0)
+          .failWith('$subjectLabel\n    $subject\nshould be null.');
+    }
+
+    return NumericAssertions(subject);
+  }
+
+  ///
+  NumericAssertions beOneOf(Iterable<num> items) {
+    if (isReversed) {
+      Execute.assertion.forCondition(items.contains(subject)).failWith(
+            '$subjectLabel\n    $subject\nshould not be one of\n    $items.',
+          );
+    } else {
+      Execute.assertion.forCondition(!items.contains(subject)).failWith(
+            '$subjectLabel\n    $subject\nshould be one of\n    $items.',
+          );
+    }
+
+    return NumericAssertions(subject);
+  }
+
   /// Asserts that the numeric value is odd.
   NumericAssertions beOdd() {
     if (isReversed) {
