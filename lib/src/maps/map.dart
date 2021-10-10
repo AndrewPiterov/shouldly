@@ -60,7 +60,7 @@ class MapAssertions<TKey, TValue>
 
   /// Asserts that the dictionary contains the specified key. Keys are compared using
   /// their `object` implementation.
-  MapAssertions containKey(String key) {
+  MapAssertions containKey(TKey key) {
     if (isReversed) {
       if (subject!.containsKey(key)) {
         throw ShouldlyTestFailureError(
@@ -80,7 +80,7 @@ class MapAssertions<TKey, TValue>
 
   /// Asserts that the dictionary contains all of the specified keys. Keys are compared using
   /// their `Object` implementation.
-  MapAssertions containKeys(Iterable<Object> expected) {
+  MapAssertions containKeys(Iterable<TKey> expected) {
     if (isReversed) {
       Execute.assertion
           .forCondition(
@@ -103,7 +103,7 @@ class MapAssertions<TKey, TValue>
   }
 
   /// Asserts that the dictionary contains a value (not null) in specified key.
-  MapAssertions haveValueInKey(String key) {
+  MapAssertions haveValueInKey(TKey key) {
     if (!subject!.containsKey(key)) {
       throw ShouldlyTestFailureError('\n$subjectLabel has contain key `$key`');
     }
@@ -125,7 +125,7 @@ class MapAssertions<TKey, TValue>
   }
 
   /// Asserts that the dictionary contains the specified value in specified key.
-  MapAssertions containKeyWithValue(dynamic key, dynamic value) {
+  MapAssertions containKeyWithValue(TKey key, TValue value) {
     if (!subject!.containsKey(key)) {
       throw ShouldlyTestFailureError('\n$subjectLabel has contain key `$key`');
     }
@@ -148,7 +148,7 @@ class MapAssertions<TKey, TValue>
   }
 
   /// Asserts that the dictionary contains the specified values in specified keys.
-  MapAssertions contain(Iterable<MapEntry<Object, Object?>> expected) {
+  MapAssertions contain(Iterable<MapEntry<TKey, TValue>> expected) {
     final failedEntries = {};
     if (isReversed) {
       for (final entry in expected) {
