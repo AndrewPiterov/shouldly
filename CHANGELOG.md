@@ -1,3 +1,8 @@
+## 0.1.3
+
+* [Fix] map' TKey & TValue
+* [Add] example for custom model.
+
 ## 0.1.2
 
 * Add `ObjectAssertions`
