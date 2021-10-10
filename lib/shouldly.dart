@@ -12,4 +12,5 @@ export 'src/maps/map.dart';
 export 'src/numbers/numbers.dart';
 export 'src/objects/objects.dart';
 export 'src/should.dart';
+export 'src/streams/streams.dart';
 export 'src/strings/strings.dart';
