@@ -80,6 +80,18 @@ void main() {
         '  '.should.beBlank().and.not.beNullOrEmpty();
       });
 
+      test('new line should be blank', () {
+        '\n\n\n'.should.beBlank();
+      });
+
+      test('new line with whitespaces should be blank', () {
+        '\n\n\n    \n'.should.beBlank();
+      });
+
+      test('should not be blank', () {
+        '   \n   .'.should.not.beBlank();
+      });
+
       test('string should not be blank', () {
         'some string'.should.not.beBlank();
         'x'.should.not.beNull().and.not.beBlank();
