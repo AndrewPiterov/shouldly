@@ -1,3 +1,9 @@
+## 0.2.4
+
+* Add `DateTime` assertions
+* Add `beOneOf`
+* Add `num`'s assertions to `bePositive`, `beNegative`, `beZero`, `beCloseTo`, `beTolerantOf`
+
 ## 0.1.3
 
 * [Fix] map' TKey & TValue
