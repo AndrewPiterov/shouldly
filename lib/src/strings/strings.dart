@@ -129,14 +129,14 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
     if (isReversed) {
       if (trimmed.isEmpty) {
         throw ShouldlyTestFailureError(
-          '\n$subjectLabel string\n    `$subject`\nshould not be blank',
+          '\n$subjectLabel\n    `$subject`\nshould not be blank\n    but does',
         );
       }
       return StringAssertions(subject);
     } else {
       if (trimmed.isNotEmpty) {
         throw ShouldlyTestFailureError(
-          '\n$subjectLabel string\n    `$subject`\nshould be blank',
+          '\n$subjectLabel\n    `$subject`\nshould be blank\n    but does not',
         );
       }
     }
