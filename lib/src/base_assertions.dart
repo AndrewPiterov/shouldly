@@ -22,7 +22,7 @@ abstract class BaseAssertions<T, K> {
   String get subjectLabel {
     final runtimeType = subject.runtimeType;
     return _subjectLabel == null || _subjectLabel == ''
-        ? 'Subject $runtimeType'
+        ? 'Subject <$runtimeType>'
         : _subjectLabel!;
   }
 

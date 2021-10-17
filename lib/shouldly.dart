@@ -4,6 +4,7 @@ library shouldly;
 export 'src/base_assertions.dart';
 export 'src/booleans/bool.dart';
 export 'src/collections/collections.dart';
+export 'src/datetimes/datetimes.dart';
 export 'src/enums/enums.dart';
 export 'src/exception.dart';
 export 'src/execute_assertion.dart';
