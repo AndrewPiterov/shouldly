@@ -123,7 +123,7 @@ abstract class BaseAssertions<T, K> {
     return copy(subject, subjectLabel: subjectLabel);
   }
 
-  /// Asserts that a value is one of the specified
+  /// Asserts that a value is one of the specified [validItems]
   K beOneOf(Iterable<T> validItems) {
     if (isReversed) {
       Execute.assertion.forCondition(validItems.any((e) => eq(e))).failWith(
