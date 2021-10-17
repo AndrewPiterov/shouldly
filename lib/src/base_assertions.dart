@@ -122,4 +122,24 @@ abstract class BaseAssertions<T, K> {
 
     return copy(subject, subjectLabel: subjectLabel);
   }
+
+  /// Asserts that a value is one of the specified [validItems]
+  K beOneOf(Iterable<T> validItems) {
+    if (isReversed) {
+      Execute.assertion.forCondition(validItems.any((e) => eq(e))).failWith(
+            '$subjectLabel\n    $subject\nshould not be one of\n    $validItems\nbut found.',
+          );
+    } else {
+      Execute.assertion.forCondition(validItems.every((e) => !eq(e))).failWith(
+            '$subjectLabel\n    $subject\nshould be one of\n    $validItems\nbut not found.',
+          );
+    }
+
+    return copy(subject, subjectLabel: subjectLabel);
+  }
+
+  /// Comparison with an another [expected] value
+  bool eq(T expected) {
+    return subject == expected;
+  }
 }

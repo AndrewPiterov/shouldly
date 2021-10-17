@@ -186,4 +186,20 @@ void main() {
       [1, 2].should.not.containAll([3, 4]);
     });
   });
+
+  group('One of item in an Array', () {
+    test('array contain the List', () {
+      [1, 2].should.beOneOf([
+        [1, 2],
+        [3, 4]
+      ]);
+    });
+
+    test('array does not contain the List', () {
+      [1, 2].should.not.beOneOf([
+        [3, 4],
+        [5, 6]
+      ]);
+    });
+  });
 }
