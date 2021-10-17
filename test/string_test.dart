@@ -80,6 +80,18 @@ void main() {
         '  '.should.beBlank().and.not.beNullOrEmpty();
       });
 
+      test('new line should be blank', () {
+        '\n\n\n'.should.beBlank();
+      });
+
+      test('new line with whitespaces should be blank', () {
+        '\n\n\n    \n'.should.beBlank();
+      });
+
+      test('should not be blank', () {
+        '   \n   .'.should.not.beBlank();
+      });
+
       test('string should not be blank', () {
         'some string'.should.not.beBlank();
         'x'.should.not.beNull().and.not.beBlank();
@@ -165,6 +177,16 @@ void main() {
         Should.throwError<ShouldlyTestFailureError>(
           () => '1234567890'.should.not.match('\\d+'),
         );
+      });
+    });
+
+    group('One of item in an Array', () {
+      test('array contain the String', () {
+        'one'.should.beOneOf(['zero', 'one', 'two']);
+      });
+
+      test('array does not contain the String', () {
+        'five'.should.not.beOneOf(['zero', 'one', 'two']);
       });
     });
   });

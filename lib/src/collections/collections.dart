@@ -23,7 +23,7 @@ class IterableAssertions<T>
 
   @override
   IterableAssertions<T> be(Object value) {
-    final isEqual = _eq(subject!.toList(), value as List);
+    final isEqual = eq(value as Iterable<T>);
     if (isReversed) {
       if (isEqual) {
         throw ShouldlyTestFailureError(
@@ -39,6 +39,11 @@ class IterableAssertions<T>
     }
 
     return IterableAssertions<T>(subject);
+  }
+
+  @override
+  bool eq(Iterable<T> expected) {
+    return _eq(subject!.toList(), expected.toList());
   }
 
   /// Asserts that the collection does not contain any items.
