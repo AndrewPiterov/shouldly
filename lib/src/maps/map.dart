@@ -214,6 +214,11 @@ class MapAssertions<TKey, TValue>
   }
 
   @override
+  bool eq(Map<TKey, TValue> expected) {
+    return _eq(subject, expected);
+  }
+
+  @override
   MapAssertions<TKey, TValue> copy(
     Map<TKey, TValue>? subject, {
     bool isReversed = false,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:shouldly/shouldly.dart';
 import 'package:shouldly/shouldly_num.dart';
 import 'package:test/test.dart';
@@ -81,6 +83,61 @@ void main() {
       7.5.should.be(7.5).and.not.be(0);
     });
 
+    group('Close to', () {
+      test('exact value should be close', () {
+        10.0.should.beCloseTo(
+              10.0,
+            );
+      });
+      group('with tolerance value', () {
+        test('value should be close', () {
+          10.1.should.beCloseTo(10.0, delta: 0.1);
+        });
+
+        test('value should not be close', () {
+          10.1.should.not.beCloseTo(10.0, delta: 0.09);
+        });
+
+        test('Sum', () {
+          const a = 1.1;
+          const b = 2.2;
+
+          const sum = a + b;
+          log('Sum of doubles: $sum');
+
+          sum.should.not.be(3.3);
+          sum.should.beCloseTo(3.3, delta: 0.0000000001);
+        });
+      });
+
+      group('with tolerance percentage', () {
+        test('value should be close', () {
+          100.should.beCloseTo(99, tolerance: 0.01);
+          100.should.beCloseTo(101, tolerance: 0.01);
+        });
+
+        test('value should not be close', () {
+          100.should.beCloseTo(98.999999999999, tolerance: 0.01);
+          100.should.beCloseTo(101.00000000000001, tolerance: 0.01);
+        });
+
+        test('value should not be close (2)', () {
+          100.should.not.beCloseTo(101, delta: 0.009);
+        });
+
+        test('Sum', () {
+          const a = 1.1;
+          const b = 2.2;
+
+          const sum = a + b;
+          log('Sum of doubles: $sum');
+
+          sum.should.not.be(3.3);
+          sum.should.beCloseTo(3.3, tolerance: 0.00001);
+        });
+      });
+    });
+
     group('within -', () {
       test('number should be within a range', () {
         10.should.beWithin(9, 11);
@@ -146,6 +203,58 @@ void main() {
         Should.throwError<ShouldlyTestFailureError>(
           () => 20.should.not.beGreaterThan(10),
         );
+      });
+    });
+
+    group('Positove', () {
+      test('should be positive', () {
+        1.should.bePositive();
+      });
+
+      test('0 should be positive', () {
+        0.should.bePositive();
+      });
+
+      test('number less than 0 should not be positive', () {
+        (-1).should.not.bePositive();
+      });
+    });
+
+    group('Negative', () {
+      test('should be negative', () {
+        (-1).should.beNegative();
+      });
+
+      test('0 should be negative', () {
+        0.should.not.beNegative();
+      });
+
+      test('number greater or equal than 0 should not be negative', () {
+        1.should.not.beNegative();
+      });
+    });
+
+    group('is Zero', () {
+      test('should be 0', () {
+        0.should.beZero();
+      });
+
+      test('number greater than 0 should not be 0', () {
+        0.000001.should.not.beZero();
+      });
+
+      test('number greater less 0 should not be 0', () {
+        (-0.0001).should.not.beZero();
+      });
+    });
+
+    group('One of item in an Array', () {
+      test('array contain number', () {
+        10.should.beOneOf([1, 2, 3, 4, 10, 1, 30]);
+      });
+
+      test('array does not contain number', () {
+        10.should.not.beOneOf([1, 2, 3, 4, -10, 1, 30]);
       });
     });
   });

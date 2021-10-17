@@ -199,5 +199,23 @@ but does not
         ]);
       });
     });
+
+    group('One of item in an Array', () {
+      test('array contain the Map', () {
+        final city = {'city': 'Moscow'};
+        city.should.beOneOf([
+          {'city': 'Moscow'},
+          {'city': 'Cairo'}
+        ]);
+      });
+
+      test('array does not contain the Map', () {
+        final city = {'city': 'Moscow'};
+        city.should.not.beOneOf([
+          {'city': 'New York'},
+          {'city': 'Cairo'}
+        ]);
+      });
+    });
   });
 }

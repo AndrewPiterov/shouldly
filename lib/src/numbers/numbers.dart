@@ -19,15 +19,61 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
     String? subjectLabel,
   }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
+  /// Asserts an numeric value is close to another value within a specified value.
+  /// [delta] The maximum amount of which the two values may differ.
+  /// [tolerance] The maximum percentage of which the two values may differ.
+  NumericAssertions beCloseTo(
+    num nearbyValue, {
+    num delta = 0,
+    double tolerance = 0,
+  }) {
+    if (tolerance > 1 || tolerance < 0) {
+      throw Error();
+    }
+
+    var diff = nearbyValue - subject!;
+    var diff2 = subject! * tolerance;
+
+    if (tolerance != 0) {
+      if (diff2 < 0) diff2 = -diff2;
+      final isClose = tolerance <= diff2;
+
+      if (isReversed) {
+        Execute.assertion.forCondition(isClose).failWith(
+              '$subjectLabel\n    $subject\nshould not be close to\n    $nearbyValue\nwith tolerance $tolerance%.',
+            );
+      } else {
+        Execute.assertion.forCondition(!isClose).failWith(
+              '$subjectLabel\n    $subject\nshould be close to\n    $nearbyValue\nwith tolerance $tolerance%.',
+            );
+      }
+    } else {
+      if (diff < 0) diff = -diff;
+      final isClose = diff <= delta;
+
+      if (isReversed) {
+        Execute.assertion.forCondition(isClose).failWith(
+              '$subjectLabel\n    $subject\nshould not be close to\n    $nearbyValue\nwith tolerance $delta.',
+            );
+      } else {
+        Execute.assertion.forCondition(!isClose).failWith(
+              '$subjectLabel\n    $subject\nshould be close to\n    $nearbyValue\nwith tolerance $delta.',
+            );
+      }
+    }
+
+    return NumericAssertions(subject);
+  }
+
   ///
   NumericAssertions beNegative() {
     if (isReversed) {
       Execute.assertion
-          .forCondition(subject! >= 0)
+          .forCondition(subject! < 0)
           .failWith('$subjectLabel\n    $subject\nshould not be negative.');
     } else {
       Execute.assertion
-          .forCondition(subject! < 0)
+          .forCondition(subject! >= 0)
           .failWith('$subjectLabel\n    $subject\nshould be negative.');
     }
 
@@ -37,43 +83,26 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
   ///
   NumericAssertions bePositive() {
     if (isReversed) {
-      Execute.assertion
-          .forCondition(subject! < 0)
-          .failWith('$subjectLabel\n    $subject\nshould not be positive.');
+      Execute.assertion.forCondition(subject! >= 0).failWith(
+          '$subjectLabel\n    $subject\nshould not be positive\n    but does.');
     } else {
-      Execute.assertion
-          .forCondition(subject! >= 0)
-          .failWith('$subjectLabel\n    $subject\nshould be positive.');
+      Execute.assertion.forCondition(subject! < 0).failWith(
+          '$subjectLabel\n    $subject\nshould be positive\n    but does not.');
     }
 
     return NumericAssertions(subject);
   }
 
   ///
-  NumericAssertions isZero() {
+  NumericAssertions beZero() {
     if (isReversed) {
       Execute.assertion
           .forCondition(subject! == 0)
-          .failWith('$subjectLabel\n    $subject\nshould not be null.');
+          .failWith('$subjectLabel\n    $subject\nshould not be zero.');
     } else {
       Execute.assertion
           .forCondition(subject! != 0)
-          .failWith('$subjectLabel\n    $subject\nshould be null.');
-    }
-
-    return NumericAssertions(subject);
-  }
-
-  ///
-  NumericAssertions beOneOf(Iterable<num> items) {
-    if (isReversed) {
-      Execute.assertion.forCondition(items.contains(subject)).failWith(
-            '$subjectLabel\n    $subject\nshould not be one of\n    $items.',
-          );
-    } else {
-      Execute.assertion.forCondition(!items.contains(subject)).failWith(
-            '$subjectLabel\n    $subject\nshould be one of\n    $items.',
-          );
+          .failWith('$subjectLabel\n    $subject\nshould be zero.');
     }
 
     return NumericAssertions(subject);

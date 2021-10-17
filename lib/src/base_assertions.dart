@@ -22,7 +22,7 @@ abstract class BaseAssertions<T, K> {
   String get subjectLabel {
     final runtimeType = subject.runtimeType;
     return _subjectLabel == null || _subjectLabel == ''
-        ? 'subject $runtimeType'
+        ? 'Subject $runtimeType'
         : _subjectLabel!;
   }
 
@@ -121,5 +121,25 @@ abstract class BaseAssertions<T, K> {
     }
 
     return copy(subject, subjectLabel: subjectLabel);
+  }
+
+  ///
+  K beOneOf(Iterable<T> items) {
+    if (isReversed) {
+      Execute.assertion.forCondition(items.any((e) => eq(e))).failWith(
+            '$subjectLabel\n    $subject\nshould not be one of\n    $items\nbut found.',
+          );
+    } else {
+      Execute.assertion.forCondition(items.every((e) => !eq(e))).failWith(
+            '$subjectLabel\n    $subject\nshould be one of\n    $items\nbut not found.',
+          );
+    }
+
+    return copy(subject, subjectLabel: subjectLabel);
+  }
+
+  ///
+  bool eq(T expected) {
+    return subject == expected;
   }
 }

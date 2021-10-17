@@ -167,5 +167,15 @@ void main() {
         );
       });
     });
+
+    group('One of item in an Array', () {
+      test('array contain the String', () {
+        'one'.should.beOneOf(['zero', 'one', 'two']);
+      });
+
+      test('array does not contain the String', () {
+        'five'.should.not.beOneOf(['zero', 'one', 'two']);
+      });
+    });
   });
 }
