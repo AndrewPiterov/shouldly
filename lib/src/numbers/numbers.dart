@@ -20,52 +20,59 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
   }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
   /// Asserts an numeric value is close to another value within a specified value.
+  ///
   /// [delta] The maximum amount of which the two values may differ.
-  /// [tolerance] The maximum percentage of which the two values may differ.
-  NumericAssertions beCloseTo(
-    num nearbyValue, {
-    num delta = 0,
-    double tolerance = 0,
-  }) {
-    if (tolerance > 1 || tolerance < 0) {
-      throw Error();
-    }
-
+  NumericAssertions beCloseTo(num nearbyValue, {required num delta}) {
     var diff = nearbyValue - subject!;
-    var diff2 = subject! * tolerance;
+    if (diff < 0) diff = -diff;
+    final isClose = diff <= delta;
 
-    if (tolerance != 0) {
-      if (diff2 < 0) diff2 = -diff2;
-      final isClose = tolerance <= diff2;
-
-      if (isReversed) {
-        Execute.assertion.forCondition(isClose).failWith(
-              '$subjectLabel\n    $subject\nshould not be close to\n    $nearbyValue\nwith tolerance $tolerance%.',
-            );
-      } else {
-        Execute.assertion.forCondition(!isClose).failWith(
-              '$subjectLabel\n    $subject\nshould be close to\n    $nearbyValue\nwith tolerance $tolerance%.',
-            );
-      }
+    if (isReversed) {
+      Execute.assertion.forCondition(isClose).failWith(
+            '$subjectLabel\n    $subject\nshould not be close to\n    $nearbyValue\nwith tolerance $delta\n    but does.',
+          );
     } else {
-      if (diff < 0) diff = -diff;
-      final isClose = diff <= delta;
-
-      if (isReversed) {
-        Execute.assertion.forCondition(isClose).failWith(
-              '$subjectLabel\n    $subject\nshould not be close to\n    $nearbyValue\nwith tolerance $delta.',
-            );
-      } else {
-        Execute.assertion.forCondition(!isClose).failWith(
-              '$subjectLabel\n    $subject\nshould be close to\n    $nearbyValue\nwith tolerance $delta.',
-            );
-      }
+      Execute.assertion.forCondition(!isClose).failWith(
+            '$subjectLabel\n    $subject\nshould be close to\n    $nearbyValue\nwith tolerance $delta\n    but does not.',
+          );
     }
 
     return NumericAssertions(subject);
   }
 
+  /// Asserts an numeric value is close to another value within a specified value.
   ///
+  /// [tolerance] The maximum percentage of which the two values may differ.
+  NumericAssertions beTolerantOf(
+    num nearbyValue, {
+    required double tolerance,
+  }) {
+    if (tolerance >= 1 || tolerance <= 0) {
+      throw ShouldlyTestFailureError(
+        'Tolerance has to be greater than 0 and less than 1',
+      );
+    }
+
+    final delta = subject! * tolerance;
+
+    var diff = nearbyValue - subject!;
+    if (diff < 0) diff = -diff;
+    final isClose = diff <= delta;
+
+    if (isReversed) {
+      Execute.assertion.forCondition(isClose).failWith(
+            '$subjectLabel\n    $subject\nshould not be tolerant of\n    $nearbyValue\nwith tolerance $tolerance%\n    but does.',
+          );
+    } else {
+      Execute.assertion.forCondition(!isClose).failWith(
+            '$subjectLabel\n    $subject\nshould be tolerant of\n    $nearbyValue\nwith tolerance $tolerance%\n    but does not.',
+          );
+    }
+
+    return NumericAssertions(subject);
+  }
+
+  /// Asserts that the numeric value is less than zero.
   NumericAssertions beNegative() {
     if (isReversed) {
       Execute.assertion
@@ -80,20 +87,22 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
     return NumericAssertions(subject);
   }
 
-  ///
+  /// Asserts that the numeric value is greater or equal than zero.
   NumericAssertions bePositive() {
     if (isReversed) {
       Execute.assertion.forCondition(subject! >= 0).failWith(
-          '$subjectLabel\n    $subject\nshould not be positive\n    but does.');
+            '$subjectLabel\n    $subject\nshould not be positive\n    but does.',
+          );
     } else {
       Execute.assertion.forCondition(subject! < 0).failWith(
-          '$subjectLabel\n    $subject\nshould be positive\n    but does not.');
+            '$subjectLabel\n    $subject\nshould be positive\n    but does not.',
+          );
     }
 
     return NumericAssertions(subject);
   }
 
-  ///
+  /// Asserts that the numeric value is 0.
   NumericAssertions beZero() {
     if (isReversed) {
       Execute.assertion

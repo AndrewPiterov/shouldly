@@ -22,7 +22,7 @@ abstract class BaseAssertions<T, K> {
   String get subjectLabel {
     final runtimeType = subject.runtimeType;
     return _subjectLabel == null || _subjectLabel == ''
-        ? 'Subject $runtimeType'
+        ? 'Subject <$runtimeType>'
         : _subjectLabel!;
   }
 
@@ -123,15 +123,15 @@ abstract class BaseAssertions<T, K> {
     return copy(subject, subjectLabel: subjectLabel);
   }
 
-  ///
-  K beOneOf(Iterable<T> items) {
+  /// Asserts that a value is one of the specified
+  K beOneOf(Iterable<T> validItems) {
     if (isReversed) {
-      Execute.assertion.forCondition(items.any((e) => eq(e))).failWith(
-            '$subjectLabel\n    $subject\nshould not be one of\n    $items\nbut found.',
+      Execute.assertion.forCondition(validItems.any((e) => eq(e))).failWith(
+            '$subjectLabel\n    $subject\nshould not be one of\n    $validItems\nbut found.',
           );
     } else {
-      Execute.assertion.forCondition(items.every((e) => !eq(e))).failWith(
-            '$subjectLabel\n    $subject\nshould be one of\n    $items\nbut not found.',
+      Execute.assertion.forCondition(validItems.every((e) => !eq(e))).failWith(
+            '$subjectLabel\n    $subject\nshould be one of\n    $validItems\nbut not found.',
           );
     }
 

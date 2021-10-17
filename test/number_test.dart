@@ -22,7 +22,7 @@ void main() {
       3.should.beOdd();
     });
 
-    test('should be odd', () {
+    test('should not be odd', () {
       4.should.not.beOdd();
     });
 
@@ -83,58 +83,64 @@ void main() {
       7.5.should.be(7.5).and.not.be(0);
     });
 
-    group('Close to', () {
+    group('beCloseTo', () {
       test('exact value should be close', () {
-        10.0.should.beCloseTo(
-              10.0,
-            );
-      });
-      group('with tolerance value', () {
-        test('value should be close', () {
-          10.1.should.beCloseTo(10.0, delta: 0.1);
-        });
-
-        test('value should not be close', () {
-          10.1.should.not.beCloseTo(10.0, delta: 0.09);
-        });
-
-        test('Sum', () {
-          const a = 1.1;
-          const b = 2.2;
-
-          const sum = a + b;
-          log('Sum of doubles: $sum');
-
-          sum.should.not.be(3.3);
-          sum.should.beCloseTo(3.3, delta: 0.0000000001);
-        });
+        10.0.should.beCloseTo(10.0, delta: 0);
       });
 
-      group('with tolerance percentage', () {
-        test('value should be close', () {
-          100.should.beCloseTo(99, tolerance: 0.01);
-          100.should.beCloseTo(101, tolerance: 0.01);
-        });
+      test('value should be close', () {
+        10.1.should.beCloseTo(10.0, delta: 0.1);
+      });
 
-        test('value should not be close', () {
-          100.should.beCloseTo(98.999999999999, tolerance: 0.01);
-          100.should.beCloseTo(101.00000000000001, tolerance: 0.01);
-        });
+      test('value should not be close', () {
+        10.1.should.not.beCloseTo(10.0, delta: 0.09);
+      });
 
-        test('value should not be close (2)', () {
-          100.should.not.beCloseTo(101, delta: 0.009);
-        });
+      test('Sum', () {
+        const a = 1.1;
+        const b = 2.2;
 
-        test('Sum', () {
-          const a = 1.1;
-          const b = 2.2;
+        const sum = a + b;
+        log('Sum of doubles: $sum');
 
-          const sum = a + b;
-          log('Sum of doubles: $sum');
+        sum.should.not.be(3.3);
+        sum.should.beCloseTo(3.3, delta: 0.0000000001);
+      });
+    });
 
-          sum.should.not.be(3.3);
-          sum.should.beCloseTo(3.3, tolerance: 0.00001);
-        });
+    group('beToleratTo', () {
+      test('max tolerance can be 1', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 10.should.beTolerantOf(10, tolerance: 1.1),
+        );
+      });
+
+      test('min tolerance has to be greater than 0', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => 10.should.beTolerantOf(100, tolerance: 0),
+        );
+      });
+
+      test('value should be close', () {
+        100.should.beTolerantOf(99, tolerance: 0.01);
+        100.should.beTolerantOf(101, tolerance: 0.01);
+      });
+
+      test('value should not be close', () {
+        100.should.not.beTolerantOf(98.999999999999, tolerance: 0.01);
+        100.should.not.beTolerantOf(101.00000000000001, tolerance: 0.01);
+        100.should.not.beTolerantOf(110, tolerance: 0.09999999999);
+      });
+
+      test('Sum', () {
+        const a = 1.1;
+        const b = 2.2;
+
+        const sum = a + b;
+        log('Sum of doubles: $sum');
+
+        sum.should.not.be(3.3);
+        sum.should.beTolerantOf(3.3, tolerance: 0.00001);
       });
     });
 
