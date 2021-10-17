@@ -56,4 +56,14 @@ void main() {
     bool? nullableTrue = true;
     nullableTrue.should.not.beNull();
   });
+
+  group('One of item in an Array', () {
+    test('array contain the True', () {
+      true.should.beOneOf([false, true]);
+    });
+
+    test('array does not contain the True', () {
+      true.should.not.beOneOf([false, false, false]);
+    });
+  });
 }

@@ -32,4 +32,19 @@ void main() {
   //   final Object? obj = null;
   //   obj.should.beOfType<Object>();
   // });
+
+  group('One of item in an Array', () {
+    test('array contain the Object', () {
+      final o1 = Object();
+      final o2 = Object();
+      o2.should.beOneOf([o1, o2]);
+    });
+
+    test('array does not contain the Object', () {
+      final o1 = Object();
+      final o2 = Object();
+      final o3 = Object();
+      o3.should.not.beOneOf([o1, o2]);
+    });
+  });
 }
