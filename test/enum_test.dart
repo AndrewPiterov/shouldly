@@ -35,5 +35,18 @@ void main() {
     test('should be assignable to `Enum`', () {
       seasons.spring.should.beAssignableTo<Enum>();
     });
+
+    group('One of item in an Array', () {
+      test('array contain the Enum', () {
+        seasons.spring.should.beOneOf(
+          [seasons.winter, seasons.spring, seasons.summer, seasons.fall],
+        );
+      });
+
+      test('array does not contain the Enum', () {
+        seasons.winter.should.not
+            .beOneOf([seasons.spring, seasons.summer, seasons.fall]);
+      });
+    });
   });
 }

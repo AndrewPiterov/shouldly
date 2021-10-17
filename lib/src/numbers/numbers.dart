@@ -19,61 +19,99 @@ class NumericAssertions extends BaseAssertions<num, NumericAssertions> {
     String? subjectLabel,
   }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
 
+  /// Asserts an numeric value is close to another value within a specified value.
   ///
+  /// [delta] The maximum amount of which the two values may differ.
+  NumericAssertions beCloseTo(num nearbyValue, {required num delta}) {
+    var diff = nearbyValue - subject!;
+    if (diff < 0) diff = -diff;
+    final isClose = diff <= delta;
+
+    if (isReversed) {
+      Execute.assertion.forCondition(isClose).failWith(
+            '$subjectLabel\n    $subject\nshould not be close to\n    $nearbyValue\nwith tolerance $delta\n    but does.',
+          );
+    } else {
+      Execute.assertion.forCondition(!isClose).failWith(
+            '$subjectLabel\n    $subject\nshould be close to\n    $nearbyValue\nwith tolerance $delta\n    but does not.',
+          );
+    }
+
+    return NumericAssertions(subject);
+  }
+
+  /// Asserts an numeric value is close to another value within a specified value.
+  ///
+  /// [tolerance] The maximum percentage of which the two values may differ.
+  NumericAssertions beTolerantOf(
+    num nearbyValue, {
+    required double tolerance,
+  }) {
+    if (tolerance >= 1 || tolerance <= 0) {
+      throw ShouldlyTestFailureError(
+        'Tolerance has to be greater than 0 and less than 1',
+      );
+    }
+
+    final delta = subject! * tolerance;
+
+    var diff = nearbyValue - subject!;
+    if (diff < 0) diff = -diff;
+    final isClose = diff <= delta;
+
+    if (isReversed) {
+      Execute.assertion.forCondition(isClose).failWith(
+            '$subjectLabel\n    $subject\nshould not be tolerant of\n    $nearbyValue\nwith tolerance $tolerance%\n    but does.',
+          );
+    } else {
+      Execute.assertion.forCondition(!isClose).failWith(
+            '$subjectLabel\n    $subject\nshould be tolerant of\n    $nearbyValue\nwith tolerance $tolerance%\n    but does not.',
+          );
+    }
+
+    return NumericAssertions(subject);
+  }
+
+  /// Asserts that the numeric value is less than zero.
   NumericAssertions beNegative() {
     if (isReversed) {
       Execute.assertion
-          .forCondition(subject! >= 0)
+          .forCondition(subject! < 0)
           .failWith('$subjectLabel\n    $subject\nshould not be negative.');
     } else {
       Execute.assertion
-          .forCondition(subject! < 0)
+          .forCondition(subject! >= 0)
           .failWith('$subjectLabel\n    $subject\nshould be negative.');
     }
 
     return NumericAssertions(subject);
   }
 
-  ///
+  /// Asserts that the numeric value is greater or equal than zero.
   NumericAssertions bePositive() {
     if (isReversed) {
-      Execute.assertion
-          .forCondition(subject! < 0)
-          .failWith('$subjectLabel\n    $subject\nshould not be positive.');
+      Execute.assertion.forCondition(subject! >= 0).failWith(
+            '$subjectLabel\n    $subject\nshould not be positive\n    but does.',
+          );
     } else {
-      Execute.assertion
-          .forCondition(subject! >= 0)
-          .failWith('$subjectLabel\n    $subject\nshould be positive.');
+      Execute.assertion.forCondition(subject! < 0).failWith(
+            '$subjectLabel\n    $subject\nshould be positive\n    but does not.',
+          );
     }
 
     return NumericAssertions(subject);
   }
 
-  ///
-  NumericAssertions isZero() {
+  /// Asserts that the numeric value is 0.
+  NumericAssertions beZero() {
     if (isReversed) {
       Execute.assertion
           .forCondition(subject! == 0)
-          .failWith('$subjectLabel\n    $subject\nshould not be null.');
+          .failWith('$subjectLabel\n    $subject\nshould not be zero.');
     } else {
       Execute.assertion
           .forCondition(subject! != 0)
-          .failWith('$subjectLabel\n    $subject\nshould be null.');
-    }
-
-    return NumericAssertions(subject);
-  }
-
-  ///
-  NumericAssertions beOneOf(Iterable<num> items) {
-    if (isReversed) {
-      Execute.assertion.forCondition(items.contains(subject)).failWith(
-            '$subjectLabel\n    $subject\nshould not be one of\n    $items.',
-          );
-    } else {
-      Execute.assertion.forCondition(!items.contains(subject)).failWith(
-            '$subjectLabel\n    $subject\nshould be one of\n    $items.',
-          );
+          .failWith('$subjectLabel\n    $subject\nshould be zero.');
     }
 
     return NumericAssertions(subject);
