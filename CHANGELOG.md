@@ -1,3 +1,8 @@
+## 0.3.0
+
+* [Remove] shouldly from function type. Use `Should.<some method>` instead
+* [Improve] documentation
+
 ## 0.2.4
 
 * Add `DateTime` assertions
