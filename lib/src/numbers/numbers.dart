@@ -1,7 +1,4 @@
 import 'package:shouldly/shouldly.dart';
-import 'package:shouldly/src/base_assertions.dart';
-import 'package:shouldly/src/exception.dart';
-import 'package:shouldly/src/execute_assertion.dart';
 
 /// Contains Numbers's extension methods for custom assertions in unit tests.
 extension NumExtensions on num {

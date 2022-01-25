@@ -1,7 +1,4 @@
 import 'package:shouldly/shouldly.dart';
-import 'package:shouldly/src/base_assertions.dart';
-import 'package:shouldly/src/exception.dart';
-import 'package:shouldly/src/execute_assertion.dart';
 
 /// Contains String's extension methods for custom assertions in unit tests.
 extension StringExtensions on String? {
@@ -27,13 +24,13 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
     if (isReversed) {
       if (subject!.startsWith(expected)) {
         throw ShouldlyTestFailureError(
-          '\n$subjectLabel string\n    `$subject`\nshould not start with\n    `$expected`\nbut it does',
+          '\nExpected $subjectLabel\n    `$subject`\nto not start with\n    `$expected`\nbut it does',
         );
       }
     } else {
       if (!subject!.startsWith(expected)) {
         throw ShouldlyTestFailureError(
-          '\n$subjectLabel string\n    `$subject`\nshould end start\n    `$expected`\nbut it does not',
+          '\nExpected $subjectLabel\n    `$subject`\nto start with\n    `$expected`\nbut it does not',
         );
       }
     }

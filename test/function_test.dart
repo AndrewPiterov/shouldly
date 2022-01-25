@@ -1,22 +1,35 @@
 import 'package:shouldly/shouldly.dart';
-import 'package:shouldly/shouldly_function.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('should throw any exception', () {
-    throwException.should.throwException();
+    Should.throwException(() => throwException());
+  });
+
+  test('should throw an exception (2)', () {
+    expect(
+      () => Should.throwException(() => someMethodWithArgs()),
+      throwsException,
+    );
   });
 
   test('should not throw throw an exception', () {
-    someMethod.should.not.throwException();
+    Should.notThrowException(() => someMethodWithArgs(a: 100));
   });
 
   test('should throw exact type of exception', () {
-    throwExactException.should.throwException<CustomException>();
+    Should.throwException<CustomException>(() => throwExactException());
   });
 
   test('should throw exact type of error', () {
-    throwExactCustomError.should.throwError<CustomError>();
+    Should.throwError<CustomError>(() => throwExactCustomError());
+  });
+
+  test('should throw an error (2)', () {
+    expect(
+      () => Should.throwError(() => someMethodWithArgs()),
+      throwsException,
+    );
   });
 
   test('async function should throw exception', () async {
@@ -48,41 +61,21 @@ void main() {
     );
   });
 
-  group('throw error -', () {
-    test('should not throw error', () {
-      Should.throwError<ShouldlyTestFailureError>(
-        () => someMethod.should.throwError(),
-      );
-    });
-
-    test('should throw errro but ', () {
-      Should.throwError<ShouldlyTestFailureError>(
-        () => throwException.should.not.throwError(),
-      );
-    });
-  });
-
-  group('throw exception -', () {
-    test('should not throw exception', () {
-      final error = Should.throwError<ShouldlyTestFailureError>(
-        () => someMethod.should.throwException(),
-      );
-
-      error.message.should.be('subject function does not throw exception');
-      error.toString().should.be('subject function does not throw exception');
-    });
-
-    test('should throw exception but ', () {
-      Should.throwError<ShouldlyTestFailureError>(
-        () => throwException.should.not.throwException(),
-      );
-    });
-  });
-
   group('discover error parameter -', () {
     test('should throw exact error', () {
-      final error = throwExactCustomError.should.throwError<CustomError>();
-      error!.reason.should.be('Some reason');
+      final error =
+          Should.throwError<CustomError>(() => throwExactCustomError());
+      error.reason.should.be('Some reason');
+    });
+  });
+
+  group('function with args', () {
+    test('should throw excception', () {
+      Should.throwException(() => throwExactExceptionWithArgs(''));
+    });
+
+    test('should not throw excception', () {
+      Should.notThrowException(() => someMethodWithArgs(a: 3));
     });
   });
 }
@@ -114,6 +107,10 @@ void throwExactException() {
   throw CustomException('test');
 }
 
+void throwExactExceptionWithArgs(String arg) {
+  throw CustomException('test');
+}
+
 void throwError() {
   throw Error();
 }
@@ -124,4 +121,8 @@ void throwExactCustomError() {
 
 void someMethod() {
   return;
+}
+
+int someMethodWithArgs({int a = 0}) {
+  return a;
 }

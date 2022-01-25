@@ -1,8 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:shouldly/shouldly.dart';
-import 'package:shouldly/src/base_assertions.dart';
-import 'package:shouldly/src/exception.dart';
-import 'package:shouldly/src/execute_assertion.dart';
 
 final _eq = const DeepCollectionEquality().equals;
 

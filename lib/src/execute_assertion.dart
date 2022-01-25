@@ -22,7 +22,7 @@ class AssertionScope {
   // AssertionScope? _parent;
   // Func<string>? expectation;
   ///
-  final fallbackIdentifier = 'object';
+  final fallbackIdentifier = '`Object`';
   var _isFailed = false;
 
   ///
@@ -35,7 +35,7 @@ class AssertionScope {
   ///
   void failWith(String message) {
     if (_isFailed) {
-      throw ShouldlyTestFailureError('\n$message\n');
+      throw ShouldlyTestFailureError(message);
     }
   }
 }

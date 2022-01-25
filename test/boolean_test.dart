@@ -1,6 +1,4 @@
 import 'package:shouldly/shouldly.dart';
-import 'package:shouldly/shouldly_bool.dart';
-import 'package:shouldly/src/should.dart';
 import 'package:test/test.dart';
 
 void main() {

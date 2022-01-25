@@ -8,7 +8,7 @@ export 'src/datetimes/datetimes.dart';
 export 'src/enums/enums.dart';
 export 'src/exception.dart';
 export 'src/execute_assertion.dart';
-export 'src/functions/functions.dart';
+// export 'src/functions/functions.dart';
 export 'src/maps/map.dart';
 export 'src/numbers/numbers.dart';
 export 'src/objects/objects.dart';
