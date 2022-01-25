@@ -13,7 +13,7 @@ and the Flutter guide for
 
 # shouldly
 
-<img src="doc/shouldly_logo.png" alt="shouldly logo" width="300"/>
+<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/doc/shouldly_logo.png" alt="shouldly logo" width="300"/>
 
 [![pub package](https://img.shields.io/pub/v/shouldly.svg?label=shouldly&color=blue)](https://pub.dev/packages/shouldly)
 [![codecov](https://codecov.io/gh/AndrewPiterov/shouldly/branch/dev/graph/badge.svg?token=VM9LTJXGQS)](https://codecov.io/gh/AndrewPiterov/shouldly)
@@ -47,7 +47,7 @@ expect(calculator.currentValue, 1);
 calculator.currentValue.should.be(1);
 ```
 
-<img src="example/img/eq.png" alt="drawing" width="300"/>
+<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/eq.png" alt="drawing" width="300"/>
 
 
 ### No more: Mix Up with parameters
@@ -71,11 +71,11 @@ Every single type of class has his own assertions.
 
 To get more contextual information
 
-<img src="example/img/fail_message_eq.png" alt="drawing" width="300"/>
+<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/fail_message_eq.png" alt="drawing" width="300"/>
 
-<img src="example/img/fail_message_null.png" alt="drawing" width="300"/>
+<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/fail_message_null.png" alt="drawing" width="300"/>
 
-<img src="example/img/failure_message_contains.png" alt="drawing" width="300"/>
+<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/failure_message_contains.png" alt="drawing" width="300"/>
 
 ### Conjunctions
 
@@ -338,7 +338,7 @@ class CustomerAssertions extends BaseAssertions<Customer, CustomerAssertions> {
 
 You can improve the readability of the rest of your test code with [given_when_then_unit_test](https://pub.dev/packages/given_when_then_unit_test), which enhances the test report readability as well.
 
-<img src="example/img/shouldly_with_gwtut.png" alt="drawing" width="600"/>
+<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/shouldly_with_gwtut.png" alt="drawing" width="600"/>
 
 ## Changelog
 
