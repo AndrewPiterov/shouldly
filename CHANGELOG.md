@@ -1,3 +1,7 @@
+## 0.3.0+1
+
+* [Fix] image urls in Readme.md
+
 ## 0.3.0
 
 * [Remove] shouldly from function type. Use `Should.<some method>` instead
