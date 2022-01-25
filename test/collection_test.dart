@@ -1,6 +1,4 @@
 import 'package:shouldly/shouldly.dart';
-import 'package:shouldly/shouldly_collection.dart';
-import 'package:shouldly/shouldly_num.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -92,11 +90,11 @@ void main() {
         );
       });
 
-      // TODO: test('should not have every element', () {
-      //   Should.throwError<ShouldlyTestFailureError>(
-      //     () => [1, 2].should.not.every((e) => e > 10),
-      //   );
-      // });
+      test('should not have every element', () {
+        Should.throwError<ShouldlyTestFailureError>(
+          () => [1, 2].should.not.every((e) => e > 10),
+        );
+      });
     });
   });
 
@@ -148,13 +146,21 @@ void main() {
   //   [3, 5, 7, 9].should.not.any((item) => item >= 10);
   // });
 
-  test('with every elements whic satisfy condition', () {
-    [3, 5, 7, 9].should.all((item) => item.should.beOdd());
-  });
+  group('all', () {
+    test('with every elements whic satisfy condition', () {
+      [3, 5, 7, 9].should.all((item) => item.should.beOdd());
+    });
 
-  // test('all numbers are odd', () {
-  //   [3, 5, 7, 9].should.not.all((item) => item.should.beOdd());
-  // });
+    // test('all numbers are odd', () {
+    //   [3, 5, 7, 9].should.not.all((item) => item.should.beOdd());
+    // });
+
+    test('should not have all element', () {
+      Should.throwError<ShouldlyTestFailureError>(
+        () => [1, 2].should.not.all((e) => e > 10),
+      );
+    });
+  });
 
   test('should has length', () {
     [30, 500, 70, 2].should.haveCount(4);

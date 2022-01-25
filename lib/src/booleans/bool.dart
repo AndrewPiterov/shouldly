@@ -12,19 +12,27 @@ extension BoolExtensions on bool? {
 class BoolAssertions extends BaseAssertions<bool, BoolAssertions> {
   /// Initializes a new instance of the `BoolAssertions` class.
   // ignore: avoid_positional_boolean_parameters
-  BoolAssertions(bool? subject, {bool isReversed = false, String? subjectLabel})
-      : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
+  BoolAssertions(
+    // ignore: avoid_positional_boolean_parameters
+    bool? subject, {
+    bool isReversed = false,
+    String? subjectLabel,
+  }) : super(
+          subject,
+          isReversed: isReversed,
+          subjectLabel: subjectLabel,
+        );
 
   /// Asserts that the value is `true`
   BoolAssertions beTrue() {
     if (isReversed) {
-      Execute.assertion
-          .forCondition(subject == true)
-          .failWith('$subjectLabel should not be `true`');
+      Execute.assertion.forCondition(subject == true).failWith(
+            'Expected $subjectLabel to not be\n    `true`\nbut found\n    `true`',
+          );
     } else {
-      Execute.assertion
-          .forCondition(subject == false)
-          .failWith('$subjectLabel should be `true`');
+      Execute.assertion.forCondition(subject == false).failWith(
+            'Expected $subjectLabel to be\n    `true`\nbut found\n    `false`',
+          );
     }
 
     return BoolAssertions(subject, subjectLabel: subjectLabel);
@@ -33,13 +41,13 @@ class BoolAssertions extends BaseAssertions<bool, BoolAssertions> {
   /// Asserts that the value is `false`
   BoolAssertions beFalse() {
     if (isReversed) {
-      Execute.assertion
-          .forCondition(subject == false)
-          .failWith('$subjectLabel should not be `false`');
+      Execute.assertion.forCondition(subject == false).failWith(
+            'Expected $subjectLabel to not be\n    `false`\nbut found\n    `false`',
+          );
     } else {
-      Execute.assertion
-          .forCondition(subject == true)
-          .failWith('$subjectLabel should be `false`');
+      Execute.assertion.forCondition(subject == true).failWith(
+            'Expected $subjectLabel to be\n   `false`\nbut found\n    `true`',
+          );
     }
 
     return BoolAssertions(subject, subjectLabel: subjectLabel);

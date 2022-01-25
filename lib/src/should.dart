@@ -1,13 +1,60 @@
 // ignore_for_file: avoid_print
 
 import 'package:shouldly/src/exception.dart';
-import 'package:shouldly/src/functions/functions.dart';
 
 // ignore: avoid_classes_with_only_static_members
 ///Static class for shoulds
 class Should {
   /// Expects the function to throw Exception
-  static T throwError<T extends Error>(Function func) {
+  static T? throwException<T extends Exception>(Function() func) {
+    try {
+      func();
+
+      throw FunctionExecutionException(
+        '\nsubject function does not throw an exception',
+      );
+    } catch (e) {
+      if (e is FunctionExecutionException) {
+        throw FunctionExecutionException(
+          'subject function does not throw an exception',
+        );
+      }
+
+      if (e is T) {
+        return e;
+      } else {
+        final message =
+            'subject function does not throw exact exception of `$T`';
+        print(message);
+        throw FunctionExecutionException(message);
+      }
+    }
+  }
+
+  /// Expects the function to throw Exception
+  static T? notThrowException<T extends Exception>(Function() func) {
+    try {
+      func();
+    } catch (e) {
+      if (e is FunctionExecutionException) {
+        throw FunctionExecutionException(
+          'subject function does not throw exception',
+        );
+      }
+
+      if (e is T) {
+        return e;
+      } else {
+        final message =
+            'subject function does not throw exact exception of `$T`';
+        print(message);
+        throw FunctionExecutionException(message);
+      }
+    }
+  }
+
+  /// Expects the function to throw Exception
+  static T throwError<T extends Error>(Function() func) {
     try {
       func();
 
@@ -33,7 +80,28 @@ class Should {
   }
 
   /// Expects the function to throw Exception
-  static Future throwAsync<T extends Exception>(Function func) async {
+  static T? notThrowError<T extends Error>(Function() func) {
+    try {
+      func();
+    } catch (e) {
+      if (e is FunctionExecutionException) {
+        throw FunctionExecutionException(
+          'subject function does not throw exception',
+        );
+      }
+
+      if (e is T) {
+        return e;
+      } else {
+        final message = 'subject function does not throw exact error of `$T`';
+        print(message);
+        throw FunctionExecutionException(message);
+      }
+    }
+  }
+
+  /// Expects the function to throw Exception
+  static Future throwAsync<T extends Exception>(Function() func) async {
     try {
       await func();
 
@@ -59,7 +127,7 @@ class Should {
   }
 
   /// Check that the function should not throw any exception
-  static Future notThrowAsync(Function func) async {
+  static Future notThrowAsync(Function() func) async {
     try {
       await func();
     } catch (e) {
@@ -73,7 +141,7 @@ class Should {
   /// Check that the function should complte execution in a duration
   static Future completeIn(
     Duration duration, {
-    required Function func,
+    required Function() func,
   }) async {
     final stopwatch = Stopwatch()..start();
     await func();
@@ -88,4 +156,13 @@ class Should {
       );
     }
   }
+}
+
+///
+class FunctionExecutionException implements Exception {
+  ///
+  final String cause;
+
+  ///
+  FunctionExecutionException(this.cause);
 }

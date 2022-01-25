@@ -85,13 +85,13 @@ class IterableAssertions<T>
     if (isReversed) {
       if (subject!.contains(expected)) {
         throw ShouldlyTestFailureError(
-          '$subjectLabel\n    $subject\nshould not contain\n    $expected\nbut does',
+          '\nExpected $subjectLabel\n    $subject\nto not contain\n    $expected\nbut does.',
         );
       }
     } else {
       if (!subject!.contains(expected)) {
         throw ShouldlyTestFailureError(
-          '$subjectLabel\n    $subject\nshould contain\n    $expected\nbut does not',
+          '\nExpected $subjectLabel\n    $subject\nto contain\n    $expected\nbut does not.',
         );
       }
     }

@@ -20,25 +20,41 @@ abstract class BaseAssertions<T, K> {
 
   /// Friendly label for the subject object
   String get subjectLabel {
-    final runtimeType = subject.runtimeType;
-    return _subjectLabel == null || _subjectLabel == ''
-        ? 'Subject <$runtimeType>'
-        : _subjectLabel!;
+    if (_subjectLabel == null || _subjectLabel == '') {
+      final x = '`${subject.runtimeType.toString()}`';
+      return x;
+    }
+
+    return '`$_subjectLabel`';
   }
 
   /// Copy the matcher
-  K copy(T? subject, {bool isReversed = false, String? subjectLabel});
+  K copy(
+    T? subject, {
+    bool isReversed = false,
+    String? subjectLabel,
+  });
 
   /// Bind assertions
-  K get and =>
-      copy(subject, isReversed: isReversed, subjectLabel: subjectLabel);
+  K get and => copy(
+        subject,
+        isReversed: isReversed,
+        subjectLabel: _subjectLabel,
+      );
 
   /// Invert assertion
-  K get not => copy(subject, isReversed: true, subjectLabel: subjectLabel);
+  K get not => copy(
+        subject,
+        isReversed: true,
+        subjectLabel: _subjectLabel,
+      );
 
   /// Set friendly title for the subject
-  K as(String subjectLabel) =>
-      copy(subject, isReversed: isReversed, subjectLabel: subjectLabel);
+  K as(String subjectLabel) => copy(
+        subject,
+        isReversed: isReversed,
+        subjectLabel: subjectLabel,
+      );
 
   /// Asserts that the value is equal to the specified [expected] value.
   /// [expected] The expected value
@@ -46,13 +62,13 @@ abstract class BaseAssertions<T, K> {
     if (isReversed) {
       if (expected == subject) {
         throw ShouldlyTestFailureError(
-          '\n$subjectLabel should not be\n  `$expected`\nbut was\n  `$subject`',
+          '\nExpected $subjectLabel to not be\n  `$expected`\nbut was\n  `$subject`',
         );
       }
     } else {
       if (expected != subject) {
         throw ShouldlyTestFailureError(
-          '\n$subjectLabel should be\n  `$expected`\nbut was\n  `$subject`',
+          '\nExpected $subjectLabel to be\n  `$expected`\nbut was\n  `$subject`',
         );
       }
     }
@@ -113,14 +129,14 @@ abstract class BaseAssertions<T, K> {
     if (isReversed) {
       Execute.assertion
           .forCondition(subject == null)
-          .failWith('$subjectLabel should not be `null`.');
+          .failWith('\nExpected $subjectLabel not to be <null>.');
     } else {
-      Execute.assertion
-          .forCondition(subject != null)
-          .failWith('$subjectLabel should be `null`.');
+      Execute.assertion.forCondition(subject != null).failWith(
+            '\nExpected $subjectLabel to be\n    <null>\nbut found\n    `${subject.runtimeType}` (Hashcode=${subject.hashCode})',
+          );
     }
 
-    return copy(subject, subjectLabel: subjectLabel);
+    return copy(subject, subjectLabel: _subjectLabel);
   }
 
   /// Asserts that a value is one of the specified [validItems]
@@ -135,7 +151,7 @@ abstract class BaseAssertions<T, K> {
           );
     }
 
-    return copy(subject, subjectLabel: subjectLabel);
+    return copy(subject, subjectLabel: _subjectLabel);
   }
 
   /// Comparison with an another [expected] value

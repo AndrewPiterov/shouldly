@@ -14,7 +14,11 @@ class ObjectAssertions extends BaseAssertions<Object, ObjectAssertions> {
     Object? subject, {
     bool isReversed = false,
     String? subjectLabel,
-  }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
+  }) : super(
+          subject,
+          isReversed: isReversed,
+          subjectLabel: subjectLabel,
+        );
 
   @override
   ObjectAssertions copy(

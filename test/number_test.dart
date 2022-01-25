@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:shouldly/shouldly.dart';
-import 'package:shouldly/shouldly_num.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-import 'package:shouldly/shouldly_function.dart';
+import 'package:shouldly/shouldly.dart';
 
 void main() {
   // Type checking
@@ -9,9 +9,12 @@ void main() {
   someFunction.should.not.beOfType<PowerOperation>();
 
   // Exceptions
-  throwException.should.throwException();
-  throwException.should.throwException<IntegerDivisionByZeroException>();
-  someAction.should.not.throwException();
+  Should.throwException(() => throwException());
+  // ignore: deprecated_member_use
+  Should.throwException<IntegerDivisionByZeroException>(
+    () => throwException(),
+  ); // FormatException
+  Should.notThrowException(() => someAction());
 
   print('Done with functions');
 }
@@ -27,5 +30,6 @@ int someFunction(int a, int b) {
 }
 
 void throwException() {
+  // ignore: deprecated_member_use
   throw const IntegerDivisionByZeroException();
 }

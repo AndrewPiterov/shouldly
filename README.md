@@ -13,70 +13,29 @@ and the Flutter guide for
 
 # shouldly
 
+<img src="doc/shouldly_logo.png" alt="shouldly logo" width="300"/>
+
+
 [![pub package](https://img.shields.io/pub/v/shouldly.svg?label=shouldly&color=blue)](https://pub.dev/packages/shouldly)
 [![codecov](https://codecov.io/gh/AndrewPiterov/shouldly/branch/dev/graph/badge.svg?token=VM9LTJXGQS)](https://codecov.io/gh/AndrewPiterov/shouldly)
 [![likes](https://badges.bar/shouldly/likes)](https://pub.dev/packages/shouldly/score)
 [![style: lint](https://img.shields.io/badge/style-lint-4BC0F5.svg)](https://pub.dev/packages/lint)
 [![Dart](https://github.com/AndrewPiterov/shouldly/actions/workflows/dart.yml/badge.svg)](https://github.com/AndrewPiterov/shouldly/actions/workflows/dart.yml)
 
-`Shouldly` is an assertion framework which focuses on giving great error messages when the assertion fails while being simple and terse.
+`shouldly` is an assertion concept that focuses on
 
-`shouldly` allows you write more readable test assertions.
+- writing assertions as plain English sentences
+- and giving better error messages when the assertion fails while being simple and terse.
 
 ## Features
 
-* Better test failure messages
 * More readable test code
+* Better test failure messages
 * Conjunction support (`and`)
 * Custom assertions
-
-### Better test failure messages
-
-To get more contextual information
-
-```bash
-// Non-Shouldly
-Expected: <18>
-  Actual: <17>
-
-// Shouldly
-Subject int should be
-  `18`
-but was
-  `17`
-
-// more with Shouldly 😍
-customer.age should be
-  `18`
-but was
-  `17`
-```
-
-```bash
-// Non-Shouldly
-Expected: not null
-  Actual: <null>
-
-// Shouldly
-Subject should not be null
-```
-
-```bash
-// Non-Shouldly
-Expected: some element <4>
-  Actual: [1, 2, 3, 5]
-
-// Non-Shouldly
-myList
-    [1, 2, 3, 5]
-should contain
-    4
-but does not
-```
-
 ### Readability
 
-More readable test code as an English sentence.
+More readable test code as plain English sentence.
 
 ```dart
 // without shouldly
@@ -85,6 +44,8 @@ expect(calculator.currentValue, 1);
 // shouldly
 calculator.currentValue.should.be(1);
 ```
+
+<img src="example/img/eq.png" alt="drawing" width="300"/>
 
 You can mix up with **Expected** or **Actual** 🤔. But with `shouldly` there is no way to mix up.
 
@@ -96,6 +57,16 @@ expect(100, playerCharacter.health);
 // shouldly
 playerCharacter.health.should.be(100);
 ```
+
+### Better test failure messages
+
+To get more contextual information
+
+<img src="example/img/fail_message_eq.png" alt="drawing" width="300"/>
+
+<img src="example/img/fail_message_null.png" alt="drawing" width="300"/>
+
+<img src="example/img/failure_message_contains.png" alt="drawing" width="300"/>
 
 ### Conjunctions
 
@@ -161,8 +132,9 @@ test('false should not be `true`', () {
 
 ```dart
 test('Int should be type of `int`', () {
-  10.should.beOfType<int>();
-  10.should.beAssignableTo<num>();
+  2.should.beEven();
+  10.should.beGreaterThan(9);
+  9.99.should.not.beCloseTo(10.0, delta: 0.01);
 });
 ```
 
@@ -170,8 +142,7 @@ test('Int should be type of `int`', () {
 
 ```dart
 test('should not start with substring', () {
-  const str = 'Flutter';
-  str.should.not.startWith('A');
+  'Flutter'.should.not.startWith('A');
 });
 ```
 
@@ -354,16 +325,34 @@ class CustomerAssertions extends BaseAssertions<Customer, CustomerAssertions> {
 }
 ```
 
+## Recommendations
+
+You can improve the readability of the rest of your test code with [given_when_then_unit_test](https://pub.dev/packages/given_when_then_unit_test), which enhances the test report readability as well.
+
+<img src="example/img/shouldly_with_gwtut.png" alt="drawing" width="600"/>
+
+## Changelog
+
+Please see the [Changelog](CHANGELOG.md) page to know what's recently changed.
+
 ## Contributing
+
+Feel free to contribute to this project.
+
+If you find a bug or want a feature, but don't know how to fix/implement it, please fill an [issue](https://github.com/AndrewPiterov/date_time/issues/new).\
+If you fixed a bug or implemented a new feature, please send a [pull request](https://github.com/AndrewPiterov/date_time/pulls).
 
 We accept the following contributions:
 
-* Reporting issues
-* Fixing bugs
-* More tests
-* More class integrations (Streams? Futures?)
-* Improving documentation and comments
+- Ideas how to improve
+- [Reporting issues](https://github.com/AndrewPiterov/shouldly/issues/new)
+- Fixing bugs
+- More tests
+- More class integrations (Functions, Futures, Functions)
+- Improving documentation and comments
 
 ## Maintainers
 
-* [Andrew Piterov](mailto:piterov1990@gmail.com?subject=[GitHub]%20Source%20Dart%20fluent_result)
+- [Andrew Piterov](mailto:contact@andrewpiterov.com?subject=[GitHub]%20Source%20Dart%20shouldly)
+
+<a href="https://www.buymeacoffee.com/devcraft.ninja" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Support me" height="41" width="174"></a>
