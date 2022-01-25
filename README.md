@@ -11,8 +11,6 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages). 
 -->
 
-# shouldly
-
 <img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/doc/shouldly_logo.png" alt="shouldly logo" width="300"/>
 
 [![pub package](https://img.shields.io/pub/v/shouldly.svg?label=shouldly&color=blue)](https://pub.dev/packages/shouldly)
@@ -72,10 +70,14 @@ Every single type of class has his own assertions.
 To get more contextual information
 
 <img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/fail_message_eq.png" alt="drawing" width="300"/>
-
+</br>
+</br>
 <img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/fail_message_null.png" alt="drawing" width="300"/>
+</br>
+</br>
 
 <img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/failure_message_contains.png" alt="drawing" width="300"/>
+</br>
 
 ### Conjunctions
 
