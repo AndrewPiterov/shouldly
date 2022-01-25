@@ -15,7 +15,6 @@ and the Flutter guide for
 
 <img src="doc/shouldly_logo.png" alt="shouldly logo" width="300"/>
 
-
 [![pub package](https://img.shields.io/pub/v/shouldly.svg?label=shouldly&color=blue)](https://pub.dev/packages/shouldly)
 [![codecov](https://codecov.io/gh/AndrewPiterov/shouldly/branch/dev/graph/badge.svg?token=VM9LTJXGQS)](https://codecov.io/gh/AndrewPiterov/shouldly)
 [![likes](https://badges.bar/shouldly/likes)](https://pub.dev/packages/shouldly/score)
@@ -27,13 +26,16 @@ and the Flutter guide for
 - writing assertions as plain English sentences
 - and giving better error messages when the assertion fails while being simple and terse.
 
+Inspired from [Fluent Assertion](https://fluentassertions.com/), [Shouldly](https://shouldly.io/), [should.js](https://shouldjs.github.io/)
+
 ## Features
 
-* More readable test code
-* Better test failure messages
-* Conjunction support (`and`)
-* Custom assertions
-### Readability
+- More readable test code
+- Better test failure messages
+- Conjunction support (`and`)
+- Custom assertions
+
+## Readability
 
 More readable test code as plain English sentence.
 
@@ -47,6 +49,9 @@ calculator.currentValue.should.be(1);
 
 <img src="example/img/eq.png" alt="drawing" width="300"/>
 
+
+### No more: Mix Up with parameters
+
 You can mix up with **Expected** or **Actual** 🤔. But with `shouldly` there is no way to mix up.
 
 ```dart
@@ -58,7 +63,11 @@ expect(100, playerCharacter.health);
 playerCharacter.health.should.be(100);
 ```
 
-### Better test failure messages
+### No more: single heap of assertion methods
+
+Every single type of class has his own assertions.
+
+## Better test failure messages
 
 To get more contextual information
 

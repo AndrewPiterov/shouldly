@@ -1,6 +1,6 @@
 name: shouldly
 description: A simple, extensible BDD assertion library which focuses on giving great error messages when the assertion fails.
-version: 0.2.4
+version: 0.3.0
 homepage: https://github.com/AndrewPiterov/shouldly
 
 environment:
