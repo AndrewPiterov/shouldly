@@ -1,3 +1,7 @@
+## 0.3.0+2
+
+* Improve doc
+
 ## 0.3.0+1
 
 * [Fix] image urls in Readme.md
