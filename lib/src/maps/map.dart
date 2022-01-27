@@ -211,7 +211,7 @@ class MapAssertions<TKey, TValue>
   }
 
   @override
-  bool eq(Map<TKey, TValue> expected) {
+  bool isEqual(Map<TKey, TValue> expected) {
     return _eq(subject, expected);
   }
 

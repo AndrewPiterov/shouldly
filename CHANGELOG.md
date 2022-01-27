@@ -1,3 +1,8 @@
+## 0.4.0
+
+* [Fix] collection comparison with `be`
+* [Add] String `contain(expected:,ignoreCase:)`
+
 ## 0.3.0+2
 
 * Improve doc

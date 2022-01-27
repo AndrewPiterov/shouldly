@@ -211,10 +211,11 @@ test('should contain key with exact value', () {
 ### Functions
 
 ```dart
-test('should throw exact type of exception', () {
-  throwExactException.should.throwException<CustomException>();
-});
+Should.throwException(() => someMethodWitchThrowException(params:));
+Should.throwError<ExactError>(() => someMethodWitchThrowExactError(params:));
+```
 
+```dart
 test('async function should throw exception', () async {
   await Should.throwAsync(() {
     Future.delayed(Duration(milliseconds: 100));
