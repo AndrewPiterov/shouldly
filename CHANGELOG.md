@@ -1,3 +1,7 @@
+## 0.4.0+1
+
+* Improve doc
+
 ## 0.4.0
 
 * [Fix] collection comparison with `be`
@@ -18,9 +22,9 @@
 
 ## 0.2.4
 
-* Add `DateTime` assertions
-* Add `beOneOf`
-* Add `num`'s assertions to `bePositive`, `beNegative`, `beZero`, `beCloseTo`, `beTolerantOf`
+* [Add] `DateTime` assertions
+* [Add] `beOneOf`
+* [Add] `num`'s assertions to `bePositive`, `beNegative`, `beZero`, `beCloseTo`, `beTolerantOf`
 
 ## 0.1.3
 
@@ -29,8 +33,8 @@
 
 ## 0.1.2
 
-* Add `ObjectAssertions`
-* Add `EnumAssertions`
+* [Add] `ObjectAssertions`
+* [Add] `EnumAssertions`
 
 ## 0.1.1
 
@@ -38,8 +42,8 @@
 
 ## 0.1.0
 
-* Add `beOfType` and `beAssignableTo`
-* Add more tests.
+* [Add] `beOfType` and `beAssignableTo`
+* [Add] more tests.
 * Document improvement.
 
 ## 0.0.2
@@ -48,4 +52,4 @@
 
 ## 0.0.1
 
-* Add common primitives, including `Strings`, `Numbers`, `Booleans`, `Functions`, `Iterables`, `Maps`
+* [Add] common primitives, including `Strings`, `Numbers`, `Booleans`, `Functions`, `Iterables`, `Maps`

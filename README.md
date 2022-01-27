@@ -79,7 +79,7 @@ To get more contextual information
 <img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/failure_message_contains.png" alt="drawing" width="300"/>
 </br>
 
-### Conjunctions
+## Conjunctions
 
 This is a real English sentence, is it not?
 
@@ -90,7 +90,7 @@ participants.should.contain('Andrew').and.not.contain('Bobby');
 
 ```
 
-### Custom matchers
+## Custom matchers
 
 ```dart
 extension CustomNumAssertions on NumericAssertions {
@@ -103,7 +103,7 @@ extension CustomNumAssertions on NumericAssertions {
 }
 ```
 
-#### Or more exotic matchers
+### Or more exotic matchers
 
 ```dart
 test('Custom matchers', () {
@@ -127,7 +127,24 @@ Simple add `shouldly` dependency into your project.
 
 ## Usage
 
+### Objects
+
+Every single object has following assertion methods:
+
+| Method         | Example                               |
+| -------------- | ------------------------------------- |
+| be             | ```1.should.be(1);```                 |
+| beOfType       | ```2.0.should.beOfType<double>();```  |
+| beAssignableTo | ```3.should.beAssignableTo<int>();``` |
+| beNull         | ```null.should.beNull();```           |
+| beOneOf        | ```5.should.beOneOf([1, 2, 5]);```    |
+
 ### Booleans
+
+| Method  | Example                          |
+| ------- | -------------------------------- |
+| beFalse | ```true.should.beTrue();```      |
+| beTrue  | ```true.should.not.beFalse();``` |
 
 ```dart
 test('false should be `false`', () {
@@ -140,6 +157,23 @@ test('false should not be `true`', () {
 ```
 
 ### Numbers
+
+| Method               | Example                                            |
+| -------------------- | -------------------------------------------------- |
+| bePositive           | ```1.should.bePositive();```                       |
+| beNegative           | ```(-1).should.beNegative();```                    |
+| beZero               | ```0.should.beZero();```                           |
+| beOdd                | ```7.should.beOdd();```                            |
+| beEven               | ```2.should.beEven();```                           |
+| beGreaterThan        | ```3.should.beGreaterThan(2);```                   |
+| beAbove              | ```3.should.beAbove(2);```                         |
+| beLessThan           | ```3.should.beLessThan(4);```                      |
+| beBelow              | ```3.should.beBelow(4);```                         |
+| beGreaterOrEqualThan | ```3.should.beGreaterOrEqualThan(3);```            |
+| beLessOrEqualThan    | ```3.should.beLessOrEqualThan(3);```               |
+| beWithin             | ```3.should.beWithin(1,5);```                      |
+| beCloseTo            | ```pi.should.beCloseTo(3.14, delta: 0.01);```      |
+| beTolerantOf         | ```pi.should.beTolerantOf(3.14, tolerance: 1%);``` |
 
 ```dart
 test('Int should be type of `int`', () {
