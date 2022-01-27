@@ -58,7 +58,7 @@ abstract class BaseAssertions<T, K> {
 
   /// Asserts that the value is equal to the specified [expected] value.
   /// [expected] The expected value
-  K be(Object expected) {
+  K be(T expected) {
     if (isReversed) {
       if (expected == subject) {
         throw ShouldlyTestFailureError(
@@ -142,12 +142,16 @@ abstract class BaseAssertions<T, K> {
   /// Asserts that a value is one of the specified [validItems]
   K beOneOf(Iterable<T> validItems) {
     if (isReversed) {
-      Execute.assertion.forCondition(validItems.any((e) => eq(e))).failWith(
-            '$subjectLabel\n    $subject\nshould not be one of\n    $validItems\nbut found.',
+      Execute.assertion
+          .forCondition(validItems.any((e) => isEqual(e)))
+          .failWith(
+            'Expected $subjectLabel\n    $subject\nto not be one of\n    $validItems\nbut found.',
           );
     } else {
-      Execute.assertion.forCondition(validItems.every((e) => !eq(e))).failWith(
-            '$subjectLabel\n    $subject\nshould be one of\n    $validItems\nbut not found.',
+      Execute.assertion
+          .forCondition(validItems.every((e) => !isEqual(e)))
+          .failWith(
+            'Expected $subjectLabel\n    $subject\nto be one of\n    $validItems\nbut not found.',
           );
     }
 
@@ -155,7 +159,7 @@ abstract class BaseAssertions<T, K> {
   }
 
   /// Comparison with an another [expected] value
-  bool eq(T expected) {
+  bool isEqual(T expected) {
     return subject == expected;
   }
 }

@@ -17,13 +17,21 @@ void main() {
 
     group('be empty', () {
       test('should be empty', () {
-        Should.throwError<ShouldlyTestFailureError>(() => [1].should.beEmpty());
+        const arr = [1];
+        final error = Should.throwError<ShouldlyTestFailureError>(
+          () => arr.should.beEmpty(),
+        );
+        error.message.should
+            .be('Expected `List<int>` to be\n   []\nbut was\n    $arr');
       });
 
       test('should not be empty', () {
-        Should.throwError<ShouldlyTestFailureError>(
-          () => [].should.not.beEmpty(),
+        const arr = <int>[];
+        final err = Should.throwError<ShouldlyTestFailureError>(
+          () => arr.should.not.beEmpty(),
         );
+        err.message.should
+            .be('Expected `List<int>` to not be\n   []\nbut was\n    []');
       });
     });
 
@@ -98,10 +106,6 @@ void main() {
     });
   });
 
-  test('compare non empty equal lists', () {
-    [1, 2, 3].should.be([1, 2, 3]);
-  });
-
   test('compare non nullable and non empty to equal lists', () {
     [1, 2, 3].should.not.contain(4).and.be([1, 2, 3]);
   });
@@ -110,24 +114,12 @@ void main() {
     [1, 2, 3].should.as('myList').not.beNull().and.be([1, 2, 3]);
   });
 
-  test('compare non empty non equal lists', () {
-    [1, 2, 3].should.not.be([1, 2, 4]);
-  });
-
   test('should be empty', () {
     [].should.beEmpty();
   });
 
   test('should not be empty', () {
     ['yes'].should.not.beEmpty();
-  });
-
-  test('should contain', () {
-    [1, 200, 3].should.contain(200);
-  });
-
-  test('should not contain', () {
-    [1, 200, 3].should.not.contain(4);
   });
 
   test('with every element in collection is true for predicate', () {

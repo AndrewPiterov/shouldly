@@ -163,6 +163,34 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
     return StringAssertions(subject, isReversed: isReversed);
   }
 
+  ///
+  StringAssertions contain(String expected, {bool ignoreCase = false}) {
+    final a = (ignoreCase ? subject?.toLowerCase() : subject) ?? '';
+    final e = ignoreCase ? expected.toLowerCase() : expected;
+
+    final contains = a.contains(e);
+
+    final caseSensitivity = ignoreCase
+        ? 'case insensitive comparison'
+        : 'case sensitive comparison';
+
+    if (isReversed) {
+      if (contains) {
+        throw ShouldlyTestFailureError(
+          '\nExpected $subjectLabel\n    "$subject"\nto not contain ($caseSensitivity)\n    "$expected"\nbut it does',
+        );
+      }
+    } else {
+      if (!contains) {
+        throw ShouldlyTestFailureError(
+          '\nExpected $subjectLabel\n    "$subject"\nto contain ($caseSensitivity)\n    "$expected"\nbut it does not',
+        );
+      }
+    }
+
+    return StringAssertions(subject, isReversed: isReversed);
+  }
+
   @override
   StringAssertions copy(
     String? subject, {

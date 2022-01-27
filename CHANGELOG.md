@@ -1,3 +1,7 @@
+## 0.4.0
+
+* [Fix] collection comparison with `be`
+
 ## 0.3.0+2
 
 * Improve doc

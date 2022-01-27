@@ -19,42 +19,159 @@ class IterableAssertions<T>
     Iterable<T>? subject, {
     bool isReversed = false,
     String? subjectLabel,
-  }) : super(subject, isReversed: isReversed, subjectLabel: subjectLabel);
+  }) : super(
+          subject,
+          isReversed: isReversed,
+          subjectLabel: subjectLabel,
+        );
 
   @override
-  IterableAssertions<T> be(Object value) {
-    final isEqual = eq(value as Iterable<T>);
+  IterableAssertions<T> be(Object expected) {
+    final diff = _compare(expected as Iterable, subject!);
+    final isEqual = diff.every((d) => !d.isDiff);
     if (isReversed) {
       if (isEqual) {
         throw ShouldlyTestFailureError(
-          '\n$subjectLabel collection\n    `$subject`\nshould not be equal to\n    `$value`',
+          '\nExpected $subjectLabel collection\n    `$subject` (${expected.runtimeType})\nshould not be equal to\n    `$expected` (${expected.runtimeType})',
         );
       }
     } else {
       if (!isEqual) {
-        throw ShouldlyTestFailureError(
-          '\n$subjectLabel collection\n    `$subject`\nshould be equal to\n    `$value`',
-        );
+        final diffArray = <String>[];
+        for (final d in diff) {
+          diffArray.add(
+            d.isDiff
+                ? d.expected == null
+                    ? '*'
+                    : '*${d.expected}*'
+                : d.expected.toString(),
+          );
+        }
+
+        final diffMessage = '\ndifference\n    $diffArray';
+
+        final body =
+            '\nExpected $subjectLabel collection\n    $subject (${expected.runtimeType})\nshould be equal to\n    $expected (${expected.runtimeType})';
+
+        throw ShouldlyTestFailureError(body + diffMessage);
       }
     }
 
     return IterableAssertions<T>(subject);
   }
 
+  List<_DiffItem> _compare(Iterable expected, Iterable actual) {
+    final expectedIterator = expected.iterator;
+    final actualIterator = actual.iterator;
+
+    final difference = <_DiffItem>[];
+
+    for (var index = 0;; index++) {
+      // Advance in lockstep.
+      final expectedNext = expectedIterator.moveNext();
+      final actualNext = actualIterator.moveNext();
+
+      // If we reached the end of both, we succeeded.
+      if (!expectedNext && !actualNext) break;
+
+      // Fail if their lengths are different.
+      // var newLocation = '$location[$index]';
+      if (!expectedNext) {
+        if (actualNext) {
+          // difference[index] = null;
+          difference.add(
+            _DiffItem(
+              isDiff: true,
+              expected: null,
+              actual: actualIterator.current,
+            ),
+          );
+        }
+
+        continue; // _Mismatch.simple(newLocation, actual, 'longer than expected');
+      }
+      if (!actualNext) {
+        if (expectedNext) {
+          // difference[index] = expectedIterator.current;
+          difference.add(
+            _DiffItem(
+              isDiff: true,
+              expected: expectedIterator.current,
+              actual: null, // actualIterator.current,
+            ),
+          );
+        }
+        continue;
+        //  _Mismatch.simple(newLocation, actual, 'shorter than expected');
+      }
+
+      // Match the elements.
+      // var rp = matcher(
+      //     expectedIterator.current, actualIterator.current, newLocation, depth);
+      // if (rp != null) return rp;
+      if (expectedIterator.current != actualIterator.current) {
+        final diff = <_DiffItem>[];
+        if (expectedIterator.current is Iterable &&
+            actualIterator.current is Iterable) {
+          final x = _compare(
+            expectedIterator.current as Iterable,
+            actualIterator.current as Iterable,
+          );
+          diff.addAll(x);
+        } else {
+          diff.add(
+            _DiffItem(
+              isDiff: true,
+              expected: expectedIterator.current,
+              actual: actualIterator.current,
+            ),
+          );
+        }
+
+        if (diff.any((element) => element.isDiff)) {
+          difference.add(
+            _DiffItem(
+              isDiff: true,
+              expected: expectedIterator.current,
+              actual: actualIterator.current,
+            ),
+          );
+        }
+      }
+
+      difference.add(
+        _DiffItem(
+          isDiff: false,
+          expected: expectedIterator.current,
+          actual: actualIterator.current,
+        ),
+      );
+    }
+
+    return difference;
+  }
+
   @override
-  bool eq(Iterable<T> expected) {
-    return _eq(subject!.toList(), expected.toList());
+  bool isEqual(Iterable<T> expected) {
+    final e = _eq(expected.toList(), subject?.toList());
+    return e;
+    // final diff = _compare(expected, subject!);
+    // return diff.any((element) => element.isDiff);
   }
 
   /// Asserts that the collection does not contain any items.
   IterableAssertions<T> beEmpty() {
     if (isReversed) {
       if (subject!.isEmpty) {
-        throw ShouldlyTestFailureError('Iterable should be empty');
+        throw ShouldlyTestFailureError(
+          'Expected $subjectLabel to not be\n   $subject\nbut was\n    []',
+        );
       }
     } else {
       if (subject!.isNotEmpty) {
-        throw ShouldlyTestFailureError('Iterable should be empty');
+        throw ShouldlyTestFailureError(
+          'Expected $subjectLabel to be\n   []\nbut was\n    $subject',
+        );
       }
     }
 
@@ -178,4 +295,19 @@ class IterableAssertions<T>
       subjectLabel: subjectLabel,
     );
   }
+}
+
+class _DiffItem {
+  _DiffItem({
+    required this.isDiff,
+    required this.expected,
+    required this.actual,
+  });
+
+  final bool isDiff;
+  final dynamic expected;
+  final dynamic actual;
+
+  @override
+  String toString() => '$expected ${isDiff ? '!=' : '='} $actual';
 }
