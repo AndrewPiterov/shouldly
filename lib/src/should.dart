@@ -139,21 +139,80 @@ class Should {
   }
 
   /// Check that the function should complte execution in a duration
-  static Future completeIn(
+  static Future<Duration> completeIn(
     Duration duration, {
     required Function() func,
+    bool shouldSkipThrowException = false,
   }) async {
     final stopwatch = Stopwatch()..start();
     await func();
 
     final elapsed = stopwatch.elapsed;
 
-    if (elapsed > duration) {
+    if (elapsed > duration && !shouldSkipThrowException) {
       print('the function executed in $elapsed');
-      final ms = stopwatch.elapsed.inMilliseconds - duration.inMilliseconds;
+      final actualExecutionTimeInMilliseconds =
+          stopwatch.elapsed.inMilliseconds - duration.inMilliseconds;
       throw ShouldlyTestFailureError(
-        'the function should be complited in ${duration.inMilliseconds} ms\n    but execution took more\n$ms ms',
+        'Expected function should be complited in ${duration.inMilliseconds} ms\n    but execution took more than\n$actualExecutionTimeInMilliseconds ms',
       );
+    }
+
+    return elapsed;
+  }
+
+  /// Check that the function should complte execution after period of time
+  static Future<Duration> completeAfter(
+    Duration duration, {
+    required Function() func,
+    bool shouldSkipThrowException = false,
+  }) async {
+    final stopwatch = Stopwatch()..start();
+    await func();
+
+    final elapsed = stopwatch.elapsed;
+
+    if (elapsed < duration && !shouldSkipThrowException) {
+      print('the function executed in $elapsed');
+      final actualExecutionTimeInMilliseconds =
+          stopwatch.elapsed.inMilliseconds - duration.inMilliseconds;
+      throw ShouldlyTestFailureError(
+        'Expected function should be complited after ${duration.inMilliseconds} ms\n    but execution took less than\n$actualExecutionTimeInMilliseconds ms',
+      );
+    }
+
+    return elapsed;
+  }
+
+  ///
+  static void shouldSatisfyAllConditions(List<Function()> conditions) {
+    //
+    final fails = <String>[];
+    for (final c in conditions) {
+      try {
+        c();
+      } on ShouldlyTestFailureError catch (error) {
+        fails.add(error.message!);
+      } on Exception catch (e) {
+        final err = e.toString();
+        fails.add(err);
+      }
+    }
+
+    if (fails.isNotEmpty) {
+      final buffer = StringBuffer();
+      buffer.write(
+        'Expected satisfy all conditions specified, but doe not.\nThe following errors were found ...\n',
+      );
+      for (var i = 0; i < fails.length; i++) {
+        final fail = fails[i];
+        buffer.write('------------- Error ${i + 1} -------------\n');
+        buffer.write(fail);
+        buffer.write('\n\n');
+      }
+
+      buffer.write('------------------------------------\n');
+      throw ShouldlyTestFailureError(buffer.toString());
     }
   }
 }

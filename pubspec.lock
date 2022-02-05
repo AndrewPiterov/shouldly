@@ -98,7 +98,7 @@ packages:
       name: given_when_then_unit_test
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.0.9"
+    version: "0.0.10"
   glob:
     dependency: transitive
     description:

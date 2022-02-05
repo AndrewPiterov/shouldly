@@ -5,14 +5,6 @@ import 'package:test/test.dart';
 
 void main() {
   group('Number -', () {
-    test('comparison', () {
-      2.should.be(2);
-    });
-
-    test('comparison (2)', () {
-      2.should.not.be(3);
-    });
-
     test('should be even', () {
       2.should.beEven();
     });

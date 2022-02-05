@@ -39,14 +39,13 @@ More readable test code as plain English sentence.
 
 ```dart
 // without shouldly
-expect(calculator.currentValue, 1);
+expect(playerCharacter.health, 100);
 
 // shouldly
-calculator.currentValue.should.be(1);
+playerCharacter.health.should.be(100);
 ```
 
-<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/eq.png" alt="drawing" width="300"/>
-
+<!-- <img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/eq.png" alt="drawing" width="300"/> -->
 
 ### No more: Mix Up with parameters
 
@@ -125,26 +124,54 @@ test('Custom matchers', () {
 
 Simple add `shouldly` dependency into your project.
 
+```yaml
+dev_dependencies:
+  shouldly: <latest>
+```
+
 ## Usage
 
 ### Objects
 
 Every single object has following assertion methods:
 
-| Method         | Example                               |
-| -------------- | ------------------------------------- |
-| be             | ```1.should.be(1);```                 |
-| beOfType       | ```2.0.should.beOfType<double>();```  |
-| beAssignableTo | ```3.should.beAssignableTo<int>();``` |
-| beNull         | ```null.should.beNull();```           |
-| beOneOf        | ```5.should.beOneOf([1, 2, 5]);```    |
+| Method             | Example                               | Failure message                    |
+| ------------------ | ------------------------------------- | ---------------------------------- |
+| **be**             | ```1.should.be(2);```                 | Expected `int` should be 2 but was 1 |
+| **beOfType**       | ```2.0.should.beOfType<double>();```  |
+| **beAssignableTo** | ```3.should.beAssignableTo<int>();``` |
+| **beNull**         | ```null.should.beNull();```           |
+| **beOneOf**        | ```5.should.beOneOf([1, 2, 5]);```    |
+
+
+```dart
+test('should be not null', () {
+  final obj = Object();
+  obj.should.not.beNull();
+});
+
+test('should be null', () {
+  const Object? obj = null;
+  obj.should.beNull();
+});
+
+test('should be type of `int`', () {
+  const obj = 1;
+  obj.should.beOfType<int>();
+});
+
+test('should be assignable to `num`', () {
+  const obj = 1;
+  obj.should.beAssignableTo<num>();
+});
+```
 
 ### Booleans
 
-| Method  | Example                          |
-| ------- | -------------------------------- |
-| beFalse | ```true.should.beTrue();```      |
-| beTrue  | ```true.should.not.beFalse();``` |
+| Method      | Example                           | Failure message                                    |
+| ----------- | --------------------------------- | -------------------------------------------------- |
+| **beTrue**  | ```false.should.beTrue();```      | Target `boolean` should be True but was False      |
+| **beFalse** | ```false.should.not.beFalse();``` | Target `boolean` should not be False but was False |
 
 ```dart
 test('false should be `false`', () {
@@ -158,22 +185,22 @@ test('false should not be `true`', () {
 
 ### Numbers
 
-| Method               | Example                                            |
-| -------------------- | -------------------------------------------------- |
-| bePositive           | ```1.should.bePositive();```                       |
-| beNegative           | ```(-1).should.beNegative();```                    |
-| beZero               | ```0.should.beZero();```                           |
-| beOdd                | ```7.should.beOdd();```                            |
-| beEven               | ```2.should.beEven();```                           |
-| beGreaterThan        | ```3.should.beGreaterThan(2);```                   |
-| beAbove              | ```3.should.beAbove(2);```                         |
-| beLessThan           | ```3.should.beLessThan(4);```                      |
-| beBelow              | ```3.should.beBelow(4);```                         |
-| beGreaterOrEqualThan | ```3.should.beGreaterOrEqualThan(3);```            |
-| beLessOrEqualThan    | ```3.should.beLessOrEqualThan(3);```               |
-| beWithin             | ```3.should.beWithin(1,5);```                      |
-| beCloseTo            | ```pi.should.beCloseTo(3.14, delta: 0.01);```      |
-| beTolerantOf         | ```pi.should.beTolerantOf(3.14, tolerance: 1%);``` |
+| Method                   | Example                                            | Failure message                                        |
+| ------------------------ | -------------------------------------------------- | ------------------------------------------------------ |
+| **bePositive**           | ```(-1).should.bePositive();```                    | Target `int` should be positive but was negative as -1 |
+| **beNegative**           | ```1.should.beNegative();```                       | Target `int` should be negative but was positive as 1  |
+| **beZero**               | ```10.should.beZero();```                          | Target `int` should be 0 but was 10                    |
+| **beOdd**                | ```8.should.beOdd();```                            | Target `int` should be odd but was even as 8           |
+| **beEven**               | ```7.should.beEven();```                           | Target `int` should be event but was odd as 7          |
+| **beGreaterThan**        | ```1.should.beGreaterThan(2);```                   | Target `int` should be greater than 2 but does not     |
+| **beAbove**              | ```3.should.beAbove(2);```                         |
+| **beLessThan**           | ```3.should.beLessThan(4);```                      |
+| **beBelow**              | ```3.should.beBelow(4);```                         |
+| **beGreaterOrEqualThan** | ```3.should.beGreaterOrEqualThan(3);```            |
+| **beLessOrEqualThan**    | ```3.should.beLessOrEqualThan(3);```               |
+| **beWithin**             | ```3.should.beWithin(1,5);```                      |
+| **beCloseTo**            | ```pi.should.beCloseTo(3.14, delta: 0.01);```      |
+| **beTolerantOf**         | ```pi.should.beTolerantOf(3.14, tolerance: 1%);``` |
 
 ```dart
 test('Int should be type of `int`', () {
@@ -185,6 +212,17 @@ test('Int should be type of `int`', () {
 
 ### Strings
 
+| Method      | Example                           | Failure message                                    |
+| ----------- | --------------------------------- | -------------------------------------------------- |
+| **startWith**  | ```'Flutter'.should.startWith('f');```      |     |
+| **endWith** | ```'Flutter'.should.endWith('a');``` |  |
+| **haveLength** | ```'Flutter'.should.haveLength(10);``` |  |
+| **beNullOrEmpty** | ```'Flutter'.should.beNullOrEmpty();``` |  |
+| **beNullOrWhiteSpace** | ```'Flutter'.should.beNullOrWhiteSpace();``` |  |
+| **beBlank** | ```'Flutter'.should.beBlank();``` |  |
+| **match** | ```'Flutter'.should.match('*a');``` |  |
+| **contain** | ```'Flutter'.should.contain('a');``` |  |
+
 ```dart
 test('should not start with substring', () {
   'Flutter'.should.not.startWith('A');
@@ -192,6 +230,12 @@ test('should not start with substring', () {
 ```
 
 ### DateTimes
+
+| Method      | Example                           | Failure message                                    |
+| ----------- | --------------------------------- | -------------------------------------------------- |
+| **beCloseTo**  | ```DateTime.now().should.beCloseTo(Date(2025, 1, 1));```      |     |
+| **beAfter** | ```DateTime.now().should.beCloseTo(Date(2022, 1, 1));``` |  |
+| **beBefore** | ```DateTime.now().should.beBefore(Date(2222, 1, 1));``` |  |
 
 ```dart
 // before
@@ -206,6 +250,14 @@ DateTime(2021, 9, 9, 1, 1, 1, 2).should.beCloseTo(
 ```
 
 ### Iterables
+
+| Method      | Example                           | Failure message                                    |
+| ----------- | --------------------------------- | -------------------------------------------------- |
+| **haveCount**  | ```[1, 2, 3].should.haveCount(7);```      |     |
+| **contain**  | ```[1, 2, 3].should.contain(7);```      |     |
+| **containAll**  | ```[1, 2, 3].should.containAll([7, 8]);```      |     |
+| **every**  | ```[1, 2, 3].should.every((x) => x > 10);```      |     |
+| **any**  | ```[1, 2, 3].should.any((x) => x == 0);```      |     |
 
 ```dart
 test('should contain', () {
@@ -227,6 +279,16 @@ test('with some elements in collection is true for predicate', () {
 
 ### Maps
 
+| Method      | Example                           | Failure message                                    |
+| ----------- | --------------------------------- | -------------------------------------------------- |
+| **haveCount**  | ```{}.should.haveCount(7);```      |     |
+| **beEmpty**  | ```{}.should.beEmpty();```      |     |
+| **containKey**  | ```{'name': 'Bobby'}.should.containKey('age');```      |     |
+| **containKeys**  | ```{}.should.containKeys(['age', 'name']);```      |     |
+| **haveValueInKey**  | ```{}.should.haveValueInKey('name');```      |     |
+| **containKeyWithValue**  | ```{}.should.containKeyWithValue('name', 'Bobby');```      |     |
+| **contain**  | ```{}.should.haveValueInKey(<MapEntry>[]);```      |     |
+
 ```dart
 final subject = {
   'name': 'John',
@@ -243,6 +305,14 @@ test('should contain key with exact value', () {
 ```
 
 ### Functions
+
+| Method      | Example                           | Failure message                                    |
+| ----------- | --------------------------------- | -------------------------------------------------- |
+| **throwException**  | ```Should.throwException(() => myFunc());```      |     |
+| **notThrowException**  | ```Should.notThrowException(() => myFunc());```      |     |
+| **throwError**  | ```Should.throwError(() => myFunc());```      |     |
+| **notThrowError**  | ```Should.notThrowError(() => myFunc());```      |     |
+| **completeIn**  | ```Should.completeIn(Duration(seconds: 1),  () => myFunc());```      |     |
 
 ```dart
 Should.throwException(() => someMethodWitchThrowException(params:));
@@ -271,30 +341,6 @@ test('should complete in a duration', () async {
       Duration(milliseconds: 900),
     ),
   );
-});
-```
-
-### Objects
-
-```dart
-test('should be not null', () {
-  final obj = Object();
-  obj.should.not.beNull();
-});
-
-test('should be null', () {
-  const Object? obj = null;
-  obj.should.beNull();
-});
-
-test('should be type of `int`', () {
-  const obj = 1;
-  obj.should.beOfType<int>();
-});
-
-test('should be assignable to `num`', () {
-  const obj = 1;
-  obj.should.beAssignableTo<num>();
 });
 ```
 

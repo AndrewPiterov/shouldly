@@ -54,9 +54,18 @@ void main() {
 
   test('should complete in a duration', () async {
     await Should.completeIn(
-      const Duration(seconds: 1),
+      const Duration(seconds: 2),
       func: () => slowFunction(
-        const Duration(milliseconds: 900),
+        const Duration(seconds: 1),
+      ),
+    );
+  });
+
+  test('should complete after a period of time', () async {
+    await Should.completeAfter(
+      const Duration(seconds: 3),
+      func: () => slowFunction(
+        const Duration(seconds: 4),
       ),
     );
   });

@@ -1,5 +1,4 @@
-import 'package:shouldly/src/exception.dart';
-import 'package:shouldly/src/execute_assertion.dart';
+import 'package:shouldly/shouldly.dart';
 
 /// Base Matcher
 abstract class BaseAssertions<T, K> {
@@ -62,13 +61,13 @@ abstract class BaseAssertions<T, K> {
     if (isReversed) {
       if (expected == subject) {
         throw ShouldlyTestFailureError(
-          '\nExpected $subjectLabel to not be\n  `$expected`\nbut was\n  `$subject`',
+          'Expected $subjectLabel\n${ShouldlySettings.pads}should not be\n$expected\n${ShouldlySettings.pads}but was\n$subject',
         );
       }
     } else {
       if (expected != subject) {
         throw ShouldlyTestFailureError(
-          '\nExpected $subjectLabel to be\n  `$expected`\nbut was\n  `$subject`',
+          'Expected $subjectLabel\n${ShouldlySettings.pads}should be\n$expected\n${ShouldlySettings.pads}but was\n$subject',
         );
       }
     }
