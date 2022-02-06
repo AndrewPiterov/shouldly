@@ -14,8 +14,7 @@ void main() {
     final error = Should.throwError(false.should.as(label).beTrue);
     final x = error as ShouldlyTestFailureError;
     final msg = x.message;
-    msg.should
-        .be('Expected `$label` to be\n    `true`\nbut found\n    `false`');
+    msg.should.be('Expected $label to be\n    `true`\nbut found\n    `false`');
   });
 
   // test('false should be `false`', () {

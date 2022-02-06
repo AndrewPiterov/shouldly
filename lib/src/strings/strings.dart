@@ -86,14 +86,14 @@ class StringAssertions extends BaseAssertions<String, StringAssertions> {
     if (isReversed) {
       if (subject == null || subject == '') {
         throw ShouldlyTestFailureError(
-          '\n$subjectLabel string\n    `$subject`\nshould not be null or empty',
+          "Expected $subjectLabel\n${ShouldlySettings.pads}should not be null or empty\nbut was\n${ShouldlySettings.pads}'$subject'",
         );
       }
       return StringAssertions(subject);
     } else {
       if (subject != null && subject != '') {
         throw ShouldlyTestFailureError(
-          '\n$subjectLabel string\n    `$subject`\nshould be null or empty',
+          "Expected $subjectLabel\n${ShouldlySettings.pads}should be null or empty\nbut was\n${ShouldlySettings.pads}'$subject'",
         );
       }
     }

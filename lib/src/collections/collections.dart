@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:shouldly/src/base_assertions.dart';
-import 'package:shouldly/src/exception.dart';
+import 'package:shouldly/shouldly.dart';
 
 final _eq = const ListEquality().equals;
 
@@ -202,13 +201,13 @@ class IterableAssertions<T>
     if (isReversed) {
       if (subject!.contains(expected)) {
         throw ShouldlyTestFailureError(
-          '\nExpected $subjectLabel\n    $subject\nto not contain\n    $expected\nbut does.',
+          'Expected $subjectLabel\n${ShouldlySettings.pads}should not contain\n$expected\n${ShouldlySettings.pads}but was actually\n$subject',
         );
       }
     } else {
       if (!subject!.contains(expected)) {
         throw ShouldlyTestFailureError(
-          '\nExpected $subjectLabel\n    $subject\nto contain\n    $expected\nbut does not.',
+          'Expected $subjectLabel\n${ShouldlySettings.pads}should contain\n$expected\n${ShouldlySettings.pads}but was actually\n$subject',
         );
       }
     }

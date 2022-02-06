@@ -24,7 +24,7 @@ abstract class BaseAssertions<T, K> {
       return x;
     }
 
-    return '`$_subjectLabel`';
+    return '$_subjectLabel';
   }
 
   /// Copy the matcher

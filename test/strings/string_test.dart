@@ -58,53 +58,6 @@ void main() {
       target.should.not.match('Bart .*');
     });
 
-    group('null -', () {
-      test('nullable string with value should not be null', () {
-        const nullableString = 'Some string';
-        nullableString.should.not.beNull().and.not.beBlank();
-      });
-
-      test('nullable string without value should be null', () {
-        const String? nullableString = null;
-        nullableString.should.beNull();
-      });
-    });
-
-    group('blank -', () {
-      test('empty string should be blank', () {
-        ''.should.beBlank().and.beNullOrEmpty();
-      });
-
-      test('only white spaces', () {
-        '  '.should.beBlank().and.not.beNullOrEmpty();
-      });
-
-      test('new line should be blank', () {
-        '\n\n\n'.should.beBlank();
-      });
-
-      test('new line with whitespaces should be blank', () {
-        '\n\n\n    \n'.should.beBlank();
-      });
-
-      test('should not be blank', () {
-        '   \n   .'.should.not.beBlank();
-      });
-
-      test('string should not be blank', () {
-        'some string'.should.not.beBlank();
-        'x'.should.not.beNull().and.not.beBlank();
-      });
-
-      test('string should be null or whitespace', () {
-        '   '.should.beNullOrWhiteSpace();
-      });
-
-      test('string should not be null or whitespace', () {
-        '  x '.should.not.beNullOrWhiteSpace();
-      });
-    });
-
     group('throw error -', () {
       test('start with', () {
         Should.throwError<ShouldlyTestFailureError>(
@@ -139,30 +92,6 @@ void main() {
       test('not have length', () {
         Should.throwError<ShouldlyTestFailureError>(
           () => 'string'.should.not.haveLength(6),
-        );
-      });
-
-      test('be null or empty', () {
-        Should.throwError<ShouldlyTestFailureError>(
-          () => 'string'.should.beNullOrEmpty(),
-        );
-      });
-
-      test('not be null or empty', () {
-        Should.throwError<ShouldlyTestFailureError>(
-          () => ''.should.not.beNullOrEmpty(),
-        );
-      });
-
-      test('be blank', () {
-        Should.throwError<ShouldlyTestFailureError>(
-          () => 'string'.should.beBlank(),
-        );
-      });
-
-      test('not be blank', () {
-        Should.throwError<ShouldlyTestFailureError>(
-          () => '   '.should.not.beBlank(),
         );
       });
 

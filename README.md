@@ -33,7 +33,7 @@ Inspired from [Fluent Assertion](https://fluentassertions.com/), [Shouldly](http
 - Conjunction support (`and`)
 - Custom assertions
 
-## Readability
+## Better readability
 
 More readable test code as plain English sentence.
 
@@ -70,7 +70,65 @@ void main() {
 
 <!-- <img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/eq.png" alt="drawing" width="300"/> -->
 
-### No more: Mix Up with parameters
+## Better test failure messages
+
+To get more contextual information
+
+**Fail equality assert:**
+
+```bash
+// non-shouldly
+Expected: <10>
+  Actual: <100>
+
+// shouldly
+Expected health
+    should be
+10
+    but was
+100
+```
+
+**Fail list contains assert:**
+
+```bash
+// non-shouldly
+Expected: contains 'Staff of Wonderr'
+  Actual: ['Axe', 'Sword', 'Staff of Wonder']
+
+// shouldly
+Expected weapons
+    should contain 
+Staff of Wonderr
+    but was actually
+[Axe, Sword, Staff of Wonder]
+```
+
+**Fail string nullability assert:**
+
+```bash
+// non-shouldly
+Expected: null
+  Actual: 'Arthur'
+
+// shouldly
+Expected nickname
+    should be null or empty
+but was
+    `Arthur`
+```
+
+<!-- <img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/fail_message_eq.png" alt="drawing" width="300"/>
+</br>
+</br>
+<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/fail_message_null.png" alt="drawing" width="300"/>
+</br>
+</br>
+
+<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/failure_message_contains.png" alt="drawing" width="300"/>
+</br> -->
+
+## No more: Mix Up with parameters
 
 You can mix up with **Expected** or **Actual** 🤔. But with `shouldly` there is no way to mix up.
 
@@ -83,23 +141,9 @@ expect(100, playerCharacter.health);
 playerCharacter.health.should.be(100);
 ```
 
-### No more: single heap of assertion methods
+## No more: single heap of assertion methods
 
 Every single type of class has his own assertions.
-
-## Better test failure messages
-
-To get more contextual information
-
-<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/fail_message_eq.png" alt="drawing" width="300"/>
-</br>
-</br>
-<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/fail_message_null.png" alt="drawing" width="300"/>
-</br>
-</br>
-
-<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/failure_message_contains.png" alt="drawing" width="300"/>
-</br>
 
 ## Conjunctions
 
@@ -463,7 +507,7 @@ We accept the following contributions:
 - [Reporting issues](https://github.com/AndrewPiterov/shouldly/issues/new)
 - Fixing bugs
 - More tests
-- More class integrations (Functions, Futures, Functions)
+- More class integrations (Functions, Futures, Streams, Durations)
 - Improving documentation and comments
 
 ## Maintainers

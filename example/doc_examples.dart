@@ -1,43 +1,68 @@
-// ignore_for_file: avoid_print
-
 import 'package:shouldly/shouldly.dart';
-import 'package:test/scaffolding.dart';
+import 'package:test/test.dart';
 
 void main() {
+  const playerCharacter = PlayerCharacter(
+    'Arthur',
+    100,
+    ['Axe', 'Sword', 'Staff of Wonder'],
+  );
+
+/*
+Expected: <10>
+  Actual: <100>
+
+Expected health
+    should be
+10
+    but was
+100
+*/
   // test('equality', () {
-  //   // 18.should.as('my age').be(17);
+  //   expect(playerCharacter.health, 10);
+  //   playerCharacter.health.should.be(10);
   // });
 
-  // test('booleans False', () {
-  //   // expect(true, isFalse);
-  //   false.should.as('marriage').not.beFalse();
+  /*
+    Expected: contains 'Staff of Wonderr'
+      Actual: ['Axe', 'Sword', 'Staff of Wonder']
+
+  Expected `weapons`
+      should contain 
+  Staff of Wonderr
+      but does not
+  [Axe, Sword, Staff of Wonder]
+  */
+
+  // test('array contains', () {
+  //   expect(playerCharacter.weapons, contains('Staff of Wonderr'));
+  //   playerCharacter.weapons.should.as('weapons').contain('Staff of Wonderr');
   // });
 
-  test('booleans True', () {
-    // expect(true, isFalse);
-    true.should.as('marriage').not.beTrue();
+  /*
+    Expected: null
+      Actual: 'Arthur'
+
+  Expected `nickname`
+      should be null or empty
+  but was
+      `Arthur`
+  */
+
+  test('nullability of string', () {
+    // expect(playerCharacter.nickname, isNull);
+    playerCharacter.nickname.should.as('nickname').beNullOrEmpty();
   });
+}
 
-  // test('null', () {
-  //   // int? c;
-  //   // Object();
-  //   // expect(c, isNull);
-  //   // c.should.not.beNull();
-  // });
+class PlayerCharacter {
+  const PlayerCharacter(
+    this.nickname,
+    this.health,
+    this.weapons,
+  );
 
-  // test('contains', () {
-  //   final weapons = ['sword', 'arrows', 'axe'];
-  //   // weapons.should.as('weapon list').contain('bow');
-
-  //   // test('description', () {
-  //   //   //
-  //   //   expect(weapons, contains('bow'));
-  //   // });
-  // });
-
-  // test('description', () {
-  //   //
-  //   // expect('weapons', startsWith('q'));
-  //   'weapons'.should.not.startWith('w');
-  // });
+  final String nickname;
+  final int health;
+  final List<String> weapons;
 }
