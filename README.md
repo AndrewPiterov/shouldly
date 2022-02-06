@@ -80,7 +80,9 @@ To get more contextual information
 // non-shouldly
 Expected: <10>
   Actual: <100>
+```
 
+```bash
 // shouldly
 Expected health
     should be
@@ -95,7 +97,9 @@ Expected health
 // non-shouldly
 Expected: contains 'Staff of Wonderr'
   Actual: ['Axe', 'Sword', 'Staff of Wonder']
+```
 
+```bash
 // shouldly
 Expected weapons
     should contain 
@@ -110,7 +114,9 @@ Staff of Wonderr
 // non-shouldly
 Expected: null
   Actual: 'Arthur'
+```
 
+```bash
 // shouldly
 Expected nickname
     should be null or empty
@@ -143,7 +149,7 @@ playerCharacter.health.should.be(100);
 
 ## No more: single heap of assertion methods
 
-Every single type of class has his own assertions.
+Every single type of class has his own assertions. Easy to find required assertion method.
 
 ## Conjunctions
 
@@ -209,7 +215,6 @@ Every single object has following assertion methods:
 | **beAssignableTo** | ```3.should.beAssignableTo<int>();``` |
 | **beNull**         | ```null.should.beNull();```           |
 | **beOneOf**        | ```5.should.beOneOf([1, 2, 5]);```    |
-
 
 ```dart
 test('should be not null', () {
