@@ -38,11 +38,34 @@ Inspired from [Fluent Assertion](https://fluentassertions.com/), [Shouldly](http
 More readable test code as plain English sentence.
 
 ```dart
-// without shouldly
-expect(playerCharacter.health, 100);
+void main() {
+  const playerCharacter = PlayerCharacter(
+    'Arthur',
+    100,
+    ['Axe', 'Sword', 'Staff of Wonder'],
+  );
 
-// shouldly
-playerCharacter.health.should.be(100);
+  test('equality', () {
+    // non shouldly
+    expect(playerCharacter.health, 100);
+    // 😍 shouldly
+    playerCharacter.health.should.be(100);
+  });
+
+  test('array contains', () {
+    // non shouldly
+    expect(playerCharacter.weapons, contains('Staff of Wonder'));
+    // 😍 shouldly
+    playerCharacter.weapons.should.contain('Staff of Wonder');
+  });
+
+  test('nullability of string', () {
+    // non shouldly
+    expect(playerCharacter.nickname, isNotNull);
+    // 😍 shouldly
+    playerCharacter.nickname.should.not.beNullOrEmpty();
+  });
+}
 ```
 
 <!-- <img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/eq.png" alt="drawing" width="300"/> -->

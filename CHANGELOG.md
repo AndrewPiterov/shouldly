@@ -1,3 +1,7 @@
+## 0.4.1+1
+
+* Improve doc
+
 ## 0.4.1
 
 * [Add] `shouldSatisfyAllConditions`
