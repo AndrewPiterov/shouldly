@@ -3,7 +3,7 @@
 import 'package:shouldly/src/exception.dart';
 
 // ignore: avoid_classes_with_only_static_members
-///Static class for shoulds
+/// Static class for Should
 class Should {
   /// Expects the function to throw Exception
   static T? throwException<T extends Exception>(Function() func) {
@@ -35,6 +35,7 @@ class Should {
   static T? notThrowException<T extends Exception>(Function() func) {
     try {
       func();
+      return null;
     } catch (e) {
       if (e is FunctionExecutionException) {
         throw FunctionExecutionException(
@@ -83,6 +84,7 @@ class Should {
   static T? notThrowError<T extends Error>(Function() func) {
     try {
       func();
+      return null;
     } catch (e) {
       if (e is FunctionExecutionException) {
         throw FunctionExecutionException(
@@ -138,7 +140,7 @@ class Should {
     }
   }
 
-  /// Check that the function should complte execution in a duration
+  /// Check that the function should complete execution in a duration
   static Future<Duration> completeIn(
     Duration duration, {
     required Function() func,
@@ -154,14 +156,14 @@ class Should {
       final actualExecutionTimeInMilliseconds =
           stopwatch.elapsed.inMilliseconds - duration.inMilliseconds;
       throw ShouldlyTestFailureError(
-        'Expected function should be complited in ${duration.inMilliseconds} ms\n    but execution took more than\n$actualExecutionTimeInMilliseconds ms',
+        'Expected function should be completed in ${duration.inMilliseconds} ms\n    but execution took more than\n$actualExecutionTimeInMilliseconds ms',
       );
     }
 
     return elapsed;
   }
 
-  /// Check that the function should complte execution after period of time
+  /// Check that the function should complete execution after period of time
   static Future<Duration> completeAfter(
     Duration duration, {
     required Function() func,
@@ -185,7 +187,7 @@ class Should {
   }
 
   ///
-  static void shouldSatisfyAllConditions(List<Function()> conditions) {
+  static void satisfyAllConditions(List<Function()> conditions) {
     //
     final fails = <String>[];
     for (final c in conditions) {

@@ -72,67 +72,64 @@ void main() {
 
 ## Better test failure messages
 
-To get more contextual information
+To get more readable and contextual information.
 
-**Fail equality assert:**
-
-```bash
-// non-shouldly
+<table border="0">
+ <tr>
+    <td><b style="font-size:30px">Non-Shouldly</b></td>
+    <td><b style="font-size:30px">Shouldly</b></td>
+ </tr>
+ <tr>
+    <td>
+<pre>
 Expected: <10>
   Actual: <100>
-```
-
-```bash
-// shouldly
-Expected health
+</pre>
+    </td>
+    <td>
+<pre>
+Expected playerCharacter.health
     should be
 10
     but was
 100
-```
-
-**Fail list contains assert:**
-
-```bash
-// non-shouldly
-Expected: contains 'Staff of Wonderr'
-  Actual: ['Axe', 'Sword', 'Staff of Wonder']
-```
-
-```bash
-// shouldly
-Expected weapons
-    should contain 
-Staff of Wonderr
-    but was actually
-[Axe, Sword, Staff of Wonder]
-```
-
-**Fail string nullability assert:**
-
-```bash
-// non-shouldly
+</pre>
+    </td>
+ </tr>
+ <tr>
+    <td>
+<pre>
 Expected: null
   Actual: 'Arthur'
-```
-
-```bash
-// shouldly
+</pre>
+    </td>
+    <td>
+<pre>
 Expected nickname
     should be null or empty
 but was
     `Arthur`
-```
-
-<!-- <img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/fail_message_eq.png" alt="drawing" width="300"/>
-</br>
-</br>
-<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/fail_message_null.png" alt="drawing" width="300"/>
-</br>
-</br>
-
-<img src="https://raw.githubusercontent.com/andrewpiterov/shouldly/dev/example/img/failure_message_contains.png" alt="drawing" width="300"/>
-</br> -->
+</pre>
+    </td>
+ </tr>
+ <tr>
+    <td>
+<pre>
+Expected: contains 'Staff of Wonderr'
+  Actual: ['Axe', 'Sword', 'Staff of Wonder']
+</pre>
+    </td>
+    <td>
+<pre>
+Expected playerCharacter.weapons
+    should contain
+Staff of Wonder
+    but was actually
+[Axe, Sword]
+</pre>
+    </td>
+ </tr>
+</table>
 
 ## No more: Mix Up with parameters
 
@@ -140,14 +137,14 @@ You can mix up with **Expected** or **Actual** 🤔. But with `shouldly` there i
 
 ```dart
 // without shouldly
-expect(playerCharacter.health, 100);
-expect(100, playerCharacter.health);
+expect(playerCharacter.health, 0);
+expect(0, playerCharacter.health);
 
 // shouldly
-playerCharacter.health.should.be(100);
+playerCharacter.health.should.be(0);
 ```
 
-## No more: single heap of assertion methods
+## No more single heap of assertion methods
 
 Every single type of class has his own assertions. Easy to find required assertion method.
 
@@ -157,9 +154,19 @@ This is a real English sentence, is it not?
 
 ```dart
 13.should.beOdd().and.beGreaterOrEqualThan(13);
-
 participants.should.contain('Andrew').and.not.contain('Bobby');
+```
 
+## SatisfyAllConditions
+
+```dart
+test('should satisfy all conditions', () {
+  Should.satisfyAllConditions([
+    () => playerCharacter.nickname.should.not.beNullOrEmpty(),
+    () => playerCharacter.weapons.should.contain('Staff of Wonder'),
+    () => playerCharacter.health.should.be(100),
+  ]);
+});
 ```
 
 ## Custom matchers
@@ -193,6 +200,28 @@ test('Custom matchers', () {
 });
 ```
 
+## Complete in
+
+```dart
+test('should complete in a duration', () async {
+  await Should.completeIn(
+    Duration(seconds: 1),
+    func: () => slowFunction(
+      Duration(milliseconds: 900),
+    ),
+  );
+});
+
+test('should complete after a period of time', () async {
+  await Should.completeAfter(
+    const Duration(seconds: 3),
+    func: () => verySlowFunction(
+      const Duration(seconds: 4),
+    ),
+  );
+});
+```
+
 ## Getting started
 
 Simple add `shouldly` dependency into your project.
@@ -208,8 +237,8 @@ dev_dependencies:
 
 Every single object has following assertion methods:
 
-| Method             | Example                               | Failure message                    |
-| ------------------ | ------------------------------------- | ---------------------------------- |
+| Method             | Example                               | Failure message                      |
+| ------------------ | ------------------------------------- | ------------------------------------ |
 | **be**             | ```1.should.be(2);```                 | Expected `int` should be 2 but was 1 |
 | **beOfType**       | ```2.0.should.beOfType<double>();```  |
 | **beAssignableTo** | ```3.should.beAssignableTo<int>();``` |
@@ -284,16 +313,16 @@ test('Int should be type of `int`', () {
 
 ### Strings
 
-| Method      | Example                           | Failure message                                    |
-| ----------- | --------------------------------- | -------------------------------------------------- |
-| **startWith**  | ```'Flutter'.should.startWith('f');```      |     |
-| **endWith** | ```'Flutter'.should.endWith('a');``` |  |
-| **haveLength** | ```'Flutter'.should.haveLength(10);``` |  |
-| **beNullOrEmpty** | ```'Flutter'.should.beNullOrEmpty();``` |  |
-| **beNullOrWhiteSpace** | ```'Flutter'.should.beNullOrWhiteSpace();``` |  |
-| **beBlank** | ```'Flutter'.should.beBlank();``` |  |
-| **match** | ```'Flutter'.should.match('*a');``` |  |
-| **contain** | ```'Flutter'.should.contain('a');``` |  |
+| Method                 | Example                                      | Failure message |
+| ---------------------- | -------------------------------------------- | --------------- |
+| **startWith**          | ```'Flutter'.should.startWith('f');```       |                 |
+| **endWith**            | ```'Flutter'.should.endWith('a');```         |                 |
+| **haveLength**         | ```'Flutter'.should.haveLength(10);```       |                 |
+| **beNullOrEmpty**      | ```'Flutter'.should.beNullOrEmpty();```      |                 |
+| **beNullOrWhiteSpace** | ```'Flutter'.should.beNullOrWhiteSpace();``` |                 |
+| **beBlank**            | ```'Flutter'.should.beBlank();```            |                 |
+| **match**              | ```'Flutter'.should.match('*a');```          |                 |
+| **contain**            | ```'Flutter'.should.contain('a');```         |                 |
 
 ```dart
 test('should not start with substring', () {
@@ -303,11 +332,11 @@ test('should not start with substring', () {
 
 ### DateTimes
 
-| Method      | Example                           | Failure message                                    |
-| ----------- | --------------------------------- | -------------------------------------------------- |
-| **beCloseTo**  | ```DateTime.now().should.beCloseTo(Date(2025, 1, 1));```      |     |
-| **beAfter** | ```DateTime.now().should.beCloseTo(Date(2022, 1, 1));``` |  |
-| **beBefore** | ```DateTime.now().should.beBefore(Date(2222, 1, 1));``` |  |
+| Method        | Example                                                  | Failure message |
+| ------------- | -------------------------------------------------------- | --------------- |
+| **beCloseTo** | ```DateTime.now().should.beCloseTo(Date(2025, 1, 1));``` |                 |
+| **beAfter**   | ```DateTime.now().should.beCloseTo(Date(2022, 1, 1));``` |                 |
+| **beBefore**  | ```DateTime.now().should.beBefore(Date(2222, 1, 1));```  |                 |
 
 ```dart
 // before
@@ -323,13 +352,13 @@ DateTime(2021, 9, 9, 1, 1, 1, 2).should.beCloseTo(
 
 ### Iterables
 
-| Method      | Example                           | Failure message                                    |
-| ----------- | --------------------------------- | -------------------------------------------------- |
-| **haveCount**  | ```[1, 2, 3].should.haveCount(7);```      |     |
-| **contain**  | ```[1, 2, 3].should.contain(7);```      |     |
-| **containAll**  | ```[1, 2, 3].should.containAll([7, 8]);```      |     |
-| **every**  | ```[1, 2, 3].should.every((x) => x > 10);```      |     |
-| **any**  | ```[1, 2, 3].should.any((x) => x == 0);```      |     |
+| Method         | Example                                      | Failure message |
+| -------------- | -------------------------------------------- | --------------- |
+| **haveCount**  | ```[1, 2, 3].should.haveCount(7);```         |                 |
+| **contain**    | ```[1, 2, 3].should.contain(7);```           |                 |
+| **containAll** | ```[1, 2, 3].should.containAll([7, 8]);```   |                 |
+| **every**      | ```[1, 2, 3].should.every((x) => x > 10);``` |                 |
+| **any**        | ```[1, 2, 3].should.any((x) => x == 0);```   |                 |
 
 ```dart
 test('should contain', () {
@@ -351,15 +380,15 @@ test('with some elements in collection is true for predicate', () {
 
 ### Maps
 
-| Method      | Example                           | Failure message                                    |
-| ----------- | --------------------------------- | -------------------------------------------------- |
-| **haveCount**  | ```{}.should.haveCount(7);```      |     |
-| **beEmpty**  | ```{}.should.beEmpty();```      |     |
-| **containKey**  | ```{'name': 'Bobby'}.should.containKey('age');```      |     |
-| **containKeys**  | ```{}.should.containKeys(['age', 'name']);```      |     |
-| **haveValueInKey**  | ```{}.should.haveValueInKey('name');```      |     |
-| **containKeyWithValue**  | ```{}.should.containKeyWithValue('name', 'Bobby');```      |     |
-| **contain**  | ```{}.should.haveValueInKey(<MapEntry>[]);```      |     |
+| Method                  | Example                                               | Failure message |
+| ----------------------- | ----------------------------------------------------- | --------------- |
+| **haveCount**           | ```{}.should.haveCount(7);```                         |                 |
+| **beEmpty**             | ```{}.should.beEmpty();```                            |                 |
+| **containKey**          | ```{'name': 'Bobby'}.should.containKey('age');```     |                 |
+| **containKeys**         | ```{}.should.containKeys(['age', 'name']);```         |                 |
+| **haveValueInKey**      | ```{}.should.haveValueInKey('name');```               |                 |
+| **containKeyWithValue** | ```{}.should.containKeyWithValue('name', 'Bobby');``` |                 |
+| **contain**             | ```{}.should.haveValueInKey(<MapEntry>[]);```         |                 |
 
 ```dart
 final subject = {
@@ -378,13 +407,13 @@ test('should contain key with exact value', () {
 
 ### Functions
 
-| Method      | Example                           | Failure message                                    |
-| ----------- | --------------------------------- | -------------------------------------------------- |
-| **throwException**  | ```Should.throwException(() => myFunc());```      |     |
-| **notThrowException**  | ```Should.notThrowException(() => myFunc());```      |     |
-| **throwError**  | ```Should.throwError(() => myFunc());```      |     |
-| **notThrowError**  | ```Should.notThrowError(() => myFunc());```      |     |
-| **completeIn**  | ```Should.completeIn(Duration(seconds: 1),  () => myFunc());```      |     |
+| Method                | Example                                                         | Failure message |
+| --------------------- | --------------------------------------------------------------- | --------------- |
+| **throwException**    | ```Should.throwException(() => myFunc());```                    |                 |
+| **notThrowException** | ```Should.notThrowException(() => myFunc());```                 |                 |
+| **throwError**        | ```Should.throwError(() => myFunc());```                        |                 |
+| **notThrowError**     | ```Should.notThrowError(() => myFunc());```                     |                 |
+| **completeIn**        | ```Should.completeIn(Duration(seconds: 1),  () => myFunc());``` |                 |
 
 ```dart
 Should.throwException(() => someMethodWitchThrowException(params:));

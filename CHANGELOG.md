@@ -1,3 +1,8 @@
+## 0.5.0
+
+* [Change] rename `satisfyAllConditions`
+* Improve doc
+
 ## 0.4.1+3
 
 * Improve doc

@@ -19,8 +19,8 @@ Expected health
 100
 */
   // test('equality', () {
-  //   expect(playerCharacter.health, 10);
-  //   playerCharacter.health.should.be(10);
+  //   // expect(playerCharacter.health, 10, reason: 'health');
+  //   playerCharacter.health.should.as('playerCharacter.nickname').be(10);
   // });
 
   /*
@@ -49,9 +49,29 @@ Expected health
       `Arthur`
   */
 
-  test('nullability of string', () {
-    // expect(playerCharacter.nickname, isNull);
-    playerCharacter.nickname.should.as('nickname').beNullOrEmpty();
+  // test('nullability of string', () {
+  //   // expect(playerCharacter.nickname, isNull);
+  //   // playerCharacter.nickname.should.as('nickname').beNullOrEmpty();
+  // });
+
+  // test('should satisfy all conditions', () {
+  //   Should.satisfyAllConditions([
+  //     () => playerCharacter.nickname.should.not.beNullOrEmpty(),
+  //     () => playerCharacter.weapons.should.contain('Staff of Wonder'),
+  //     () => playerCharacter.health.should.be(100),
+  //   ]);
+  // });
+
+  // test('description', () {
+  //   expect(10, isTrue);
+  // });
+
+  test('some test', () {
+    final actual = 0;
+    final expected = isZero;
+
+    expect(actual, expected);
+    expect(expected, actual);
   });
 }
 
