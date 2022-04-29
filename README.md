@@ -146,6 +146,20 @@ playerCharacter.health.should.be(0);
 
 ## No more single heap of assertion methods
 
+### Before
+
+You could write such crazy assertions.
+
+```dart
+expect(2, isTrue);
+expect(2, contains(2));
+expect(2, startsWith('1'));
+expect(2, isEmpty);
+expect(2, throwsException);
+```
+
+### After
+
 Every single type of class has his own assertions. Easy to find required assertion method.
 
 ## Conjunctions
@@ -159,17 +173,50 @@ participants.should.contain('Andrew').and.not.contain('Bobby');
 
 ## SatisfyAllConditions
 
+**satisfyAllConditions** will show all errors at once, not only first fail assertion.
+
 ```dart
 test('should satisfy all conditions', () {
-  Should.satisfyAllConditions([
-    () => playerCharacter.nickname.should.not.beNullOrEmpty(),
-    () => playerCharacter.weapons.should.contain('Staff of Wonder'),
-    () => playerCharacter.health.should.be(100),
-  ]);
-});
+    Should.satisfyAllConditions([
+      () => playerCharacter.nickname.should.as('nickname').not.beNullOrEmpty(),
+      () => playerCharacter.weapons.should.as('weapons').contain('Staff of Wonder'),
+      () => playerCharacter.health.should.as('health').be(100),
+    ]);
+  });
+```
+
+Example report can be:
+
+```bash
+Expected satisfy all conditions specified, but does not.
+The following errors were found ...
+
+------------- Error 1 -------------
+Expected nickname
+    should not be null or empty
+but was
+    ''
+
+------------- Error 2 -------------
+Expected weapons
+    should contain
+Staff of Wonder
+    but was actually
+[Axe, Sword]
+
+------------- Error 3 -------------
+Expected health
+    should be
+100
+    but was
+99
+
+------------------------------------
 ```
 
 ## Custom matchers
+
+### For existing one - just create an extension for it
 
 ```dart
 extension CustomNumAssertions on NumericAssertions {
@@ -182,25 +229,69 @@ extension CustomNumAssertions on NumericAssertions {
 }
 ```
 
-### Or more exotic matchers
+### Or more exotic matchers - fot custom types
+
+1. First, create a Assertions class for your custom type which extends `BaseAssertions`
+
+```dart
+class CustomerAssertions extends BaseAssertions<Customer, CustomerAssertions> {
+  // ...
+
+  CustomerAssertions get beMarried {
+    if (isReversed) {
+      if (subject!.isMarried) {
+        throw ShouldlyTestFailureError('Customer should not be married');
+      }
+    } else {
+      if (!subject!.isMarried) {
+        throw ShouldlyTestFailureError('Customer should be married');
+      }
+    }
+    return CustomerAssertions(subject);
+  }
+
+  CustomerAssertions get beMale {
+    if (isReversed) {
+      Execute.assertion
+          .forCondition(subject!.gender == Gender.male)
+          .failWith('$subjectLabel should not be male');
+    } else {
+      Execute.assertion
+          .forCondition(subject!.gender != Gender.male)
+          .failWith('$subjectLabel should be male');
+    }
+
+    Execute.assertion
+        .forCondition(subject!.gender != Gender.male)
+        .failWith('$subjectLabel should be male');
+
+    return CustomerAssertions(subject);
+  }
+
+  // ...
+}
+```
+
+2. Second, create an extension on your class which has `should` property with type of your custom assertions class
+
+```dart
+extension CustomerExtension on Customer {
+  CustomerAssertions get should => CustomerAssertions(this);
+}
+```
+
+3. Third, you are ready to go use your own `shouldly` assertions
 
 ```dart
 test('Custom matchers', () {
-  final bobby = Customer(
-    isMarried: true,
-    gender: Gender.male,
-  );
   bobby.should.beMale.and.beMarried;
-
-  final kate = Customer(
-    isMarried: true,
-    gender: Gender.female,
-  );
   kate.should.beMarried.and.not.beMale;
 });
 ```
 
 ## Complete in
+
+To verify how long your function is executed
 
 ```dart
 test('should complete in a duration', () async {
@@ -548,4 +639,4 @@ We accept the following contributions:
 
 - [Andrew Piterov](mailto:contact@andrewpiterov.com?subject=[GitHub]%20Source%20Dart%20shouldly)
 
-<a href="https://www.buymeacoffee.com/devcraft.ninja" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Support me" height="41" width="174"></a>
+<!-- <a href="https://www.buymeacoffee.com/devcraft.ninja" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Support me" height="41" width="174"></a> -->

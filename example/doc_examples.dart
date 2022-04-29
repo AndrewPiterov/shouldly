@@ -3,9 +3,12 @@ import 'package:test/test.dart';
 
 void main() {
   const playerCharacter = PlayerCharacter(
-    'Arthur',
-    100,
-    ['Axe', 'Sword', 'Staff of Wonder'],
+    '',
+    99,
+    [
+      'Axe',
+      'Sword',
+    ],
   );
 
 /*
@@ -54,25 +57,27 @@ Expected health
   //   // playerCharacter.nickname.should.as('nickname').beNullOrEmpty();
   // });
 
-  // test('should satisfy all conditions', () {
-  //   Should.satisfyAllConditions([
-  //     () => playerCharacter.nickname.should.not.beNullOrEmpty(),
-  //     () => playerCharacter.weapons.should.contain('Staff of Wonder'),
-  //     () => playerCharacter.health.should.be(100),
-  //   ]);
-  // });
+  test('should satisfy all conditions', () {
+    Should.satisfyAllConditions([
+      () => playerCharacter.nickname.should.as('nickname').not.beNullOrEmpty(),
+      () => playerCharacter.weapons.should
+          .as('weapons')
+          .contain('Staff of Wonder'),
+      () => playerCharacter.health.should.as('health').be(100),
+    ]);
+  });
 
   // test('description', () {
   //   expect(10, isTrue);
   // });
 
-  test('some test', () {
-    final actual = 0;
-    final expected = isZero;
+  // test('some test', () {
+  //   final actual = 0;
+  //   final expected = isZero;
 
-    expect(actual, expected);
-    expect(expected, actual);
-  });
+  //   expect(actual, expected);
+  //   expect(expected, actual);
+  // });
 }
 
 class PlayerCharacter {
